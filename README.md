@@ -8,6 +8,8 @@
 /join -> 회원가입
 /login -> 로그인
 /search -> 영상 검색
+/most-viewed -> 인기 영상 차트
+/streaming-rank -> 풍월량 영상 스트리밍 시간 랭킹
 /upload-video -> 영상 업로드, DB 추가
 
 /user/edit -> 회원정보 변경

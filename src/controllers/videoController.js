@@ -1,13 +1,26 @@
 export const home = (req, res) => {
-  return res.send("home");
+
+  return res.render("home", { pageTitle : "홈" })
 }
 
 export const search = (req, res) => {
-  return res.send("search");
+
+  return res.render("search", { pageTitle : "검색" });
 }
 
 export const uploadVideo = (req, res) => {
-  return res.send("upload-Video");
+
+  return res.render("uploadVideo", { pageTitle : "업로드" });
+}
+
+export const mostViewed = (req, res) => {
+
+  return res.render("mostViewed", { pageTitle: "인기 영상" });
+}
+
+export const streamingRank = (req, res) => {
+
+  return res.render("streamingRank", { pageTitle: "스트리밍 랭킹" });
 }
 
 export const toggleVideoLike = () => {

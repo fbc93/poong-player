@@ -12,9 +12,9 @@ const playlistRouter = express.Router();
 
 playlistRouter.get("/liked", likedPlaylist);
 playlistRouter.get("/mine", myPlaylist);
+playlistRouter.get("/create", createPlaylist);
 playlistRouter.get("/:playlistId", playlistPage);
 
-playlistRouter.get("/create", createPlaylist);
 playlistRouter.get("/:playlistId/edit", editPlaylist);
 playlistRouter.get("/:playlistId/delete", deletePlaylist);
 
