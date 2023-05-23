@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import { localsMiddleware } from "./middlewares";
 import apiRouter from "./routers/apiRouter";
 import globalRouter from "./routers/globalRouter";
 import playlistRouter from "./routers/playlistRouter";
@@ -15,6 +16,7 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
 app.use(reqLoggerMiddleware);
+app.use(localsMiddleware);
 app.use("/", globalRouter);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);

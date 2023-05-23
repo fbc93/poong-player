@@ -1,7 +1,7 @@
 doctype html 
 html(lang="ko")
   head
-    title #{pageTitle} | Poong Player
+    title #{pageTitle} | #{siteName}
 
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
     //- link(rel='shortcut icon' href='/public/client/icon/icon.png')
@@ -20,7 +20,14 @@ html(lang="ko")
     meta(property='og:description' content='🚀 즐겜러 스트리머 풍월량님을 응원하는 게임 영상 시청 플랫폼')
   
   body
+    include partials/mobileNav
+    include partials/mainNav
+
+    .themeToggleBtn Theme ToggleBtn
+
     main
       block content
+    
+    include partials/player
 
   script(src="https://www.youtube.com/iframe_api")
