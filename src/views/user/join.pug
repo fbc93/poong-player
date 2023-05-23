@@ -1,4 +1,22 @@
 extends ../base
+include ../mixins/avatar
 
 block content
-  h1 회원가입
+  div.pageTitle=pageTitle
+  div.errorMsg=errorMsg
+  form(method="POST")
+    .username
+      label(for="username") 유저네임
+      input(name="username", id="username", type="text", minLength=1, maxLength=6, placeholder="유저네임(1자 ~ 최대 6자)을 입력해주세요.", required)
+    .password
+      label(for="password") 비밀번호
+      input(name="password", id="password", type="password", minLength=4, placeholder="비밀번호를 입력하세요. (최소 4자)", required)
+    .password-confirm
+      label(for="password_confirm") 비밀번호 확인
+      input(name="password_confirm", id="password_confirm", type="password", minLength=4, placeholder="Password Confirm", required)
+    .avatar
+      div 프로필 선택
+      each imageName in ["image1","image2","image3"]
+        +avatar(imageName)
+    input(type="submit", value="가입하기")
+    a.link-to-login(href="/login") 이미 가입하셨나요? 로그인

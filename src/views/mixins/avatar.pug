@@ -1,0 +1,6 @@
+mixin avatar(imageName)
+  label(for=imageName)
+    if imageName === "image1"
+      input(id=imageName, name="avatarUrl", value=`/public/client/images/${imageName}.png`, type="radio", checked)
+    else
+      input(id=imageName, name="avatarUrl", value=`/public/client/images/${imageName}.png`, type="radio")
