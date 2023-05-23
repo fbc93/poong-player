@@ -1,18 +1,21 @@
 doctype html 
 html(lang="ko")
   head
-    title #{pageTitle} | #{siteName}
+    script.
+      const KEY_NAME = "poong_player_theme";
+      const theme = localStorage.getItem(KEY_NAME) || "darkMode";
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem(KEY_NAME, theme);
 
+    title #{pageTitle} | #{siteName}
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
     //- link(rel='shortcut icon' href='/public/client/icon/icon.png')
     //- link(rel='apple-touch-icon' sizes='180x180' href='/public/client/icon/icon_ios.png')
     //- link(rel='icon' sizes='192x192' href='/public/client/icon/icon_android.png')
     link(rel="shortcut icon", href="#")
-
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1')
-
     meta(property='og:title' content='Poong Player')
     meta(property='og:url' content='')
     meta(property='og:type' content='website')
@@ -23,11 +26,30 @@ html(lang="ko")
     include partials/mobileNav
     include partials/mainNav
 
-    .themeToggleBtn Theme ToggleBtn
+    button#themeToggleBtn Theme ToggleBtn
 
     main
       block content
     
     include partials/player
+
+  script.
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    themeToggleBtn.className = theme === "darkMode" ? "darkMode" : "lightMode";
+
+    const toggleTheme = (event) => {
+      if (event.target.className === "darkMode"){
+        document.documentElement.setAttribute("data-theme", "lightMode");
+        event.target.className = "lightMode";
+        localStorage.setItem(KEY_NAME, "lightMode");
+
+      } else if (event.target.className === "lightMode"){
+        document.documentElement.setAttribute("data-theme", "darkMode");
+        event.target.className = "darkMode";
+        localStorage.setItem(KEY_NAME, "darkMode");
+      }
+    }
+
+    themeToggleBtn.addEventListener("click", toggleTheme);
 
   script(src="https://www.youtube.com/iframe_api")
