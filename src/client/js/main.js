@@ -1,23 +1,27 @@
 import "../scss/styles.scss";
 
-const KEY_NAME = "poong_theme";
-const theme = localStorage.getItem(KEY_NAME) || "darkMode";
-document.documentElement.setAttribute("data-theme", theme);
-localStorage.setItem(KEY_NAME, theme);
+const STORAGE_KEY = "PoongTheme";
+const DARK = "darkMode";
+const LIGHT = "lightMode";
 
+const themeState = localStorage.getItem(STORAGE_KEY) || DARK;
 const themeToggleBtn = document.getElementById("themeToggleBtn");
-themeToggleBtn.className = theme === "darkMode" ? "darkMode" : "lightMode";
+
+document.documentElement.setAttribute("data-theme", themeState);
+
+localStorage.setItem(STORAGE_KEY, themeState);
+themeToggleBtn.className = (themeState === DARK ? DARK : LIGHT);
 
 const toggleTheme = (event) => {
-  if (event.target.className === "darkMode"){
-    document.documentElement.setAttribute("data-theme", "lightMode");
-    event.target.className = "lightMode";
-    localStorage.setItem(KEY_NAME, "lightMode");
+  if (event.target.className === DARK){
+    document.documentElement.setAttribute("data-theme", LIGHT);
+    event.target.className = LIGHT;
+    localStorage.setItem(STORAGE_KEY, LIGHT);
 
-  } else if (event.target.className === "lightMode"){
-    document.documentElement.setAttribute("data-theme", "darkMode");
-    event.target.className = "darkMode";
-    localStorage.setItem(KEY_NAME, "darkMode");
+  } else if (event.target.className === LIGHT){
+    document.documentElement.setAttribute("data-theme", DARK);
+    event.target.className = DARK;
+    localStorage.setItem(STORAGE_KEY, DARK);
   }
 }
 

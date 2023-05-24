@@ -1,2 +1,6 @@
 @import "./config/_reset";
 @import "./config/_variable";
+
+html {
+  background-color: var(--bg);
+}
