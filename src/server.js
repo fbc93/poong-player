@@ -31,6 +31,7 @@ app.use(
 
 app.use(localsMiddleware);
 
+app.use("/static", express.static("assets")); //static
 app.use("/", globalRouter);
 app.use("/user", userRouter);
 app.use("/api", apiRouter);

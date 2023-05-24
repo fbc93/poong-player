@@ -1,4 +1,13 @@
 extends base
 
 block content
-  h1 유튜브 비디오 업로드
+  .pageTitle=pageTitle
+  form(method="POST")
+    label(for="youtubeUrl") 
+    input(name="youtubeUrl", id="youtubeUrl", type="text", placeholder="유튜브 링크를 입력하세요.")
+    button(type="button")#previewBtn 미리보기
+    #uploadVideoPreviewContainer
+      #uploadVideoYoutubeIframe
+    label(for="title") 영상 제목
+    input(name="title", id="title", type="text", placeholder="영상 제목")
+    
