@@ -2,7 +2,7 @@ extends base
 
 block content
   .pageTitle=pageTitle
-  form(method="POST")
+  form#uploadForm(method="POST")
     label(for="youtubeUrl") 
     input(name="youtubeUrl", id="youtubeUrl", type="text", placeholder="유튜브 링크를 입력하세요.")
     button(type="button")#previewBtn 미리보기
@@ -10,4 +10,5 @@ block content
       #uploadVideoYoutubeIframe
     label(for="title") 영상 제목
     input(name="title", id="title", type="text", placeholder="영상 제목")
+  script(src="/static/js/uploadVideo.js")
     

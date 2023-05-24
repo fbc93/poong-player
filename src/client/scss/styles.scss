@@ -1,6 +1,2 @@
-@import "./_variable";
-
-body {
-  background-color:$black;
-  color:white;
-}
+@import "./config/_reset";
+@import "./config/_variable";
