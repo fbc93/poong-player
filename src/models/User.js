@@ -18,11 +18,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  playlists: [{
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Playlist",
+  }],
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Like",
+  }],
   createdAt: {
     type: Date,
     required: true,
     default: Date.now,
-  }
+  },
 });
 
 userSchema.pre("save", async function(){

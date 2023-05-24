@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/User";
+import Playlist from "../models/Playlist";
 
 export const getJoin = (req, res) => {
   return res.render("user/join", { pageTitle: "회원가입" });
@@ -40,7 +41,16 @@ export const postJoin = async (req, res) => {
       password,
       avatarUrl,
     });
+
+    //기본 플레이리스트 생성
+    const defaultPlaylist = await Playlist.create({
+      name: "기본 플레이리스트",
+      user,
+      coverUrl: undefined,
+      isDefault: true,
+    });
     
+    await user.playlists.push(defaultPlaylist);
     await user.save();
     return res.redirect("/login");
 
