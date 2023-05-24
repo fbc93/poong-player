@@ -1,4 +1,11 @@
 extends ../base
 
 block content
-  h1  내 플레이리스트
+  .pageTitle=pageTitle
+  ul.my-play-lists
+    li.add-playlist 플리 추가하기
+    each myPlayList in myPlayLists
+      li.playlist(data-id=myPlayList._id)
+        a(href=`/playlist/${myPlayList._id}`)=myPlayList.name
+
+  

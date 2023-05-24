@@ -16,8 +16,9 @@ const reqLoggerMiddleware = morgan("dev");
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
-app.use(reqLoggerMiddleware);
+app.use(reqLoggerMiddleware); //logger
 app.use(express.urlencoded({ extended:true })); //미들웨어_Form Value
+app.use(express.json());
 
 app.use(
   session({
@@ -25,7 +26,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
-  })
+  }),
 );
 
 app.use(localsMiddleware);

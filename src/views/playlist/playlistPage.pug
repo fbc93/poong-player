@@ -1,4 +1,10 @@
 extends ../base
 
 block content
-  h1 각 플레이리스트 상세
+  .pageTitle=pageTitle
+  ul.video-list
+    if playlist.videos.length === 0
+      li.list-empty 플레이리스트에 담긴 영상이 없습니다.
+    else 
+      each video in playlist.videos 
+        li.video-item(data-id=video._id)=video.title
