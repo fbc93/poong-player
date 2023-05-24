@@ -7,15 +7,28 @@ import {
   myPlaylist, 
   playlistPage 
 } from "../controllers/playlistController";
+import { privateOnlyMiddleware } from "../middlewares";
 
 const playlistRouter = express.Router();
 
-playlistRouter.get("/liked", likedPlaylist);
-playlistRouter.get("/mine", myPlaylist);
-playlistRouter.get("/create", createPlaylist);
-playlistRouter.get("/:playlistId", playlistPage);
+playlistRouter.route("/liked").all(privateOnlyMiddleware).get(likedPlaylist);
+playlistRouter.route("/mine").all(privateOnlyMiddleware).get(myPlaylist);
 
-playlistRouter.get("/:playlistId/edit", editPlaylist);
-playlistRouter.get("/:playlistId/delete", deletePlaylist);
+playlistRouter
+  .route("/create")
+  .all(privateOnlyMiddleware)
+  .get(createPlaylist);
+
+playlistRouter
+  .route("/:playlistId/edit")
+  .all(privateOnlyMiddleware)
+  .get(editPlaylist);
+
+playlistRouter
+  .route("/:playlistId/delete")
+  .all(privateOnlyMiddleware)
+  .get(deletePlaylist);
+
+playlistRouter.route("/:playlistId").get(playlistPage);
 
 export default playlistRouter;

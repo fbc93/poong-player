@@ -8,6 +8,7 @@ import {
   toggleVideoLike, 
   updateVideoView 
 } from "../controllers/videoController";
+import { privateOnlyMiddleware } from "../middlewares";
 
 const apiRouter = express.Router();
 
@@ -17,7 +18,12 @@ apiRouter.get("/video/:youtubeId/point", addPoint);
 apiRouter.get("/video/:youtubeId", getVideo);
 
 apiRouter.get("/playlist/add-video", addVideoToPlaylist);
-apiRouter.get("/playlist/remove-video", removeVideoFromPlaylist);
+
+apiRouter
+  .route("/playlist/remove-video")
+  .all(privateOnlyMiddleware)
+  .get(removeVideoFromPlaylist);
+
 apiRouter.get("/playlist/:playlistId", getPlaylistVideos);
 
 export default apiRouter;

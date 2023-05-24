@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minLength: 4,
-    unique: false,
   },
   avatarUrl: {
     type: String,
@@ -27,9 +26,12 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function(){
-  console.log(this.password);
-  this.password = await bcrypt.hash(this.password, 5);
-  console.log(this.password);
+
+  //저장할때마다, 비밀번호가 중복으로 해시처리되는 것을 방지하기위함
+  //비밀번호 필드에 변경사항이 있을때만 해시 암호화 시작
+  if(this.isModified("password")){
+    this.password = await bcrypt.hash(this.password, 5);
+  }
 });
 
 const User = mongoose.model("User", userSchema);

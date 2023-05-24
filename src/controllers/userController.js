@@ -1,4 +1,5 @@
-import User from "./../models/User";
+import bcrypt from "bcrypt";
+import User from "../models/User";
 
 export const getJoin = (req, res) => {
   return res.render("user/join", { pageTitle: "회원가입" });
@@ -10,38 +11,38 @@ export const postJoin = async (req, res) => {
       username,
       password,
       password_confirm, 
-      avatarUrl 
+      avatarUrl
     }
    } = req;
    const pageTitle = "회원가입";
 
-   //유저네임 중복확인
-   const usernameExist = await User.exists({ username });
-   if(usernameExist){
-    return res.status(409).render("user/join", {
+   //유저네임 중복 여부
+   const isUserNameExist = await User.exists({ username });
+   if(isUserNameExist){
+    return res.status(400).render("user/join", {
       pageTitle,
       errorMsg: "🚨 이미 존재하는 유저네임입니다.",
     });
    }
 
-   //비밀번호 일치 확인
+   //비밀번호와 비밀번호 확인 체크
    if(password !== password_confirm){
-    return res.status(409).render("user/join", {
+    return res.status(400).render("user/join", {
       pageTitle,
       errorMsg: "🚨 비밀번호가 일치하지 않습니다.",
     });
    }
 
+   //사용자 생성
    try {
-    //사용자 생성
-   const user = await User.create({
-    username,
-    password,
-    avatarUrl,
-   });
-
-   await user.save();
-   return res.redirect("/login");
+    const user = await User.create({
+      username,
+      password,
+      avatarUrl,
+    });
+    
+    await user.save();
+    return res.redirect("/login");
 
    } catch (error) {
     return res.status(400).render("user/join", {
@@ -59,20 +60,22 @@ export const postLogin = async (req, res) => {
   const { 
     body: { username, password }
   } = req;
+
   const pageTitle = "로그인";
-  
-  //Request 유저네임 체크
   const user = await User.findOne({ username });
+  
   if(!user){
-    return res.status(409).render("user/login", {
+    return res.status(400).render("user/login", {
       pageTitle,
       errorMsg: "🚨 해당 유저네임을 가진 사용자가 없습니다.",
     });
   }
+  
+  //DB해시비번과 Req로 받은 해시비번이 같은지 확인
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
 
-   //Request 비밀번호 체크
-  if(user.password !== password){
-    return res.status(409).render("user/login", {
+  if(!isPasswordMatch){
+    return res.status(400).render("user/login", {
       pageTitle,
       errorMsg: "🚨 비밀번호가 일치하지 않습니다.",
     });
@@ -94,7 +97,8 @@ export const changePw = (req, res) => {
 }
 
 export const logout = (req, res) => {
-  return res.send("logout");
+  req.session.destroy();
+  return res.redirect("/login");
 }
 
 export const remove = (req, res) => {

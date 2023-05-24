@@ -1,11 +1,20 @@
 .mobile-desktop
   a.logo(href="/") Poong🪲Player
   .login-user
-    .avatar avatar
-    .nickname nickname 
+    if loggedIn
+      .avatar avatar
+      .nickname nickname
+    else
+      .avatar visitor_avatar
+      .nickname visitor_nickname
     .setting
-      a(href="/user/edit") 회원정보 수정
-      a(href="/user/logout") 로그아웃
+      if loggedIn
+        a(href="/user/edit") 회원정보 수정
+        a(href="/user/logout") 로그아웃
+      else
+        a(href="/login") 로그인
+        span |
+        a(href="/join") 회원가입
     .menu-list 
       .title MENU
       ul
