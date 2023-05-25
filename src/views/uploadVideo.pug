@@ -1,14 +1,26 @@
 extends base
 
 block content
-  .pageTitle=pageTitle
-  form#uploadForm(method="POST")
-    label(for="youtubeUrl") 
-    input(name="youtubeUrl", id="youtubeUrl", type="text", placeholder="유튜브 링크를 입력하세요.")
-    button(type="button")#previewBtn 미리보기
-    #uploadVideoPreviewContainer
-      #uploadVideoYoutubeIframe
-    label(for="title") 영상 제목
-    input(name="title", id="title", type="text", placeholder="영상 제목")
-  script(src="/static/js/uploadVideo.js")
+  .container
+    .pageTitle=pageTitle
+    .errorMsg=errorMsg
+    form(method="POST" id="uploadForm")
+      label(for="youtubeUrl") 유튜브링크
+      input(id="youtubeUrl" type="search" placeholder="유튜브 링크를 입력하세요." required)
+      button(type="button" id="previewBtn") 미리보기
+      #uploadVideoPreviewContainer
+        #youtubeIframe
+      label(for="title") 영상 제목
+      input(name="title" id="title" type="text" placeholder="영상 제목")
+      label(for="youtubeId") 영상 ID (자동입력)
+      input(name="youtubeId" id="youtubeId" type="text" value="" placeholder="영상 ID" readonly)
+      label(for="runningTime") 러닝타임/초 (자동입력)
+      input(name="runningTime" id="runningTime" type="number" placeholder="러닝타임" readonly)
+
+      label(for="youtubeId") 영상 카테고리
+      select(name="category" id="category")
+        option(value="풍월량" selected) 풍월량
+        option(value="기타") 기타
+      input(type="submit" value="업로드하기")
+    script(src="/static/js/uploadVideo.js")
     

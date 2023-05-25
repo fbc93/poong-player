@@ -5,6 +5,7 @@ const BASE_JS = "./src/client/js/";
 module.exports = {
   entry: {
     main: BASE_JS + "main.js",
+    player: BASE_JS + "player.js",
     uploadVideo: BASE_JS + "uploadVideo.js",
   },
   mode: "development",

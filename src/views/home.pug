@@ -1,4 +1,14 @@
 extends base
+include ./mixins/videoList
 
 block content
-  h1 홈 내용
+  .container
+    h1 인기 영상
+    ul.video-list
+      each video in videos
+        +videoList(video)
+    h1 최신 영상
+    ul.video-list
+
+    h1 추천 영상
+    ul.video-list

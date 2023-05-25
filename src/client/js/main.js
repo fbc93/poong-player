@@ -1,4 +1,5 @@
 import "../scss/styles.scss";
+import "./player";
 
 const STORAGE_KEY = "PoongTheme";
 const DARK = "darkMode";

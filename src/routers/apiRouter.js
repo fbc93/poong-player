@@ -15,7 +15,8 @@ const apiRouter = express.Router();
 apiRouter.get("/video/:videoId/like", toggleVideoLike);
 apiRouter.get("/video/:youtubeId/view", updateVideoView);
 apiRouter.get("/video/:youtubeId/point", addPoint);
-apiRouter.get("/video/:youtubeId", getVideo);
+
+apiRouter.route("/video/:videoId").get(getVideo);
 
 apiRouter.get("/playlist/add-video", addVideoToPlaylist);
 

@@ -7,12 +7,8 @@ const VideoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  artist: {
-    type: String,
-    required: true,
-  },
   category: {
-    type: "풍월량" || "음악",
+    type: String,
     required: true,
     default: "풍월량",
   },
@@ -24,7 +20,7 @@ const VideoSchema = new mongoose.Schema({
   thumbUrl: {
     type: String,
     required: true,
-    default: () => {
+    default: function () {
       return `https://img.youtube.com/vi/${this.youtubeId}/sddefault.jpg`;
     },
   },
@@ -36,11 +32,6 @@ const VideoSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now,
-  },
-  point: {
-    type: Number,
-    required: true,
-    default: 0,
   },
   views: {
     type: Number,

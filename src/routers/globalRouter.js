@@ -5,7 +5,7 @@ import {
   postJoin, 
   postLogin 
 } from "../controllers/userController";
-import { home, mostViewed, search, streamingRank, uploadVideo } from "../controllers/videoController";
+import { getUploadVideo, home, mostViewed, postUploadVideo, search, streamingRank, uploadVideo } from "../controllers/videoController";
 import { publicOnlyMiddleware } from "../middlewares";
 
 const globalRouter = express.Router();
@@ -16,6 +16,6 @@ globalRouter.route("/login").all(publicOnlyMiddleware).get(getLogin).post(postLo
 globalRouter.get("/search", search);
 globalRouter.get("/most-viewed", mostViewed);
 globalRouter.get("/streaming-rank", streamingRank);
-globalRouter.get("/upload-video", uploadVideo);
+globalRouter.route("/upload-video").get(getUploadVideo).post(postUploadVideo);
 
 export default globalRouter;
