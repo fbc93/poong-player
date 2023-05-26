@@ -1,29 +1,33 @@
 #player
   #controlBar
     .progress-container 
-      #progressBar(style="")
-      #progressTime 00:00
-    .playInfo-container 
-      #cover video cover
-      .info-container 
-        .title 비디오제목
-        .artist 풍월량
+      #progressBar
+      #progressTime(style="width:10%")
     .control-container
-      .random randomBtn 
-      .prev prevBtn
-      .play playBtn
-      .next nextBtn
-      .repeat repeatBtn
-    .desc-container
+      i.fa-solid.fa-backward-step#prevBtn
+      i.fa-solid.fa-play#playBtn
+      i.fa-solid.fa-forward-step#nextBtn
       .time-container
         span#currentTime 00:00
         span /
-        span#duration 00:00:00
-      .volume-container volume
-      .playlistViewToggleBtn show playlist
+        span#duration 00:00
+    .playInfo-container 
+      div#cover
+      .info-container 
+        #title 영상 타이틀
+        #artist 풍월량
+    .desc-container
+      .volume-container
+        .sound-wrap
+          #soundRange
+            .value(style="width:30%")
+        i.fa-solid.fa-volume-high#soundBtn
+        i.fa-solid.fa-repeat#repeatBtn
+        i.fa-solid.fa-shuffle#randomBtn
+      i.fa-solid.fa-caret-up#playlistViewToggleBtn
 
   #playlistView
-    #viewScreen 
+    #viewScreen
     .playlist-container
       .header
         .title 최근 본 영상

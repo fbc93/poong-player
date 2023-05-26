@@ -1,11 +1,12 @@
-import dummyList from "../data/dummyList.json";
+import defaultData from "../data/dummyList.json";
 
 const STORAGE_KEY = "recent_pl";
-const viewScreen = document.getElementById("view");
+const viewScreen = document.getElementById("viewScreen");
 const playlist = document.getElementById("playlist");
 const playBtn = document.querySelector("#playBtn");
-
-// 유튜브
+const duration = document.querySelector("#duration");
+const cover = document.querySelector("#cover");
+const title = document.querySelector("#title");
 let youtube;
 
 //로컬스토리지 GET / SET
@@ -16,7 +17,6 @@ const getLocalData = () => {
 const setLocalData = (data) => {
   return localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
-
 
 //비디오 재생
 const playVideo = (video, currentIdx) => {
@@ -188,19 +188,18 @@ const addPlayListItem = (video) => {
   });
 }
 
-const loadRecentList = () => {
+const loadPlayer = () => {
   let recentList, playNowVideo, settings;
   const localData = getLocalData();
   
   //로컬스토리지 데이터가 없을때
   if(!localData){
-
     playNowVideo = {
-      targetVideo: dummyList[0],
+      targetVideo: defaultData[0],
       targetIndex: 0,
     };
 
-    recentList = dummyList;
+    recentList = defaultData;
 
     settings = {
       isRandom: false,
@@ -216,15 +215,15 @@ const loadRecentList = () => {
     setLocalData(data);
   }
 
-  //로컬스토리지 데이터가 있을때
   if(localData){
     playNowVideo = localData.playNowVideo;
     recentList = localData.recentList;
+
   }
 
-  //가져온 데이터 플레이어 리스트에 추가
+  //데이터 플레이어 리스트에 추가
   recentList.forEach((video) => addPlayListItem(video));
 }
 
-//데이터 로드
-loadRecentList();
+//Data Load
+loadPlayer();

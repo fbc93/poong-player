@@ -27,3 +27,22 @@ const toggleTheme = (event) => {
 }
 
 themeToggleBtn.addEventListener("click", toggleTheme);
+
+//플레이어 뷰 토글
+const playlistViewToggleBtn = document.getElementById("playlistViewToggleBtn");
+const playlistView = document.getElementById("playlistView");
+
+const togglePlaylistView = (event) => {
+  const btnClassName = event.target.classList[1];
+
+  if(btnClassName === "fa-caret-up"){
+    playlistView.style.transform = "translateY(0px)";
+    event.target.className = "fa-solid fa-caret-down";
+  } else {
+    playlistView.style.transform = "translateY(9999px)";
+    event.target.className = "fa-solid fa-caret-up";
+  }
+  
+}
+
+playlistViewToggleBtn.addEventListener("click", togglePlaylistView);
