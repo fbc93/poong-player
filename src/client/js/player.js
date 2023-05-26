@@ -46,6 +46,14 @@ const setLocalData = (data) => {
   return localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+//유튜브 아이프레임 이벤트
+const onPlayerReady = (event) => {
+  console.log("플레이어 레디")
+  event.target.playVideo();
+}
+
+const onPlayerStateChange = (event, clickedVideoIdx) => {}
+
 //클릭된 영상 플레이어로 재생
 const playClickedVideo = (clickedVideoIdx, video) => {
   console.log("해당 비디오 재생하기", clickedVideoIdx, video);
@@ -89,13 +97,6 @@ const playClickedVideo = (clickedVideoIdx, video) => {
   });
 }
 
-//유튜브 아이프레임 이벤트
-const onPlayerReady = (event) => {
-  console.log("플레이어 레디")
-  event.target.playVideo();
-}
-const onPlayerStateChange = (event, clickedVideoIdx) => {}
-
 //비디오 클릭시, 플레이어로 재생 + 현재 플레이리스트 맨앞 추가
 const addVideoAndStartPlay = (event, video) => {
   console.log("플레이리스트 > 클릭된 영상 인덱스 구하기");
@@ -114,6 +115,13 @@ const addVideoAndStartPlay = (event, video) => {
   playClickedVideo(clickedVideoIdx, video);
 }
 
+//플레이어 > 플레이리스트 UI 삭제
+const playListUIRemove = () => {
+  while(playlist.firstChild){
+    playlist.removeChild(playlist.firstChild);
+  }
+}
+
 //플레이어 > 플레이리스트 UI 업데이트
 const playListUIupdate = (video) => {
   const li = document.createElement("li");
@@ -123,9 +131,13 @@ const playListUIupdate = (video) => {
   const coverBox = document.createElement("div");
   coverBox.className = "cover-box";
 
+  const playIcon = document.createElement("i");
+  playIcon.className = "fa-solid fa-play";
+
   const coverImage = document.createElement("div");
   coverImage.className = "cover-image";
   coverImage.style.backgroundImage = "url('" + video.thumbUrl + "')";
+  coverImage.append(playIcon);
   coverBox.append(coverImage);
   
   //타이틀
@@ -150,15 +162,51 @@ const playListUIupdate = (video) => {
   duration.className = "duration";
   duration.innerText = formatTime(video.runningTime);
 
-  const deleteBtn = document.createElement("button");
-  deleteBtn.className = "deleteBtn";
-  deleteBtn.innerText = "❌";
+  const deleteBtn = document.createElement("i");
+  deleteBtn.className = "fa-regular fa-circle-xmark";
   descBox.append(duration, deleteBtn);
 
   li.append(coverBox, titleBox, descBox);
-  li.addEventListener("click", (event) => addVideoAndStartPlay(event, video));
+  coverBox.addEventListener("click", (event) => addVideoAndStartPlay(event, video));
 
-  return playlist.appendChild(li);
+  //플레이어 리스트 UI Update
+  playlist.appendChild(li);
+
+  //플레이어 리스트에서 비디오 삭제하기
+  deleteBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    let localData = getLocalData();
+    const localVideos = localData.videos;
+    const localPlayNowVideo = localData.playNowVideo;
+
+    let clickedVideoIdx;
+    localVideos.map((localVideo, index) => localVideo._id === video._id ? (
+      clickedVideoIdx = index
+    ):null);
+
+    //재생중인 영상은 삭제 불가
+    if(localPlayNowVideo.targetVideo._id === video._id){
+      alert("재생중인 영상은 삭제할 수 없어요.");
+      return;
+    }
+
+    //삭제 후, 업데이트된 비디오 데이터 
+    const updateVideos = localVideos.filter((localVideo, index) => clickedVideoIdx !== index);
+
+    //업데이트된 비디오 인덱스 갱신
+    updateVideos.map((updateVideo, index) => updateVideo._id === localPlayNowVideo._id ? (
+      clickedVideoIdx = index
+    ):null);
+
+    //로컬 데이터 저장
+    localData.playNowVideo.targetIndex = clickedVideoIdx;
+    localData.videos = updateVideos;
+    setLocalData(localData);
+
+    //클릭된 영상 삭제
+    li.remove();
+  });
 }
 
 //로컬데이터 최초 LOAD
@@ -224,3 +272,57 @@ const loadVideos = () => {
 
 // START
 loadVideos();
+
+//홈 > 비디오 클릭시 플레이어 리스트 추가 & 재생
+const playVideoWithPlayer = async (event) => {
+  event.stopPropagation();
+
+  const videoId = event.currentTarget.dataset.id;
+  const response = await (await fetch(`/api/video/${videoId}`)).json();
+  
+  if(response.ok){
+    let localData = getLocalData();
+    const localVideos = localData.videos;
+
+    //로컬에 있는 비디오와 fetch결과 비디오가 같은지 체크
+    let existVideoIdx;
+    localVideos.forEach((localVideo, index) => localVideo._id === response.video._id ? (
+      existVideoIdx = index
+    ): null)
+
+    if(existVideoIdx !== undefined){
+      alert("이미 플레이어에 존재하는 영상입니다.\n해당 영상을 플레이합니다.");
+
+      const existVideo = playlist.querySelectorAll("li")[existVideoIdx];
+      existVideo.click();
+      return;
+    }
+
+    //리스트에 없는 비디오 기존 로컬데이터에 추가 > 로컬데이터 Update
+    const newVideos = [response.video, ...localVideos];
+    const newPlayNowVideo = {
+      targetIndex: 0,
+      targetVideo: response.video,
+    }
+
+    localData.playNowVideo = newPlayNowVideo;
+    localData.videos = newVideos;
+    setLocalData(localData);
+    
+    //플레이어 리스트 기존 UI제거
+    playListUIRemove();
+
+    //업데이트 후 새로운 데이터로 UI 다시 그리기
+    loadVideos();
+
+    //추가한 비디오 바로 플레이 (첫번째영상)
+    const firstVideo = playlist.querySelectorAll("li")[0].firstChild;
+    firstVideo.click();
+  }
+}
+
+const videoItemAllPlayBtn = document.querySelectorAll(".play");
+
+videoItemAllPlayBtn.forEach((playBtn) => 
+  playBtn.addEventListener("click", playVideoWithPlayer)
+);
