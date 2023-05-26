@@ -18,6 +18,9 @@ const nextBtn = document.getElementById("nextBtn");
 const volumeBtn = document.getElementById("volumeBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 const randomBtn = document.getElementById("randomBtn");
+const soundRange = document.getElementById("soundRange");
+const soundValue = document.querySelector("#soundRange > .value");
+const descContainer = document.querySelector(".desc-container");
 
 //플레이 타임
 const progressTime = document.getElementById("progressTime");
@@ -86,7 +89,7 @@ const changeVideoProgressTime = (event) => {
   youtube.seekTo(clickedPointTime);
 };
 
-// 프로그레스바 hover, 재생시간 툴팁 show
+//프로그레스바 hover, 재생시간 툴팁 show
 const showTimeTooltip = (event) => {
   if (!youtube) return;
 
@@ -102,6 +105,67 @@ const showTimeTooltip = (event) => {
 //프로그레스바 mouseleave, 재생시간 툴팁 hide
 const hideTimeTooltip = () => {
   toolTip.style.display = "none";
+}
+
+//볼륨 바 이동
+const changeSoundbarValue = (event) => {
+  event.stopPropagation();
+  if(!youtube) return;
+
+  const barFullWidth = soundRange.clientWidth;
+  const clickedPoint = event.offsetX;
+  const updatedVolume = Math.floor((clickedPoint / barFullWidth) * 100);
+
+  if(updatedVolume === 0){
+    volumeBtn.className = "fa-solid fa-volume-xmark";
+    youtube.mute();
+  } else {
+    volumeBtn.className = "fa-solid fa-volume-high";
+  }
+  
+  if(volumeBtn.classList.contains("fa-volume-xmark")){
+    youtube.unMute();
+  } else {
+    volumeBtn.className = "fa-solid fa-volume-high";
+  }
+
+  currentVolume = updatedVolume;
+  soundValue.style.width = currentVolume + "%";
+
+  youtube.setVolume(updatedVolume);
+  localStorage.setItem(STORAGE_VOLUME, currentVolume);
+}
+
+//볼륨버튼 > 업데이트
+const volumeUpdate = () => {
+  currentVolume = localStorage.getItem(STORAGE_VOLUME);
+
+  if(youtube){
+    youtube.setVolume(currentTime);
+  }
+
+  soundValue.style.width = currentVolume + "%";
+}
+
+//토글 볼륨/뮤트
+const toggleVolumeMute = (event) => {
+  event.stopPropagation();
+  if(!youtube) return;
+
+  if(event.target.classList.contains("fa-volume-high")){
+    volumeBtn.className = "fa-solid fa-volume-xmark";
+    currentVolume = youtube.getVolume();
+    soundValue.style.width = 0 + "%";
+    youtube.mute();
+    localStorage.setItem(STORAGE_VOLUME, 0);
+
+  } else {
+    volumeBtn.className = "fa-solid fa-volume-high";
+    youtube.unMute();
+    youtube.setVolume(currentVolume);
+    soundValue.style.width = currentVolume + "%";
+    localStorage.setItem(STORAGE_VOLUME, currentVolume);
+  }
 }
 
 //유튜브 아이프레임 이벤트
@@ -121,6 +185,9 @@ const onPlayerReady = (event) => {
     updateVideoProgressTime();
     updateVideoProgressBar();
   }, 1000);
+
+  //현재 볼륨 업데이트
+  volumeUpdate();
   
   //유튜브 재생
   event.target.playVideo();
@@ -298,7 +365,18 @@ const playListUIupdate = (video) => {
   });
 }
 
-//로컬데이터 최초 LOAD
+//로컬데이터 로드 > 볼륨
+const loadVolume = () => {
+  currentVolume = localStorage.getItem(STORAGE_VOLUME);
+  if(youtube){
+    youtube.setVolume(currentVolume);
+    return;
+  }
+  
+  soundValue.style.width = currentVolume + "%";
+}
+
+//로컬데이터 로드 > 비디오
 const loadVideos = () => {
   let videos, playNowVideo, setting;
   const localData = getLocalData();
@@ -344,7 +422,7 @@ const loadVideos = () => {
     setLocalData(defaultData);
 
     //로컬데이터_볼륨 값 저장
-    localStorage.setItem(STORAGE_VOLUME, 30);
+    localStorage.setItem(STORAGE_VOLUME, 50);
 
     //현재 플레이 비디오 정보
     title.innerText = "오늘 작업 BGM을 골라볼까?"
@@ -355,6 +433,8 @@ const loadVideos = () => {
   videos.forEach((video) => playListUIupdate(video));
 
   //볼륨 업데이트
+  loadVolume();
+
   //랜덤플레이 업데이트
   //반복타입 업데이트
 }
@@ -448,3 +528,16 @@ progressContainer.addEventListener("click", changeVideoProgressTime);
 progressContainer.addEventListener("mouseover", showTimeTooltip);
 progressContainer.addEventListener("mousemove", showTimeTooltip);
 progressContainer.addEventListener("mouseleave", hideTimeTooltip);
+
+//플레이어 컨트롤 : 볼륨아이콘 hover/leave, range show
+volumeBtn.addEventListener("click", toggleVolumeMute);
+
+volumeBtn.addEventListener("mouseover", () => {
+  soundRange.style.width = 70 + "px";
+});
+
+descContainer.addEventListener("mouseleave", () => {
+  soundRange.style.width = 0 + "px";
+});
+
+soundRange.addEventListener("click", changeSoundbarValue);
