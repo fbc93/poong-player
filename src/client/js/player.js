@@ -23,11 +23,16 @@ const randomBtn = document.getElementById("randomBtn");
 const progressTime = document.getElementById("progressTime");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
+const progressContainer = document.querySelector(".progress-container");
+const toolTip = document.getElementById("toolTip");
 
 //현재 재생 비디오 정보
 const cover = document.getElementById("cover");
 const title = document.getElementById("title");
 const category = document.getElementById("category");
+
+//홈 > 비디오
+const videoItemAllPlayBtn = document.querySelectorAll(".play");
 
 //시간 변환
 function formatTime(seconds) {
@@ -67,6 +72,36 @@ const updateVideoProgressBar = () => {
 
   progressTime.style.width = (currentTime/duration) * 100 + "%";
   return;
+}
+
+//재생 프로그레스 바 이동
+const changeVideoProgressTime = (event) => {
+  event.stopPropagation();
+  if(!youtube) return;
+
+  const barFullWidth = progressContainer.clientWidth;
+  const clickedPoint = event.offsetX;
+  const clickedPointTime = youtube.getDuration() * (clickedPoint / barFullWidth);
+
+  youtube.seekTo(clickedPointTime);
+};
+
+// 프로그레스바 hover, 재생시간 툴팁 show
+const showTimeTooltip = (event) => {
+  if (!youtube) return;
+
+  const barFullWidth = progressContainer.clientWidth;
+  const hoverPoint = event.offsetX;
+  const hoveredPointTime = youtube.getDuration() * (hoverPoint / barFullWidth);
+
+  toolTip.style.display = "block";
+  toolTip.style.left = (hoverPoint - 25) + "px";
+  toolTip.innerText = formatTime(hoveredPointTime);
+}
+
+//프로그레스바 mouseleave, 재생시간 툴팁 hide
+const hideTimeTooltip = () => {
+  toolTip.style.display = "none";
 }
 
 //유튜브 아이프레임 이벤트
@@ -375,8 +410,6 @@ const playVideoWithPlayer = async (event) => {
   }
 }
 
-const videoItemAllPlayBtn = document.querySelectorAll(".play");
-
 videoItemAllPlayBtn.forEach((playBtn) => 
   playBtn.addEventListener("click", playVideoWithPlayer)
 );
@@ -407,3 +440,11 @@ playBtn.addEventListener("click", (event) => {
     youtube.playVideo();
   }
 });
+
+//플레이어 컨트롤 : 프로그레스 시간 위치 변경
+progressContainer.addEventListener("click", changeVideoProgressTime);
+
+//플레이어 컨트롤 : 프로그레스바 hover, 타임 툴팁 show
+progressContainer.addEventListener("mouseover", showTimeTooltip);
+progressContainer.addEventListener("mousemove", showTimeTooltip);
+progressContainer.addEventListener("mouseleave", hideTimeTooltip);
