@@ -1,15 +1,43 @@
-import defaultData from "../data/dummyList.json";
+import defaultVideos from "../data/dummyList.json";
 
-const STORAGE_KEY = "recent_pl";
-const viewScreen = document.getElementById("viewScreen");
-const playlist = document.getElementById("playlist");
-const playBtn = document.querySelector("#playBtn");
-const duration = document.querySelector("#duration");
-const cover = document.querySelector("#cover");
-const title = document.querySelector("#title");
+const STORAGE_KEY = "poong_videos";
+const STORAGE_VOLUME = "poong_volume";
+let currentVolume;
 let youtube;
 
-//로컬스토리지 GET / SET
+//플레이어 영역
+const player = document.getElementById("player");
+const controlBar = document.getElementById("controlBar");
+const viewScreen = document.getElementById("viewScreen");
+const playlist = document.getElementById("playlist");
+
+//플레이어 컨트롤
+const prevBtn = document.getElementById("prevBtn");
+const playBtn = document.getElementById("playBtn");
+const nextBtn = document.getElementById("nextBtn");
+const volumeBtn = document.getElementById("volumeBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+const randomBtn = document.getElementById("randomBtn");
+
+//플레이 타임
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
+
+//현재 재생 비디오 정보
+const cover = document.getElementById("cover");
+const title = document.getElementById("title");
+const category = document.getElementById("category");
+
+//시간 변환
+function formatTime(seconds) {
+  if (seconds < 3600) {
+    return new Date(seconds * 1000).toISOString().slice(14, 19);
+  } else {
+    return new Date(seconds * 1000).toISOString().slice(11, 19);
+  }
+}
+
+//로컬스토리지 GET/SET
 const getLocalData = () => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY));
 }
@@ -18,190 +46,148 @@ const setLocalData = (data) => {
   return localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-//비디오 재생
-const playVideo = (video, currentIdx) => {
-  let localData = getLocalData();
+//클릭된 영상 플레이어로 재생
+const playClickedVideo = (clickedVideoIdx, video) => {
+  console.log("해당 비디오 재생하기", clickedVideoIdx, video);
 
+  //받은 데이터로 Update
+  const localData = getLocalData();
   const playNowVideo = {
-    targetIndex: currentIdx,
+    targetIndex: clickedVideoIdx,
     targetVideo: video,
   }
 
-  localData.playNowVideo = playNowVideo;
-  setLocalData(localData);
+  console.log("현재 재생 시작한 비디오", playNowVideo);
 
-  //기존 영상 삭제
+  //유튜브 아이프레임 RESET
   if(youtube){
     youtube.destroy();
   }
 
-  const currentVideoIdx = playNowVideo.targetIndex;
+  //비디오 리스트 정보 Update
+  cover.style.backgroundImage = "url('" + video.thumbUrl + "')";
+  title.innerText = video.title;
+  category.innerText = video.category;
+  
+  //플레이 리스트 클래스값 RESET
+  const playlistVideos = playlist.querySelectorAll("li");
+  playlistVideos.forEach((item) => item.className = "");
 
-  const videoItems = playlist.querySelectorAll("li");
-  videoItems.forEach((videoItem) => {
-    videoItem.className = "";
-  });
+  //클릭된 비디오 재생중 클래스 추가
+  const targetVideoIndex = playNowVideo.targetIndex;
+  const clickedVideo = playlist.querySelectorAll("li")[targetVideoIndex];
+  clickedVideo.className = "playing";
 
-  const targetVideo = playlist.querySelectorAll("li")[currentVideoIdx];
-  targetVideo.className = "playing";
-
+  //유튜브 아이프레임 로드
   youtube = new YT.Player("viewScreen", {
     videoId: video.youtubeId,
-    playerVars: { 
-      controls: 0,
-      autoplay: 1
-     },
+    playerVars: { controls: 0 },
     events: {
       onReady: onPlayerReady,
-      onStateChange: (event) => onPlayerStateChange(event, currentIdx),
+      onStateChange: (event) => onPlayerStateChange(event, clickedVideoIdx),
     },
   });
 }
 
-const resetList = () => {
-  while (playlist.firstChild){
-    playlist.removeChild(playlist.firstChild);
-  }
-}
-
-const playVideoOnPlayer = async (event) => {
-  event.stopPropagation();
-  console.log("hey")
-
-  const videoId = event.currentTarget.dataset.id;
-  const response = await (await fetch(`api/video/${videoId}`)).json();
-  console.log(response)
-
-  if(response.ok){
-    let localData = getLocalData();
-    const prevVideoList = localData.recentList;
-
-    //기존리스트에 새 데이터가 존재하는지 확인
-    let existVideoIdx;
-    prevVideoList.forEach((prevVideo, index) => {
-      return prevVideo._id === response.video._id ? (existVideoIdx = index) : null;
-    });
-
-    if (existVideoIdx !== undefined){
-      alert("이미 영상이 리스트에 존재합니다.\n해당 영상을 재생합니다.");
-      
-      const existVideoList = playlist.querySelectorAll("li")[existVideoIdx];
-      existVideoList.click();
-      return;
-    }
-
-    const newRecentList = [response.video, ...localData.recentList];
-    const NewPlayNowVideo = {
-      targetIndex: 0,
-      targetVideo: response.video,
-    };
-
-    localData.recentList = newRecentList;
-    localData.playNowVideo = NewPlayNowVideo;
-    setLocalData(localData);
-    resetList();
-    loadRecentList();
-
-    const firstVideo = playlist.querySelectorAll("li")[0];
-    firstVideo.click();
-  }
-}
-
-//유튜브 onReady
+//유튜브 아이프레임 이벤트
 const onPlayerReady = (event) => {
-  return;
+  console.log("플레이어 레디")
+  event.target.playVideo();
 }
+const onPlayerStateChange = (event, clickedVideoIdx) => {}
 
-//유튜브 onPlayerChange
-const onPlayerStateChange = (event, currentIdx) => {
-  const localData = getLocalData();
-  const currentVideoIdx = localData.playNowVideo.targetIndex;
-  const targetVideo = playlist.querySelectorAll("li")[currentVideoIdx];
-}
-
-const playBtns = document.querySelectorAll(".playBtn");
-playBtns.forEach((btn) => btn.addEventListener("click", playVideoOnPlayer));
-
-
-//비디오 클릭 이벤트
-const clickVideo = (event, video) => {
-  console.log("clickVideo")
+//비디오 클릭시, 플레이어로 재생 + 현재 플레이리스트 맨앞 추가
+const addVideoAndStartPlay = (event, video) => {
+  console.log("플레이리스트 > 클릭된 영상 인덱스 구하기");
   event.stopPropagation();
 
-  const recentList = getLocalData().recentList;
+  const localVideos = getLocalData().videos;
+  let clickedVideoIdx;
 
-  let currentIdx;
-  recentList.map((recentVideo, index) => {
-    recentVideo._id === video._id ? (currentIdx = index) : null;
-  });
+  //클릭된 영상 인덱스 구하기
+  localVideos.map((localVideo, index) => localVideo._id === video._id ? (
+    clickedVideoIdx = index
+  ) : null);
 
-  playVideo(video, currentIdx);
+  //클릭된 영상 플레이어로 재생
+  console.log(clickedVideoIdx);
+  playClickedVideo(clickedVideoIdx, video);
 }
 
-const addPlayListItem = (video) => {
+//플레이어 > 플레이리스트 UI 업데이트
+const playListUIupdate = (video) => {
   const li = document.createElement("li");
-  const titleSpan = document.createElement("span");
-  const deleteBtn = document.createElement("button");
-
   li.dataset.id = video._id;
-  titleSpan.innerText = video.title;
+
+  //커버이미지
+  const coverBox = document.createElement("div");
+  coverBox.className = "cover-box";
+
+  const coverImage = document.createElement("div");
+  coverImage.className = "cover-image";
+  coverImage.style.backgroundImage = "url('" + video.thumbUrl + "')";
+  coverBox.append(coverImage);
+  
+  //타이틀
+  const titleBox = document.createElement("div");
+  titleBox.className = "title-box";
+
+  const title = document.createElement("div");
+  title.className = "title";
+  title.innerText = video.title;
+
+  const category = document.createElement("div");
+  category.className = "category";
+  category.innerText = video.category;
+  titleBox.append(title, category);
+
+  
+  //duration 타임 & 삭제버튼
+  const descBox = document.createElement("div");
+  descBox.className = "desc-box";
+
+  const duration = document.createElement("div");
+  duration.className = "duration";
+  duration.innerText = formatTime(video.runningTime);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.className = "deleteBtn";
   deleteBtn.innerText = "❌";
+  descBox.append(duration, deleteBtn);
 
-  li.appendChild(titleSpan);
-  li.appendChild(deleteBtn);
-  li.addEventListener("click", (event) => clickVideo(event, video));
+  li.append(coverBox, titleBox, descBox);
+  li.addEventListener("click", (event) => addVideoAndStartPlay(event, video));
 
-  playlist.appendChild(li);
+  return playlist.appendChild(li);
+}
 
+//로컬데이터 최초 LOAD
+const loadVideos = () => {
+  let videos, playNowVideo, setting;
+  const localData = getLocalData();
 
-  //삭제버튼
-  deleteBtn.addEventListener("click", (event) => {
-    event.stopPropagation();
+  if(localData){
+    console.log("로컬데이터 있음");
+    //기존에 저장된 로컬데이터 로드
+    videos = localData.videos;
+    const playNowVideo = localData.playNowVideo;
 
-    let localData = getLocalData();
-    const prevRecentList = localData.recentList;
+    cover.style.backgroundImage = "url('" + playNowVideo.targetVideo.thumbUrl + "')";
+    title.innerText = playNowVideo.targetVideo.title;
+    category.innerText = playNowVideo.targetVideo.category;
+    duration.innerText = formatTime(playNowVideo.targetVideo.runningTime);
 
-    let deleteIdx;
-    prevRecentList.map((prevVideo, index) => {
-      prevVideo._id === video._id ? (deleteIdx = index) : null;
-    });
+  } else {
+    console.log("로컬데이터 없음");
+    //로컬데이터_기본셋업 (재생중비디오, 로컬 저장된 비디오 리스트, 플레이어설정값)
+    videos = defaultVideos;
 
-    const recentList = localData.recentList;
-    let currentVideoIdx = localData.playNowVideo.targetIndex;
-
-    if(deleteIdx === currentVideoIdx) {
-      alert("재생중인 곡은 삭제할수 없어요.");
-      return;
+    playNowVideo = {
+      targetIndex: 0,
+      targetVideo: videos[0],
     }
 
-    const newRecentList = prevRecentList.filter((prevVideo, index) => index !== deleteIdx);
-    
-    newRecentList.map((newVideo, index) => {
-      newVideo._id === recentList._id ? (currentVideoIdx = index) : null
-    });
-
-    localData.playNowVideo.targetIndex = currentVideoIdx;
-    localData.recentList = newRecentList;
-    setLocalData(localData);
-    console.log(li)
-    li.remove();
-  });
-}
-
-const loadPlayer = () => {
-  let recentList, playNowVideo, settings;
-  const localData = getLocalData();
-  
-  //로컬스토리지 데이터가 없을때
-  if(!localData){
-    playNowVideo = {
-      targetVideo: defaultData[0],
-      targetIndex: 0,
-    };
-
-    recentList = defaultData;
-
-    settings = {
+    setting = {
       isRandom: false,
       isRepeat: false,
       isPlay: false,
@@ -209,21 +195,32 @@ const loadPlayer = () => {
       isBuffer: false,
       currentTime: 0,
       totalTime: 0,
-    };
+    }
 
-    const data = { recentList, playNowVideo, settings };
-    setLocalData(data);
+    const defaultData = {
+      videos,
+      playNowVideo,
+      setting,
+    }
+    
+    //셋업완료된 기본데이터 저장
+    setLocalData(defaultData);
+
+    //로컬데이터_볼륨 값 저장
+    localStorage.setItem(STORAGE_VOLUME, 30);
+
+    //현재 플레이 비디오 정보
+    title.innerText = "오늘 작업 BGM을 골라볼까?"
+    category.innerText = "플레이어를 이용해서 영상을 플레이해보세요."
   }
 
-  if(localData){
-    playNowVideo = localData.playNowVideo;
-    recentList = localData.recentList;
+  //받은 로컬데이터를 플레이어리스트 데이터로 UI 업데이트
+  videos.forEach((video) => playListUIupdate(video));
 
-  }
-
-  //데이터 플레이어 리스트에 추가
-  recentList.forEach((video) => addPlayListItem(video));
+  //볼륨 업데이트
+  //랜덤플레이 업데이트
+  //반복타입 업데이트
 }
 
-//Data Load
-loadPlayer();
+// START
+loadVideos();
