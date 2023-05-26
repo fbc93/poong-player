@@ -20,6 +20,7 @@ const repeatBtn = document.getElementById("repeatBtn");
 const randomBtn = document.getElementById("randomBtn");
 
 //플레이 타임
+const progressTime = document.getElementById("progressTime");
 const currentTime = document.getElementById("currentTime");
 const duration = document.getElementById("duration");
 
@@ -46,13 +47,63 @@ const setLocalData = (data) => {
   return localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+//재생 중 시간 update
+const updateVideoProgressTime = () => {
+  if(!youtube) return;
+
+  const state = youtube.getPlayerState();
+  if(state === 3) return; //종료(3)
+
+  //재생시간 
+  currentTime.innerText = formatTime(youtube.getCurrentTime());
+  duration.innerText = formatTime(youtube.getDuration());
+  return;
+}
+
+//재생 프로그레스 바 update
+const updateVideoProgressBar = () => {
+  const currentTime = youtube.getCurrentTime();
+  const duration = youtube.getDuration();
+
+  progressTime.style.width = (currentTime/duration) * 100 + "%";
+  return;
+}
+
 //유튜브 아이프레임 이벤트
 const onPlayerReady = (event) => {
-  console.log("플레이어 레디")
+  console.log("플레이어 레디");
+  playBtn.className = "fa-solid fa-pause";
+
+  let interval_update_time;
+  clearInterval(interval_update_time);
+
+  //initial
+  updateVideoProgressTime();
+  updateVideoProgressBar();
+
+  //재생중 시간 & 프로그레스바 업데이트
+  interval_update_time = setInterval(() => {
+    updateVideoProgressTime();
+    updateVideoProgressBar();
+  }, 1000);
+  
+  //유튜브 재생
   event.target.playVideo();
 }
 
-const onPlayerStateChange = (event, clickedVideoIdx) => {}
+const onPlayerStateChange = (event, clickedVideoIdx) => {
+  const state = event.data;
+
+  if(state === 1){
+    //재생
+    playBtn.className = "fa-solid fa-pause";
+  }
+
+  if(state === 0 || state === 2){
+    //일시정지 or 종료
+    playBtn.className = "fa-solid fa-play";
+  }
+}
 
 //클릭된 영상 플레이어로 재생
 const playClickedVideo = (clickedVideoIdx, video) => {
@@ -65,6 +116,8 @@ const playClickedVideo = (clickedVideoIdx, video) => {
     targetVideo: video,
   }
 
+  localData.playNowVideo = playNowVideo;
+  setLocalData(localData);
   console.log("현재 재생 시작한 비디오", playNowVideo);
 
   //유튜브 아이프레임 RESET
@@ -76,6 +129,7 @@ const playClickedVideo = (clickedVideoIdx, video) => {
   cover.style.backgroundImage = "url('" + video.thumbUrl + "')";
   title.innerText = video.title;
   category.innerText = video.category;
+  duration.innerText =  formatTime(video.runningTime);
   
   //플레이 리스트 클래스값 RESET
   const playlistVideos = playlist.querySelectorAll("li");
@@ -293,7 +347,7 @@ const playVideoWithPlayer = async (event) => {
     if(existVideoIdx !== undefined){
       alert("이미 플레이어에 존재하는 영상입니다.\n해당 영상을 플레이합니다.");
 
-      const existVideo = playlist.querySelectorAll("li")[existVideoIdx];
+      const existVideo = playlist.querySelectorAll("li")[existVideoIdx].firstChild;
       existVideo.click();
       return;
     }
@@ -326,3 +380,30 @@ const videoItemAllPlayBtn = document.querySelectorAll(".play");
 videoItemAllPlayBtn.forEach((playBtn) => 
   playBtn.addEventListener("click", playVideoWithPlayer)
 );
+
+//플레이어 컨트롤 : 재생버튼
+playBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+
+  //유튜브 아이프레임이 아직 로드되지 않았을경우
+  if(!youtube){
+    console.log("유튜브 로드전..");
+    const playNowVideoIdx = getLocalData().playNowVideo.targetIndex;
+    const playNowVideo = playlist.querySelectorAll("li")[playNowVideoIdx].firstChild;
+    playNowVideo.click();
+    return;
+  }
+
+  //유튜브 아이프레임 로드 후
+  const state = youtube.getPlayerState();
+
+  //재생중 -> 정지
+  if(state === 1){
+    youtube.pauseVideo();
+  }
+
+  //일시정지 + 재생끝 -> 재생
+  if(state === 2 || state === 0){
+    youtube.playVideo();
+  }
+});
