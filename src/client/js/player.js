@@ -174,6 +174,45 @@ const toggleVolumeMute = (event) => {
   }
 }
 
+//랜덤재생 > 업데이트
+const randomPlayUpdate = () => {
+  console.log("random update");
+  const isRandom = getLocalData().setting.isRandom;
+
+  if(isRandom === "off"){
+    randomBtn.setAttribute("data-random", "off");
+    randomBtn.style.color = "black";
+
+  } else if(isRandom === "on") {
+    randomBtn.setAttribute("data-random", "on");
+    randomBtn.style.color = "red";
+  }
+  return;
+}
+
+//반복재생 타입 > 업데이트
+const repeatPlayTypeUpdate = () => {
+  console.log("repeat type update");
+  const isRepeat = getLocalData().setting.isRepeat;
+
+  switch (isRepeat) {
+    case "off":
+      repeatBtn.setAttribute("data-repeat", "off");
+      repeatBtn.className = "fa-solid fa-repeat";
+      repeatBtn.style.color = "black";
+      break;
+    case "on":
+      repeatBtn.setAttribute("data-repeat", "on");
+      repeatBtn.style.color = "red";
+      break;
+    case "one":
+      repeatBtn.setAttribute("data-repeat", "one");
+      repeatBtn.style.color = "red";
+      repeatBtn.className = "fa-solid fa-repeat-1";
+      break;
+  }
+}
+
 //유튜브 아이프레임 이벤트
 const onPlayerReady = (event) => {
   console.log("플레이어 레디");
@@ -202,15 +241,38 @@ const onPlayerReady = (event) => {
 
 const onPlayerStateChange = (event, clickedVideoIdx) => {
   const state = event.data;
+  const isRandom = getLocalData().setting.isRandom;
 
-  if(state === 1){
-    //재생
+  if(state === 1){ //재생
     playBtn.className = "fa-solid fa-pause";
+  }
+
+  if(state === 0){ //종료
+    //재생타입 : 랜덤
+    if(isRandom === "on"){
+      console.log("랜덤재생 시작");
+      const totalLocalVideos = getLocalData().videos.length;
+      let randomIndex = Math.floor(Math.random() * totalLocalVideos);
+
+      while(totalLocalVideos !== 1){
+        console.log("랜덤재생 시작2");
+        randomIndex = Math.floor(Math.random() * totalLocalVideos);
+        const randomPlayVideo = getLocalData().videos[randomIndex];
+        
+        playClickedVideo(randomIndex, randomPlayVideo);
+        return;
+      }
+      //nextBtn.click();
+    }
   }
 
   if(state === 0 || state === 2){
     //일시정지 or 종료
     playBtn.className = "fa-solid fa-play";
+
+    //조회수 1증가 전송(POST)
+    //시청시간 전송(POST)
+    //재생타입 : 1개만 반복
   }
 }
 
@@ -399,8 +461,8 @@ const loadVideos = () => {
     }
 
     setting = {
-      isRandom: false,
-      isRepeat: false,
+      isRandom: "off",
+      isRepeat: "off",
       isPlay: false,
       isPause: false,
       isBuffer: false,
@@ -432,7 +494,10 @@ const loadVideos = () => {
   volumeUpdate();
 
   //랜덤플레이 업데이트
+  randomPlayUpdate();
+
   //반복타입 업데이트
+  repeatPlayTypeUpdate();
 }
 
 // START
@@ -541,13 +606,24 @@ soundRange.addEventListener("click", changeSoundbarValue);
 //플레이어 컨트롤: 이전 비디오, 다음 비디오 재생
 prevBtn.addEventListener("click", (event) => {
   event.stopPropagation();
-  console.log("이전 비디오");
-
+  const totalLocalVideos = getLocalData().videos.length;
   const localPlayNowVideo = getLocalData().playNowVideo.targetIndex;
   const prevVideoIdx = localPlayNowVideo - 1;
-
   const li = playlist.querySelectorAll("li");
+  
   let prevVideo;
+  const isRandom = getLocalData().setting.isRandom;
+  let randomIndex = Math.floor(Math.random() * totalLocalVideos);
+
+  //랜덤재생 체크
+  while(totalLocalVideos !== 1 && isRandom === "on"){
+    console.log("랜덤 순서 다음 영상");
+    randomIndex = Math.floor(Math.random() * totalLocalVideos);
+    const randomPlayVideo = getLocalData().videos[randomIndex];
+    
+    playClickedVideo(randomIndex, randomPlayVideo);
+    return;
+  }
 
   if(prevVideoIdx >= 0){
     prevVideo = li[prevVideoIdx].firstChild;
@@ -559,14 +635,24 @@ prevBtn.addEventListener("click", (event) => {
 
 nextBtn.addEventListener("click", (event) => {
   event.stopPropagation();
-  console.log("다음 비디오");
-
   const totalLocalVideos = getLocalData().videos.length;
   const localPlayNowVideo = getLocalData().playNowVideo.targetIndex;
   const nextVideoIdx = localPlayNowVideo + 1;
-
   const li = playlist.querySelectorAll("li");
+
   let nextVideo;
+  const isRandom = getLocalData().setting.isRandom;
+  let randomIndex = Math.floor(Math.random() * totalLocalVideos);
+
+  //랜덤재생 체크
+  while(totalLocalVideos !== 1 && isRandom === "on"){
+    console.log("랜덤 순서 다음 영상");
+    randomIndex = Math.floor(Math.random() * totalLocalVideos);
+    const randomPlayVideo = getLocalData().videos[randomIndex];
+    
+    playClickedVideo(randomIndex, randomPlayVideo);
+    return;
+  }
 
   if (nextVideoIdx < totalLocalVideos){
     nextVideo = li[nextVideoIdx].firstChild;
@@ -574,4 +660,55 @@ nextBtn.addEventListener("click", (event) => {
     nextVideo.click();
     return;
   }
+});
+
+//플레이어 컨트롤 : 랜덤 재생
+randomBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const localData = getLocalData();
+  
+  switch (randomBtn.dataset.random){
+    case "on":
+      randomBtn.setAttribute("data-random", "off");
+      randomBtn.style.color = "black";
+      localData.setting.isRandom = "off";
+      break;
+    case "off":
+      randomBtn.setAttribute("data-random", "on");
+      randomBtn.style.color = "red";
+      localData.setting.isRandom = "on";
+      break;
+  }
+
+  setLocalData(localData);
+  console.log("재생 순서 랜덤");
+});
+
+//플레이어 컨트롤 : 반복 재생, 1개 반복
+repeatBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const localData = getLocalData();
+
+  switch (repeatBtn.dataset.repeat) {
+    case "off":
+      repeatBtn.setAttribute("data-repeat", "on");
+      localData.setting.isRepeat = "on";
+      repeatBtn.style.color = "red";
+      break;
+    case "on":
+      repeatBtn.setAttribute("data-repeat", "one");
+      localData.setting.isRepeat = "one";
+      repeatBtn.style.color = "red";
+      repeatBtn.className = "fa-solid fa-rotate-right";
+      break;
+    case "one":
+      repeatBtn.setAttribute("data-repeat", "off");
+      localData.setting.isRepeat = "off";
+      repeatBtn.style.color = "black";
+      repeatBtn.className = "fa-solid fa-repeat";
+      break;
+  }
+
+  setLocalData(localData);
+  console.log("반복재생 / 1영상 반복 재생");
 });
