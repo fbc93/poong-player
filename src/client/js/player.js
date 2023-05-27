@@ -58,18 +58,22 @@ const setLocalData = (data) => {
 //재생 중 시간 update
 const updateVideoProgressTime = () => {
   if(!youtube) return;
-
+  if(typeof youtube.getPlayerState !== "function") return;
+ 
   const state = youtube.getPlayerState();
   if(state === 3) return; //종료(3)
 
   //재생시간 
   currentTime.innerText = formatTime(youtube.getCurrentTime());
   duration.innerText = formatTime(youtube.getDuration());
-  return;
+  
 }
 
 //재생 프로그레스 바 update
 const updateVideoProgressBar = () => {
+  if(!youtube) return;
+  if(typeof youtube.getPlayerState !== "function") return;
+
   const currentTime = youtube.getCurrentTime();
   const duration = youtube.getDuration();
 
@@ -138,12 +142,14 @@ const changeSoundbarValue = (event) => {
 
 //볼륨버튼 > 업데이트
 const volumeUpdate = () => {
+  console.log("가지고있는 로컬데이터로 볼륨값 업데이트");
   currentVolume = localStorage.getItem(STORAGE_VOLUME);
 
   if(youtube){
-    youtube.setVolume(currentTime);
+    console.log("유튜브 로드후 볼륨 세팅, 현재: ", typeof Number(currentVolume));
+    youtube.setVolume(Number(currentVolume));
   }
-
+  
   soundValue.style.width = currentVolume + "%";
 }
 
@@ -179,6 +185,7 @@ const onPlayerReady = (event) => {
   //initial
   updateVideoProgressTime();
   updateVideoProgressBar();
+  
 
   //재생중 시간 & 프로그레스바 업데이트
   interval_update_time = setInterval(() => {
@@ -365,17 +372,6 @@ const playListUIupdate = (video) => {
   });
 }
 
-//로컬데이터 로드 > 볼륨
-const loadVolume = () => {
-  currentVolume = localStorage.getItem(STORAGE_VOLUME);
-  if(youtube){
-    youtube.setVolume(currentVolume);
-    return;
-  }
-  
-  soundValue.style.width = currentVolume + "%";
-}
-
 //로컬데이터 로드 > 비디오
 const loadVideos = () => {
   let videos, playNowVideo, setting;
@@ -421,7 +417,7 @@ const loadVideos = () => {
     //셋업완료된 기본데이터 저장
     setLocalData(defaultData);
 
-    //로컬데이터_볼륨 값 저장
+    //로컬데이터_기본 볼륨 값 저장
     localStorage.setItem(STORAGE_VOLUME, 50);
 
     //현재 플레이 비디오 정보
@@ -429,11 +425,11 @@ const loadVideos = () => {
     category.innerText = "플레이어를 이용해서 영상을 플레이해보세요."
   }
 
-  //받은 로컬데이터를 플레이어리스트 데이터로 UI 업데이트
+  //가지고있는 로컬데이터를 플레이어리스트 데이터로 UI 업데이트
   videos.forEach((video) => playListUIupdate(video));
 
-  //볼륨 업데이트
-  loadVolume();
+  //가지고있는 로컬볼륨 데이터 값으로 업데이트
+  volumeUpdate();
 
   //랜덤플레이 업데이트
   //반복타입 업데이트
