@@ -537,3 +537,41 @@ descContainer.addEventListener("mouseleave", () => {
 });
 
 soundRange.addEventListener("click", changeSoundbarValue);
+
+//플레이어 컨트롤: 이전 비디오, 다음 비디오 재생
+prevBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  console.log("이전 비디오");
+
+  const localPlayNowVideo = getLocalData().playNowVideo.targetIndex;
+  const prevVideoIdx = localPlayNowVideo - 1;
+
+  const li = playlist.querySelectorAll("li");
+  let prevVideo;
+
+  if(prevVideoIdx >= 0){
+    prevVideo = li[prevVideoIdx].firstChild;
+    console.log("이전 영상", prevVideo);
+    prevVideo.click();
+    return;
+  }
+});
+
+nextBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  console.log("다음 비디오");
+
+  const totalLocalVideos = getLocalData().videos.length;
+  const localPlayNowVideo = getLocalData().playNowVideo.targetIndex;
+  const nextVideoIdx = localPlayNowVideo + 1;
+
+  const li = playlist.querySelectorAll("li");
+  let nextVideo;
+
+  if (nextVideoIdx < totalLocalVideos){
+    nextVideo = li[nextVideoIdx].firstChild;
+    console.log("다음 영상", nextVideo);
+    nextVideo.click();
+    return;
+  }
+});
