@@ -1,6 +1,7 @@
 extends base
 include ./mixins/new
 include ./mixins/popular
+include ./mixins/recommend
 
 block content
   section
@@ -22,9 +23,9 @@ block content
   section
     h1 📌 추천 풍레이리스트
     if videos.length > 0
-      ul.popular
+      ul.recommend
         each video in videos
-          +popular(video)
+          +recommend(video)
     else
       include partials/empty
   section

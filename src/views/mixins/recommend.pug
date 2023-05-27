@@ -1,0 +1,15 @@
+mixin recommend(video)
+  li
+    .thumbnail-wrap 
+      .overlay
+        i.fa-solid.fa-ellipsis-vertical
+      i.fa-solid.fa-play
+      .thumbnail 
+        .thumb.first-thumb(style=`background-image: url(${video.thumbUrl})`)
+        .thumb.second-thumb(style=`background-image: url(${video.thumbUrl})`)
+        .thumb.third-thumb(style=`background-image: url(${video.thumbUrl})`)
+        .thumb.quad-thumb(style=`background-image: url(${video.thumbUrl})`)
+    .title 더운여름 곰보게임 모음
+    .info-wrap
+      .count 10개 영상
+      .runningTime 14:40:10
