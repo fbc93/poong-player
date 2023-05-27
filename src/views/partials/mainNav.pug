@@ -1,11 +1,11 @@
 .main-nav
-  a.logo(href="/") Poong🪲Player
-  .login-user
+  a.logo(href="/") POONG🪲PLAYER
+  .profile
     if loggedIn
-      .avatar avatar
+      .avatar
       .nickname nickname
     else
-      .avatar visitor_avatar
+      .avatar
       .nickname visitor_nickname
     .setting
       if loggedIn
@@ -19,30 +19,37 @@
       .title MENU
       ul
         li
+          i.fa-solid.fa-bug
           a(href="/")
             span 홈
         li
+          i.fa-solid.fa-ranking-star
           a(href="/most-viewed")
             span 인기영상
         li
+          i.fa-solid.fa-magnifying-glass
           a(href="/search")
             span 검색
         li
+          i.fa-solid.fa-arrow-up-from-bracket
           a(href="/upload-video")
             span 영상 업로드
       .event-list
         .title PLAYLIST
         ul
           li
+            i.fa-solid.fa-thumbs-up
             a(href="/playlist/liked")
               span 좋아요 영상 플리
           li
+            i.fa-solid.fa-video
             a(href="/playlist/mine")
               span 내 영상 플리
       .event-list
         .title EVENT
         ul
           li
+            i.fa-solid.fa-medal
             a(href="/streaming-rank")
               span 스트리밍 시간 랭킹
               

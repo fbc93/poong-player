@@ -4,6 +4,7 @@
   align-items: center;
   column-gap: 30px;
   margin-bottom: 50px;
+  row-gap: 15px;
 
   li {
     display: flex;
@@ -12,10 +13,6 @@
     padding:10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    border-bottom:1px solid #999999;
-    &:first-child {
-      border-top:1px solid #999999;
-    }
 
     .left-box{
       display: flex;
