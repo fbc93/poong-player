@@ -208,7 +208,7 @@ const repeatPlayTypeUpdate = () => {
     case "one":
       repeatBtn.setAttribute("data-repeat", "one");
       repeatBtn.style.color = "red";
-      repeatBtn.className = "fa-solid fa-repeat-1";
+      repeatBtn.className = "fa-solid fa-rotate-right";
       break;
   }
 }
@@ -242,15 +242,24 @@ const onPlayerReady = (event) => {
 const onPlayerStateChange = (event, clickedVideoIdx) => {
   const state = event.data;
   const isRandom = getLocalData().setting.isRandom;
+  const isRepeat = getLocalData().setting.isRepeat;
 
   if(state === 1){ //재생
     playBtn.className = "fa-solid fa-pause";
   }
 
   if(state === 0){ //종료
+    //재생타입: 1개 반복
+    if(isRepeat === "one"){
+      console.log("한개 영상 반복 재생", clickedVideoIdx);
+      const playOneVideo = playlist.querySelectorAll("li")[clickedVideoIdx].firstChild;
+      playOneVideo.click();
+
+    }
+
     //재생타입 : 랜덤
     if(isRandom === "on"){
-      console.log("랜덤재생 시작");
+      console.log("랜덤 반복재생 시작");
       const totalLocalVideos = getLocalData().videos.length;
       let randomIndex = Math.floor(Math.random() * totalLocalVideos);
 
@@ -262,7 +271,20 @@ const onPlayerStateChange = (event, clickedVideoIdx) => {
         playClickedVideo(randomIndex, randomPlayVideo);
         return;
       }
-      //nextBtn.click();
+    }
+
+    //재생타입 :일반 반복
+    if(isRepeat === "on"){
+      console.log("일반 반복재생 시작");
+      const totalLocalVideos = getLocalData().videos.length;
+      const playNowVideoIndex = getLocalData().playNowVideo.targetIndex;
+
+      if(totalLocalVideos - 1 === playNowVideoIndex){
+        console.log("마지막 영상, 1번 영상으로")
+        playlist.querySelectorAll("li")[0].firstChild.click();
+      }
+
+      nextBtn.click();
     }
   }
 
@@ -666,6 +688,10 @@ nextBtn.addEventListener("click", (event) => {
 randomBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   const localData = getLocalData();
+
+  if(repeatBtn.dataset.repeat === "one"){
+    return;
+  }
   
   switch (randomBtn.dataset.random){
     case "on":
