@@ -1,0 +1,12 @@
+mixin popular(video)
+  li
+    .left-box
+      .thumbnail(style=`background-image: url(${video.thumbUrl})`)
+      .rank 1
+      .info
+        .title=video.title
+        .category=video.category
+    .right-box 
+      i(data-id=video._id).fa-solid.fa-play.play
+      i.fa-solid.fa-thumbs-up
+      i.fa-solid.fa-plus

@@ -1,0 +1,82 @@
+.popular {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  align-items: center;
+  column-gap: 30px;
+  row-gap: 15px;
+  margin-bottom: 50px;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding:10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 10px;
+
+    .left-box{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .thumbnail {
+        aspect-ratio: 16/9;
+        width:130px;
+        border-radius: 5px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+
+      .rank {
+        font-size: 1.8rem;
+        font-weight: bold;
+        padding: 0 20px;
+        display: flex;
+        align-self: stretch;
+      }
+
+      .info {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        font-size: 1.5rem;
+        padding-right: 20px;
+        align-self: stretch;
+
+        .title {
+          font-size: 1.5rem;
+          font-weight:bold;
+          --max-lines: 2;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-align: left;
+          margin-bottom: 7px;
+          line-height: 1.2;
+        }
+
+        .category {
+          font-size: 1.4rem;
+        }
+      }
+    }
+    .right-box{
+      display: none; //flex
+      flex:1;
+      padding-top:10px;
+
+      i {
+        font-size: 1.8rem;
+        display: inline-block;
+        margin: 0 10px;
+        cursor:pointer;
+      }
+    }
+  }
+
+
+}

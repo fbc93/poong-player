@@ -1,5 +1,5 @@
-mixin videoList(video)
-  li.video-item.play(data-id=video._id)
+mixin new(video)
+  li.play(data-id=video._id)
     img(src=video.thumbUrl alt=video.title)
     .title=video.title
     .info-container

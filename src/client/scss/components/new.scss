@@ -1,0 +1,10 @@
+.new {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: flex-start;
+  gap: 15px;
+
+  img {
+    width: 100%;
+  }
+}

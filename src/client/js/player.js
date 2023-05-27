@@ -282,9 +282,8 @@ const onPlayerStateChange = (event, clickedVideoIdx) => {
       if(totalLocalVideos - 1 === playNowVideoIndex){
         console.log("마지막 영상, 1번 영상으로")
         playlist.querySelectorAll("li")[0].firstChild.click();
+        return;
       }
-
-      nextBtn.click();
     }
   }
 
@@ -689,7 +688,7 @@ randomBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   const localData = getLocalData();
 
-  if(repeatBtn.dataset.repeat === "one"){
+  if(repeatBtn.dataset.repeat === "one" || repeatBtn.dataset.repeat === "on"){
     return;
   }
   
@@ -714,6 +713,10 @@ randomBtn.addEventListener("click", (event) => {
 repeatBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   const localData = getLocalData();
+
+  if(randomBtn.dataset.random === "on"){
+    return;
+  }
 
   switch (repeatBtn.dataset.repeat) {
     case "off":

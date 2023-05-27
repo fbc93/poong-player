@@ -46,3 +46,25 @@ const togglePlaylistView = (event) => {
 }
 
 playlistViewToggleBtn.addEventListener("click", togglePlaylistView);
+
+
+//popular
+const popularAllItems = document.querySelectorAll(".popular > li");
+
+const showPopularItem = (event) => {
+  event.currentTarget.lastChild.style.display = "flex";
+  event.currentTarget.style.backgroundColor = "white";
+};
+
+const hidePopularItem = (event) => {
+  event.currentTarget.lastChild.style.display = "none";
+  event.currentTarget.style.backgroundColor = "";
+};
+
+popularAllItems.forEach((item) =>
+  item.addEventListener("mouseover", showPopularItem)
+);
+
+popularAllItems.forEach((item) => 
+  item.addEventListener("mouseleave", hidePopularItem)
+);
