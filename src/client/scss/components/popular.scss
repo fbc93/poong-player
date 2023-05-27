@@ -3,7 +3,6 @@
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   align-items: center;
   column-gap: 30px;
-  row-gap: 15px;
   margin-bottom: 50px;
 
   li {
@@ -13,12 +12,15 @@
     padding:10px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    border-radius: 10px;
+    border-bottom:1px solid #999999;
+    &:first-child {
+      border-top:1px solid #999999;
+    }
 
     .left-box{
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
 
       .thumbnail {
         aspect-ratio: 16/9;
@@ -31,11 +33,21 @@
       }
 
       .rank {
-        font-size: 1.8rem;
         font-weight: bold;
-        padding: 0 20px;
+        padding: 0 15px;
         display: flex;
-        align-self: stretch;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        .icon {
+          font-size: 2.5rem;
+          margin-bottom: 10px;
+        }
+
+        .view {
+          font-size: 1.4rem;
+        }
       }
 
       .info {

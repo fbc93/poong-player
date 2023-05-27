@@ -2,7 +2,9 @@ mixin popular(video)
   li
     .left-box
       .thumbnail(style=`background-image: url(${video.thumbUrl})`)
-      .rank 1
+      .rank
+        .icon 🥇
+        .view 130
       .info
         .title=video.title
         .category=video.category
