@@ -1,4 +1,9 @@
 extends base
 
 block content
-  h1 검색
+  .pageTitle=pageTitle
+  .sub-title Poong Player DB에서 영상을 검색합니다. 🕵️‍♀️ 🔎
+  form.search-form(method="POST")
+    .search-input-item
+      input(name="search", id="search", type="search", placeholder="영상 제목을 검색해보세요.", required)
+    button 검색

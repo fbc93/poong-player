@@ -139,3 +139,9 @@ input {
 input:focus {
   outline:none;
 }
+
+button {
+  background-color: inherit;
+  outline: none;
+  border:none;
+}
