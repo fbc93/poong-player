@@ -98,7 +98,11 @@ export const postLogin = async (req, res) => {
   return res.redirect("/");
 }
 
-export const edit = (req, res) => {
+export const getEdit = (req, res) => {
+  return res.render("user/edit", { pageTitle: "회원정보 수정" });
+}
+
+export const postEdit = (req, res) => {
   return res.render("user/edit", { pageTitle: "회원정보 수정" });
 }
 

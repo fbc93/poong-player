@@ -1,4 +1,15 @@
 extends ../base
 
 block content
-  h1 좋아요한 영상 플리
+  .pageTitle=pageTitle
+  //- .search-result
+  //-   if result 
+  //-     .result-value
+  //-       span '#{result.keyword}'
+  //-       span 검색 결과 총 #{result.videos.length}건
+  //-     ul.result-list.chart
+  //-       if result
+  //-         each video, index in result.videos
+  //-           +chart(video, index)
+  //-         else
+  //-           include partials/empty

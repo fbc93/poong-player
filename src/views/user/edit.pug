@@ -1,4 +1,21 @@
 extends ../base
+include ../mixins/selectAvatar
 
 block content
-  h1 회원정보 수정
+  .pageTitle=pageTitle
+  div.errorMsg=errorMsg
+  form(method="POST")
+    .input-item
+      label(for="username") 유저네임
+      input(name="username", id="username", type="text", value=loggedInUser.username minLength=1, maxLength=6, placeholder="유저네임(1자 ~ 최대 6자)을 입력해주세요.", required)
+    .input-item
+      label(for="password") 기존 비밀번호
+      input(name="password", id="password", type="password", minLength=4, placeholder="기존 비밀번호를 입력하세요", required)
+    .input-item
+      label(for="password_confirm") 새로운 비밀번호
+      input(name="password_confirm", id="password_confirm", type="password", minLength=4, placeholder="새로운 비밀번호를 입력하세요. (최소 4자)", required)
+    div.label 프로필 선택
+    .select-avatar
+      each imageName in ["image1","image2","image3"]
+        +selectAvatar(imageName)
+    input.submit(type="submit", value="회원정보 업데이트")
