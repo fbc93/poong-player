@@ -4,11 +4,11 @@ block content
   div.pageTitle=pageTitle
   div.errorMsg=errorMsg
   form(method="POST")
-    .username
+    .input-item
       label(for="username") 유저네임
       input(name="username" id="username" type="text" placeholder="유저네임(1자 ~ 최대 6자)을 입력해주세요." minLength=1 maxLength=6 required)
-    .password
+    .input-item
       label(for="password") 비밀번호
       input(name="password" id="password" type="password" placeholder="비밀번호를 입력하세요. (최소 4자)" minLength=4 required)
-    input(type="submit" value="로그인")
-    a.link-to-join(href="/join") 아직 가입하지 않았나요? 회원가입
+    input.submit(type="submit" value="로그인")
+    a.link-to(href="/join") 아직 가입하지 않았나요? 회원가입

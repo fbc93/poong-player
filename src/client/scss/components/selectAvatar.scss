@@ -1,0 +1,22 @@
+.select-avatar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 20px;
+  column-gap: 40px;
+
+  label {
+
+    input {}
+
+    .image {
+      width: 100%;
+      cursor:pointer;
+      aspect-ratio: 1/1;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 50%;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+  }
+}

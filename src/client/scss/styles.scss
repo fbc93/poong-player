@@ -10,12 +10,15 @@
 @import "./components/mobileNav.scss";
 @import "./components/mainNav.scss";
 @import "./components/themeToggleBtn.scss";
+@import "./components/input.scss";
+@import "./components/form.scss";
 
 
 //Mixins
 @import "./components/new.scss";
 @import "./components/popular.scss";
 @import "./components/recommend.scss";
+@import "./components/selectAvatar.scss";
 
 //Default
 * {
@@ -24,6 +27,7 @@
 
 html {
   background-color: var(--bg);
+  transition: background-color 0.3s ease-in-out;
 
   body {
     font-family: 'Noto Sans KR', sans-serif;
@@ -33,12 +37,34 @@ html {
     main {
       margin-left: 240px;
       padding: 50px 50px 120px;
+
+      .pageTitle {
+        font-size:2.5rem;
+        font-weight:bold;
+        text-align: center;
+        margin-bottom:30px;
+      }
+
+      .errorMsg {
+        font-size: 1.4rem;
+        color: red;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      //회원가입 아바타선택 타이틀
+      .label {
+        display: block;
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+        margin-top: 30px;
+      }
     
       section {
         margin-bottom:50px;
     
         h1 {
-          font-size:3rem;
+          font-size:2.5rem;
           font-weight:bold;
           margin-bottom:25px;
         }
@@ -46,6 +72,8 @@ html {
     }
   }
 }
+
+
 
 @media screen and (max-width: 1024px) {
   main {

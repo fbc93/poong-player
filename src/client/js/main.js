@@ -1,4 +1,7 @@
 import "../scss/styles.scss";
+import "../images/image1.png";
+import "../images/image2.png";
+import "../images/image3.png";
 import "./player";
 
 const STORAGE_KEY = "PoongTheme";
@@ -14,14 +17,15 @@ localStorage.setItem(STORAGE_KEY, themeState);
 themeToggleBtn.className = (themeState === DARK ? DARK : LIGHT);
 
 const toggleTheme = (event) => {
-  if (event.target.className === DARK){
+  console.log(event.currentTarget.className);
+  if (event.currentTarget.className === DARK){
     document.documentElement.setAttribute("data-theme", LIGHT);
-    event.target.className = LIGHT;
+    event.currentTarget.className = LIGHT;
     localStorage.setItem(STORAGE_KEY, LIGHT);
 
-  } else if (event.target.className === LIGHT){
+  } else if (event.currentTarget.className === LIGHT){
     document.documentElement.setAttribute("data-theme", DARK);
-    event.target.className = DARK;
+    event.currentTarget.className = DARK;
     localStorage.setItem(STORAGE_KEY, DARK);
   }
 }
