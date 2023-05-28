@@ -1,0 +1,12 @@
+mixin chart(video, index)
+  li
+    .rank-value=index+1
+    .thumbnail(style=`background-image: url(${video.thumbUrl})`)
+    .info
+      .title=video.title
+      .category=video.category
+    i.view-icon 👀
+    .view-value 324
+    i(data-id=video._id).fa-solid.fa-play.play
+    i.fa-solid.fa-thumbs-up
+    i.fa-solid.fa-plus

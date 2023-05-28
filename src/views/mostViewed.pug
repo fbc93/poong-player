@@ -1,4 +1,13 @@
 extends base
+include ./mixins/chart
 
 block content
-  h1 가장 많이 본 인기 영상
+  .pageTitle.chart=pageTitle
+  .sub-title.chart Poong Player 내 DB 조회수 기준으로 작성되었습니다. 👀
+  section.chart-section
+    if videos.length > 0
+      ul.chart
+        each video in videos
+          +chart(video)
+    else
+      include partials/empty

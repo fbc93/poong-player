@@ -6,8 +6,29 @@ export const home = async (req, res) => {
   return res.render("home", { pageTitle, videos })
 }
 
-export const search = (req, res) => {
+export const getSearch = (req, res) => {
   return res.render("search", { pageTitle : "검색" });
+}
+
+export const postSearch = async (req, res) => {
+  const { keyword } = req.body;
+  console.log(keyword);
+
+  const videos = await Video.find({
+    title: {
+      $regex: new RegExp(keyword, "i"),
+    }
+  });
+
+  console.log(videos);
+   
+  return res.render("search", { 
+    pageTitle : "검색",
+    result:{
+      keyword,
+      videos,
+    }, 
+  });
 }
 
 export const getUploadVideo = (req, res) => {
@@ -43,14 +64,14 @@ export const postUploadVideo = async (req, res) => {
   return res.redirect("/");
 }
 
-
-
-
-
-export const mostViewed = (req, res) => {
-
-  return res.render("mostViewed", { pageTitle: "인기 영상" });
+export const mostViewed = async (req, res) => {
+  const videos = await Video.find({});
+  return res.render("mostViewed", { pageTitle: "인기 영상", videos });
 }
+
+
+
+
 
 export const streamingRank = (req, res) => {
 

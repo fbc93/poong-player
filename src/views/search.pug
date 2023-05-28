@@ -1,9 +1,21 @@
 extends base
+include ./mixins/chart
 
 block content
   .pageTitle=pageTitle
   .sub-title Poong Player DB에서 영상을 검색합니다. 🕵️‍♀️ 🔎
   form.search-form(method="POST")
     .search-input-item
-      input(name="search", id="search", type="search", placeholder="영상 제목을 검색해보세요.", required)
-    button 검색
+      input(name="keyword", id="keyword", type="search", placeholder="영상 제목을 검색해보세요.", required)
+    button(type="submit") 검색
+  .search-result
+    if result 
+      .result-value
+        span '#{result.keyword}'
+        span 검색 결과 총 #{result.videos.length}건
+      ul.result-list.chart
+        if result
+          each video, index in result.videos
+            +chart(video, index)
+          else
+            include partials/empty

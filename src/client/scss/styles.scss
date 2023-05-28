@@ -20,6 +20,7 @@
 @import "./components/popular.scss";
 @import "./components/recommend.scss";
 @import "./components/selectAvatar.scss";
+@import "./components/chart.scss";
 
 //Screens
 @import "./screens/uploadVideo.scss";
@@ -28,6 +29,16 @@
 //Default
 * {
   box-sizing: border-box;
+}
+
+.category {
+  font-size: 1.3rem!important;
+  width: fit-content;
+  padding: 5px 8px;
+  background-color: steelblue;
+  color: white;
+  border-radius: 3px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 html {
@@ -41,13 +52,18 @@ html {
   
     main {
       margin-left: 240px;
-      padding: 110px 50px 120px;
+      padding: 50px 50px 120px;
 
       .pageTitle {
-        font-size:2.5rem;
+        font-size:3rem;
         font-weight:bold;
         text-align: center;
         margin-bottom:30px;
+      }
+
+      .pageTitle.chart {
+        text-align: left;
+        margin-bottom:15px;
       }
 
       .errorMsg {
@@ -59,8 +75,37 @@ html {
 
       //검색
       .sub-title {
-        font-size:1.5rem;
+        font-size:1.6rem;
+        font-weight:500;
         text-align: center;
+        letter-spacing: -1px;
+      }
+
+      .sub-title.chart {
+        text-align: left;
+      }
+
+      .search-result {
+        margin-top:50px;
+
+        .result-value {
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: row;
+          align-items: baseline;
+
+          span {
+            display: inline-block;
+            font-size:1.8rem;
+
+            &:first-child {
+              font-weight:500;
+              color: darkolivegreen;
+              font-size:2rem;
+              margin-right:5px;
+            }
+          }
+        }
       }
 
       //회원가입 아바타선택 타이틀
@@ -79,6 +124,12 @@ html {
           font-weight:bold;
           margin-bottom:25px;
         }
+      }
+
+      //인기차트
+      section.chart-section {
+        margin-bottom:0;
+        margin-top:50px;
       }
     }
   }
