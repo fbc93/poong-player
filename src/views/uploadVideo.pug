@@ -3,25 +3,28 @@ extends base
 block content
   .pageTitle=pageTitle
   .errorMsg=errorMsg
-  form(method="POST" id="uploadForm")
-    label(for="youtubeUrl") 유튜브링크
-    input(id="youtubeUrl" type="search" placeholder="유튜브 링크를 입력하세요." required)
-    button(type="button" id="previewBtn") 미리보기
+  form.upload-form(method="POST" id="uploadForm")
+    .input-item 
+      label(for="youtubeUrl") 유튜브링크
+      input(id="youtubeUrl" type="search" placeholder="유튜브 링크를 입력하세요." required)
+    button.previewBtn(type="button" id="previewBtn") 미리보기
     #uploadVideoPreviewContainer
       #youtubeIframe
-    label(for="title") 영상 제목
-    input(name="title" id="title" type="text" placeholder="영상 제목")
-    label(for="youtubeId") 영상 ID (자동입력)
-    input(name="youtubeId" id="youtubeId" type="text" value="" placeholder="영상 ID" readonly)
-    label(for="runningTime") 러닝타임/초 (자동입력)
-    input(name="runningTime" id="runningTime" type="number" placeholder="러닝타임" readonly)
-
-    label(for="youtubeId") 영상 카테고리
-    select(name="category" id="category")
-      option(value="풍월량" selected) 풍월량
-      option(value="노래") 노래
-      option(value="인터넷방송") 인터넷방송
-      option(value="기타") 기타
-    input(type="submit" value="업로드하기")
+    .input-item
+      label(for="title") 영상 제목 (자동입력)
+      input(name="title" id="title" type="text" placeholder="영상 제목" readonly)
+    .input-item 
+      label(for="youtubeId") 영상 ID (자동입력)
+      input(name="youtubeId" id="youtubeId" type="text" value="" placeholder="영상 ID" readonly)
+    .input-item
+      label(for="runningTime") 러닝타임/초 (자동입력)
+      input(name="runningTime" id="runningTime" type="number" placeholder="러닝타임" readonly)
+    .input-item
+      label(for="youtubeId") 영상 카테고리
+      select(name="category" required style="background-image: url(/static/images/sort-down-solid.svg)")
+        option(value="풍월량" selected) 풍월량
+        option(value="쉬는시간") 쉬는시간(노래/음악)
+        option(value="기타영상") 기타영상
+      input(type="submit" value="업로드하기")
     script(src="/static/js/uploadVideo.js")
     

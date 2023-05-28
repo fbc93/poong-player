@@ -3,6 +3,7 @@ import "../images/image1.png";
 import "../images/image2.png";
 import "../images/image3.png";
 import "../images/image4.png";
+import "../images/sort-down-solid.svg";
 import "./player";
 
 const STORAGE_KEY = "PoongTheme";
