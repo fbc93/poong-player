@@ -2,11 +2,11 @@
   a.logo(href="/") POONG🪲PLAYER
   .profile
     if loggedIn
-      .avatar
-      .nickname nickname
+      .avatar(style='background-image: url(/static/images/image4.png)')
+      .nickname 회원 풍뎅이
     else
-      .avatar
-      .nickname visitor_nickname
+      .avatar(style='background-image: url(/static/images/image4.png)')
+      .nickname 손님 풍뎅이
     .setting
       if loggedIn
         a(href="/user/edit") 회원정보 수정
