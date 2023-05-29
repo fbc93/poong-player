@@ -1,8 +1,11 @@
-mixin selectAvatar(imageName)
+mixin selectAvatar(imageName, pageTitle)
   label(for=imageName)
-    if imageName === "image1"
-      input(id=imageName, name="avatarUrl", value=`/static/images/${imageName}.png`, type="radio", checked)
-      div.image(style=`background-image:url(/static/images/${imageName}.png)`)
+    if pageTitle === "회원가입" && imageName === "image1"
+      input(id=imageName, name="avatarUrl" value=`/static/images/${imageName}.png` type="radio" checked)
+
+    else if pageTitle === "회원정보 수정" && loggedInUser.avatarUrl.includes(imageName)
+      input(id=imageName, name="avatarUrl" value=`/static/images/${imageName}.png` type="radio" checked)
+      
     else
-      input(id=imageName, name="avatarUrl", value=`/static/images/${imageName}.png`, type="radio")
-      div.image(style=`background-image:url(/static/images/${imageName}.png)`)
+      input(id=imageName name="avatarUrl" value=`/static/images/${imageName}.png` type="radio")
+    div.image(style=`background-image:url(/static/images/${imageName}.png)`)

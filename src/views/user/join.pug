@@ -17,6 +17,6 @@ block content
     div.label 프로필 선택
     .select-avatar
       each imageName in ["image1","image2","image3"]
-        +selectAvatar(imageName)
+        +selectAvatar(imageName, pageTitle)
     input.submit(type="submit", value="가입하기")
     a.link-to(href="/login") 이미 가입하셨나요? 로그인

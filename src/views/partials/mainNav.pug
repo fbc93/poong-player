@@ -2,8 +2,8 @@
   a.logo(href="/") POONG🪲PLAYER
   .profile
     if loggedIn
-      .avatar(style='background-image: url(/static/images/image4.png)')
-      .nickname 회원 풍뎅이
+      .avatar(style=`background-image: url(${loggedInUser.avatarUrl})`)
+      .nickname=loggedInUser.username
     else
       .avatar(style='background-image: url(/static/images/image4.png)')
       .nickname 손님 풍뎅이

@@ -12,10 +12,10 @@ block content
       label(for="password") 기존 비밀번호
       input(name="password", id="password", type="password", minLength=4, placeholder="기존 비밀번호를 입력하세요", required)
     .input-item
-      label(for="password_confirm") 새로운 비밀번호
-      input(name="password_confirm", id="password_confirm", type="password", minLength=4, placeholder="새로운 비밀번호를 입력하세요. (최소 4자)", required)
+      label(for="password_new") 새로운 비밀번호
+      input(name="password_new", id="password_new", type="password", minLength=4, placeholder="새로운 비밀번호를 입력하세요. (최소 4자)", required)
     div.label 프로필 선택
     .select-avatar
       each imageName in ["image1","image2","image3"]
-        +selectAvatar(imageName)
+        +selectAvatar(imageName, pageTitle)
     input.submit(type="submit", value="회원정보 업데이트")
