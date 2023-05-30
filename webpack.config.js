@@ -7,7 +7,7 @@ module.exports = {
     main: BASE_JS + "main.js",
     player: BASE_JS + "player.js",
     uploadVideo: BASE_JS + "uploadVideo.js",
-    toggleVideoLike: BASE_JS + "toggleVideoLike.js",
+    toggleLike: BASE_JS + "toggleLike.js",
   },
   mode: "development",
   watch: true,

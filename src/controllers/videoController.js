@@ -51,17 +51,34 @@ export const getSearch = (req, res) => {
 
 export const postSearch = async (req, res) => {
   const { keyword } = req.body;
+
+  //로그인 사용자 CASE, 사용자 좋아요와 함께 반환
+  const userId = req.session?.user?._id;
+  let searchVideosWithLike;
+
   const videos = await Video.find({
     title: {
       $regex: new RegExp(keyword, "i"),
     }
   });
+
+  if(userId){
+    searchVideosWithLike = videos.map((video) => ({
+      video,
+      isLiked: video.likes?.filter((like) => String(like?.user?._id) === userId)
+      .length === 1
+      ? true
+      : false,
+    }));
+
+    console.log(searchVideosWithLike)
+  }
    
   return res.render("search", { 
     pageTitle : "검색",
     result:{
       keyword,
-      videos,
+      videos: searchVideosWithLike,
     }, 
   });
 }
@@ -100,8 +117,12 @@ export const postUploadVideo = async (req, res) => {
 }
 
 export const mostViewed = async (req, res) => {
-  const videos = await Video.find({});
-  return res.render("mostViewed", { pageTitle: "인기 영상", videos });
+  const userId = req.session?.user?._id;
+  const mostViewedVideos = await Video.find({})
+
+  let mostViewedVideoWithLike;
+  
+  return res.render("mostViewed", { pageTitle: "인기 영상", videos:mostViewedVideos });
 }
 
 

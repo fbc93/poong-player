@@ -14,8 +14,8 @@ block content
         span '#{result.keyword}'
         span 검색 결과 총 #{result.videos.length}건
       ul.result-list.chart
-        if result
+        if result.videos.length > 0
           each video, index in result.videos
-            +chart(video, index)
-          else
-            include partials/empty
+            +chart(video.video, video.isLiked, index)
+        else
+          div 검색결과가 없습니다.

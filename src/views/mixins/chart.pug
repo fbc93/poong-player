@@ -1,4 +1,4 @@
-mixin chart(video, index)
+mixin chart(video, isLiked, index)
   li
     .rank-value=index+1
     .thumbnail(style=`background-image: url(${video.thumbUrl})`)
@@ -8,5 +8,8 @@ mixin chart(video, index)
     i.view-icon 👀
     .view-value 324
     i(data-id=video._id).fa-solid.fa-play.play
-    i.fa-solid.fa-thumbs-up
+    if isLiked 
+      i.fa-solid.fa-thumbs-up.like
+    else 
+      i.fa-regular.fa-thumbs-up.like
     i.fa-solid.fa-plus
