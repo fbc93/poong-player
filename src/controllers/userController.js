@@ -102,12 +102,103 @@ export const getEdit = (req, res) => {
   return res.render("user/edit", { pageTitle: "회원정보 수정" });
 }
 
-export const postEdit = (req, res) => {
-  return res.render("user/edit", { pageTitle: "회원정보 수정" });
+export const postEdit = async (req, res) => {
+  const { 
+    body: { username, avatarUrl },
+    session: { 
+      user: { 
+        _id: sessionId
+      } 
+    } 
+  } = req;
+
+  const pageTitle = "회원정보 수정";
+  const isExistUsername = await User.exists({ username });
+  const user = await User.findById(sessionId);
+
+  //유저네임 중복체크, 단 사용자 현재 유저네임은 제외
+  if(isExistUsername && username !== user.username){
+    return res.status(400).render("user/edit", {
+      pageTitle,
+      errorMsg: "🚨 이미 존재하는 유저네임입니다.",
+    });
+  }
+
+  //유저네임 빈값 체크
+  if(username === ""){
+    return res.status(400).render("user/edit", {
+      pageTitle,
+      errorMsg: "🚨 유저네임은 필수 입력사항입니다.",
+    });
+  }
+
+  //사용자 정보 업데이트
+  try {
+    const updatedUser = await User.findByIdAndUpdate( sessionId, { 
+      username,
+      avatarUrl
+     }, { 
+      new:true,
+     });
+
+     //세션 저장
+     req.session.user = updatedUser;
+     return res.redirect("/");
+    
+  } catch(error){
+    console.log(error);
+
+    return res.status(400).render("user/edit", {
+      pageTitle,
+      errorMsg: error._message,
+    });
+  }
 }
 
-export const changePw = (req, res) => {
-  return res.send("change password");
+export const postChangePw = async (req, res) => {
+  const pageTitle = "회원정보 수정";
+  const {
+    body: {
+      password,
+      password_new,
+    },
+    session: {
+      user: {
+        _id: sessionId,
+      }
+    }
+  } = req;
+
+  //유저확인
+  const user = await User.findById(sessionId);
+  if(!user){
+    req.flash("error", "존재하지 않는 회원입니다.");
+    return res.redirect("/");
+  }
+
+  //기존 비밀번호 체크
+  const isPwMatch = await bcrypt.compare(password, user.password);
+  if(!isPwMatch){
+    return res.status(401).render("user/edit", {
+      pageTitle,
+      errorMsg: "🚨 기존 비밀번호가 일치하지 않습니다.",
+    });
+  }
+
+  //새 비밀번호 체크
+  if(password === password_new){
+    return res.status(409).render("user/edit", {
+      pageTitle,
+      errorMsg: "🚨 기존 비밀번호와 새 비밀번호가 동일합니다.",
+    });
+  }
+
+  //비밀번호 업데이트
+  user.password = password_new;
+  await user.save();
+
+  //로그아웃
+  return res.redirect("/user/logout");
 }
 
 export const logout = (req, res) => {
