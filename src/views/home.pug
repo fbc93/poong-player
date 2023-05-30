@@ -16,8 +16,8 @@ block content
     h1 🪲 다른 풍뎅이들이 많이 본 영상
     if mostViewedVideos.length > 0
       ul.popular
-        each video in mostViewedVideos
-          +popular(video)
+        each mostViewedVideo in mostViewedVideos
+          +popular(mostViewedVideo.video, mostViewedVideo.isLiked)
     else
       include partials/empty
   section

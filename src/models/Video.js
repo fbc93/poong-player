@@ -37,7 +37,12 @@ const VideoSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0,
-  }
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId, ref: "Like"
+    }
+  ]
 });
 
 const Video = mongoose.model("Video", VideoSchema);

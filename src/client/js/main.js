@@ -5,6 +5,7 @@ import "../images/image3.png";
 import "../images/image4.png";
 import "../images/sort-down-solid.svg";
 import "./player";
+import "./toggleVideoLike";
 
 const STORAGE_KEY = "PoongTheme";
 const DARK = "darkMode";
