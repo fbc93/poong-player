@@ -14,12 +14,9 @@ block content
       include partials/empty
   section
     h1 🪲 다른 풍뎅이들이 많이 본 풍 영상
-    if mostViewedVideos.length > 0
-      ul.popular
-        each mostViewedVideo in mostViewedVideos
-          +popular(mostViewedVideo.video, mostViewedVideo.isLiked)
-    else
-      include partials/empty
+    ul.popular
+      each mostViewedVideo in mostViewedVideos
+        +popular(mostViewedVideo.video, mostViewedVideo.isLiked)
   section
     h1 📌 추천 풍레이리스트
     if recommendPlaylists.length > 0

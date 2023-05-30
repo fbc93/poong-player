@@ -41,14 +41,12 @@ export const likedPlaylist = async (req, res) => {
 
   //유저의 좋아요 영상찾기
   const userLikeVideoIds = user.likes;
-  const videos = await Video.find({ likes: { $in: userLikeVideoIds } }).populate("likes");
+  const videos = await Video.find({ likes: { $in: userLikeVideoIds } }).sort({ views: "desc" }).populate("likes");
 
   const videosWithLike = videos.map((video) => ({
     video,
     isLiked: video.likes?.filter((like) => String(like.user._id) === userId).length === 1 ? true : false
   }));
-
-  console.log(videosWithLike)
 
   res.render("playlist/likedPlaylist", { 
     pageTitle,

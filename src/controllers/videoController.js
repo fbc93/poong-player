@@ -26,6 +26,12 @@ export const home = async (req, res) => {
         ? true
         : false,
     }));
+
+  } else {
+    mostViewedVideosWithLike = mostViewedVideos.map((video) => ({
+      video,
+      isLiked: false,
+    }));
   }
 
   //추천 플레이리스트
@@ -71,7 +77,11 @@ export const postSearch = async (req, res) => {
       : false,
     }));
 
-    console.log(searchVideosWithLike)
+  } else {
+    searchVideosWithLike = videos.map((video) => ({
+      video,
+      isLiked: false,
+    }));
   }
    
   return res.render("search", { 
@@ -129,8 +139,13 @@ export const mostViewed = async (req, res) => {
       ? true
       : false,
     }));
-  }
 
+  } else {
+    mostViewedVideoWithLike = videos.map((video) => ({
+      video,
+      isLiked: false,
+    }));
+  }
 
   return res.render("mostViewed", { pageTitle: "인기 영상", videos: mostViewedVideoWithLike});
 }
