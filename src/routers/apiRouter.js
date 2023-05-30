@@ -12,8 +12,8 @@ import { privateOnlyMiddleware } from "../middlewares";
 
 const apiRouter = express.Router();
 
-apiRouter.route("/video/:videoId/like").post(toggleVideoLike);
-apiRouter.get("/video/:youtubeId/view", updateVideoView);
+apiRouter.post("/video/:videoId/like", toggleVideoLike);
+apiRouter.post("/video/:youtubeId/view", updateVideoView);
 apiRouter.get("/video/:youtubeId/point", addPoint);
 
 apiRouter.route("/video/:videoId").get(getVideo);

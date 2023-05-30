@@ -69,8 +69,22 @@
           line-height: 1.2;
         }
 
-        .category {
-          font-size: 1.4rem;
+        .desc {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .views {
+            margin-right:10px;
+            font-size:1.4rem;
+            font-weight:500;
+          }
+
+          .likes {
+            margin-right:10px;
+            font-size:1.4rem;
+            font-weight:500;
+          }
         }
       }
     }

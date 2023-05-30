@@ -239,7 +239,7 @@ const onPlayerReady = (event) => {
   event.target.playVideo();
 }
 
-const onPlayerStateChange = (event, clickedVideoIdx) => {
+const onPlayerStateChange = async (event, clickedVideoIdx) => {
   const state = event.data;
   const isRandom = getLocalData().setting.isRandom;
   const isRepeat = getLocalData().setting.isRepeat;
@@ -249,6 +249,15 @@ const onPlayerStateChange = (event, clickedVideoIdx) => {
   }
 
   if(state === 0){ //종료
+
+    //조회수 증가
+    const youtubeId = event.target.getVideoData().video_id;
+
+    await fetch(`/api/video/${youtubeId}/view`, {
+      method: "POST",
+    });
+    console.log("조회수 증가");
+
     //재생타입: 1개 반복
     if(isRepeat === "one"){
       console.log("한개 영상 반복 재생", clickedVideoIdx);

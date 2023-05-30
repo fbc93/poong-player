@@ -5,9 +5,9 @@ block content
   .pageTitle.chart=pageTitle
   .sub-title.chart Poong Player 내 DB 조회수 기준으로 작성되었습니다. 👀
   section.chart-section
-    //- if videos.length > 0
-    //-   ul.chart
-    //-     each video, index in videos
-    //-       +chart(video.video, video.isLiked, index)
-    //- else
-    //-   include partials/empty
+    if videos.length > 0
+      ul.chart
+        each video, index in videos
+          +chart(video.video, video.isLiked, index)
+    else
+      include partials/empty

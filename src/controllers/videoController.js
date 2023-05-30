@@ -11,7 +11,7 @@ export const home = async (req, res) => {
   //많이 본 풍월량 영상
   const mostViewedVideos = await Video.find({
     category: "풍월량",
-  }).limit(10).sort({ createdAt: "desc" }).populate("likes");
+  }).limit(10).sort({ views: "desc", createdAt: "desc" }).populate("likes");
 
   //로그인 사용자 CASE, 사용자 좋아요와 함께 반환
   const userId = req.session?.user?._id;
@@ -60,7 +60,7 @@ export const postSearch = async (req, res) => {
     title: {
       $regex: new RegExp(keyword, "i"),
     }
-  });
+  }).sort({views: "desc"});
 
   if(userId){
     searchVideosWithLike = videos.map((video) => ({
@@ -118,11 +118,21 @@ export const postUploadVideo = async (req, res) => {
 
 export const mostViewed = async (req, res) => {
   const userId = req.session?.user?._id;
-  const mostViewedVideos = await Video.find({})
-
+  const videos = await Video.find({}).populate("likes").sort({ views: "desc", createdAt: "desc" }).limit(20);
   let mostViewedVideoWithLike;
-  
-  return res.render("mostViewed", { pageTitle: "인기 영상", videos:mostViewedVideos });
+
+  if(userId){
+    mostViewedVideoWithLike = videos.map((video) => ({
+      video,
+      isLiked: video.likes?.filter((like) => String(like?.user?._id) === userId)
+      .length === 1
+      ? true
+      : false,
+    }));
+  }
+
+
+  return res.render("mostViewed", { pageTitle: "인기 영상", videos: mostViewedVideoWithLike});
 }
 
 
@@ -213,10 +223,6 @@ export const toggleVideoLike = async (req, res) => {
   });
 }
 
-export const updateVideoView = () => {
-  return res.send("update video view count");
-}
-
 export const addPoint = () => {
   return res.send("update point");
 }
@@ -239,4 +245,21 @@ export const getVideo = async (req, res) => {
   const video = await Video.findById( videoId );
   
   return res.json({ ok: true,  video});
+}
+
+export const updateVideoView = async (req, res) => {
+  const { youtubeId } = req.params;
+  console.log(youtubeId);
+
+  //받은 youtube ID와 일치하는 영상 찾기
+  const video = await Video.findOne({ youtubeId });
+  if(!video){
+    return res.sendStatus(404);
+  }
+
+  //해당 영상의 조회수 증가
+  video.views += 1;
+  await video.save();
+
+  return res.sendStatus(200);
 }

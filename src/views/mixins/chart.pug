@@ -6,7 +6,7 @@ mixin chart(video, isLiked, index)
       .title=video.title
       .category=video.category
     i.view-icon 👀
-    .view-value 324
+    .view-value=video.views
     i(data-id=video._id).fa-solid.fa-play.play
     if isLiked 
       i.fa-solid.fa-thumbs-up.like

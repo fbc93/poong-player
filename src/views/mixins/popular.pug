@@ -7,8 +7,9 @@ mixin popular(video, isLiked)
         .view 130
       .info
         .title=video.title
-        .views 조회수 100
-        .likes 좋아요 #{video.likes.length}
+        .desc
+          .views 조회수 #{video.views}
+          .likes 좋아요 #{video.likes.length}
     .right-box 
       i(data-id=video._id).fa-solid.fa-play.play
       if isLiked
