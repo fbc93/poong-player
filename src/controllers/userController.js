@@ -205,7 +205,3 @@ export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/login");
 }
-
-export const remove = (req, res) => {
-  return res.send("remove user");
-}

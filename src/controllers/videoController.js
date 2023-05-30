@@ -3,6 +3,7 @@ import Video from "../models/Video";
 export const home = async (req, res) => {
   const pageTitle = "홈";
   const videos = await Video.find({}).sort({ createdAt: "desc" });
+  
   return res.render("home", { pageTitle, videos })
 }
 
@@ -12,15 +13,11 @@ export const getSearch = (req, res) => {
 
 export const postSearch = async (req, res) => {
   const { keyword } = req.body;
-  console.log(keyword);
-
   const videos = await Video.find({
     title: {
       $regex: new RegExp(keyword, "i"),
     }
   });
-
-  console.log(videos);
    
   return res.render("search", { 
     pageTitle : "검색",

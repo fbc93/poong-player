@@ -74,3 +74,35 @@ popularAllItems.forEach((item) =>
 popularAllItems.forEach((item) => 
   item.addEventListener("mouseleave", hidePopularItem)
 );
+
+//최신 업로드 영상 시간 포멧
+const allCreatedAt = document.querySelectorAll(".createdAt");
+
+const makeCreatedTimeFormat = () => {
+  allCreatedAt.forEach((item) => {
+    const start = new Date (Date.parse(item.innerText));
+    const end = new Date();
+
+    const diff = (end - start) / 1000;
+
+    const times = [
+      {name: "년", ms: 60 * 60 * 24 * 365},
+      {name: "개월", ms: 60 * 60 * 24 * 30},
+      {name: "일", ms: 60 * 60 * 24},
+      {name: "시간", ms: 60 * 60},
+      {name: "분", ms: 60},
+    ];
+
+    for (const value of times) {
+      const betweenTime = Math.floor(diff / value.ms);
+
+      if (betweenTime > 0) {
+        return item.innerText = `⏰ ${betweenTime}${value.name} 전`;
+      }
+    }
+
+    return item.innerText = '방금 전';
+  });
+}
+
+makeCreatedTimeFormat();

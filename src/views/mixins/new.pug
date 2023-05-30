@@ -6,5 +6,6 @@ mixin new(video)
       .thumbnail(style=`background-image: url(${video.thumbUrl})`)
     .info-wrap
       .title=video.title
-      .category 풍월량
-      .createAt 15분 전
+      .desc 
+        .category=video.category
+        .createdAt=video.createdAt
