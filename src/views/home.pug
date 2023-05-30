@@ -6,33 +6,33 @@ include ./mixins/recommend
 block content
   section
     h1 🚀 최신 업로드 영상
-    if videos.length > 0
+    if recentUploadVideos.length > 0
       ul.new
-        each video in videos
+        each video in recentUploadVideos
           +new(video)
     else
       include partials/empty
   section
     h1 🪲 다른 풍뎅이들이 많이 본 영상
-    if videos.length > 0
+    if mostViewedVideos.length > 0
       ul.popular
-        each video in videos
+        each video in mostViewedVideos
           +popular(video)
     else
       include partials/empty
   section
     h1 📌 추천 풍레이리스트
-    if videos.length > 0
+    if recommendPlaylists.length > 0
       ul.recommend
-        each video in videos
+        each video in recommendPlaylists
           +recommend(video)
     else
       include partials/empty
   section
     h1 🎧 쉬는 시간
-    if videos.length > 0
+    if restTimeVideos.length > 0
       ul.popular
-        each video in videos
+        each video in restTimeVideos
           +popular(video)
     else
       include partials/empty

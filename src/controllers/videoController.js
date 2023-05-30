@@ -2,9 +2,30 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   const pageTitle = "홈";
-  const videos = await Video.find({}).sort({ createdAt: "desc" });
+
+  //최신 업로드 영상
+  const recentUploadVideos = await Video.find({}).limit(4).sort({ createdAt: "desc" });
+
+  //많이 본 풍월량 영상
+  const mostViewedVideos = await Video.find({
+    category: "풍월량",
+  }).limit(10).sort({ createdAt: "desc" });
+
+  //추천 플레이리스트
+  const recommendPlaylists = await Video.find({}).limit(5).sort({ createdAt: "desc" });
+
+  //쉬는시간
+  const restTimeVideos = await Video.find({
+    category: "쉬는시간"
+  }).limit(6).sort({ createdAt: "desc" });
   
-  return res.render("home", { pageTitle, videos })
+  return res.render("home", { 
+    pageTitle,
+    recentUploadVideos,
+    mostViewedVideos,  
+    recommendPlaylists, 
+    restTimeVideos 
+  });
 }
 
 export const getSearch = (req, res) => {
