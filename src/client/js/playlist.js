@@ -167,7 +167,7 @@ removeBtns.forEach((removeBtn) => {
 
 
 //플레이리스트 삭제, 제목수정
-const modalCloseBtn = document.querySelector(".fa-xmark");
+const modalCloseBtns = document.querySelectorAll(".fa-xmark");
 const menuBtns = document.querySelectorAll(".menu");
 const playlistMenuModal = document.querySelector("#playlistMenuModal");
 const modalPlaylistDeleteBtn = document.querySelector(".delete");
@@ -193,9 +193,11 @@ menuBtns.forEach((menuBtn) => {
   menuBtn.addEventListener("click", showPlaylistMenu);
 });
 
-modalCloseBtn.addEventListener("click", () => {
-  playlistMenuModal.style.display = "none";
-  modal.style.display = "none";
+modalCloseBtns.forEach((closeBtn) => {
+  closeBtn.addEventListener("click", () => {
+    playlistMenuModal.style.display = "none";
+    modal.style.display = "none";
+  })
 });
 
 //플레이리스트 삭제
