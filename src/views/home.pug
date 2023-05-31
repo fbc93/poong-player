@@ -29,7 +29,7 @@ block content
     h1 🎧 쉬는 시간
     if restTimeVideos.length > 0
       ul.popular
-        each video in restTimeVideos
-          +popular(video)
+        each restTimeVideo in restTimeVideos
+          +popular(restTimeVideo.video, restTimeVideo.isLiked)
     else
       include partials/empty

@@ -40,14 +40,34 @@ export const home = async (req, res) => {
   //쉬는시간
   const restTimeVideos = await Video.find({
     category: "쉬는시간"
-  }).limit(6).sort({ createdAt: "desc" });
+  }).limit(6).sort({ views: "desc", createdAt: "desc" }).populate("likes");
+
+  //로그인 사용자 CASE, 사용자 좋아요와 함께 반환
+  let restTimeVideosWithLike;
+
+  if(userId){
+    restTimeVideosWithLike = restTimeVideos.map((video) => ({
+      video,
+      isLiked:
+        video.likes?.filter((like) => String(like.user._id) === userId)
+        .length === 1
+        ? true
+        : false,
+    }));
+
+  } else {
+    restTimeVideosWithLike = restTimeVideos.map((video) => ({
+      video,
+      isLiked: false,
+    }))
+  }
   
   return res.render("home", { 
     pageTitle,
     recentUploadVideos,
     mostViewedVideos: mostViewedVideosWithLike,  
     recommendPlaylists, 
-    restTimeVideos 
+    restTimeVideos: restTimeVideosWithLike, 
   });
 }
 
