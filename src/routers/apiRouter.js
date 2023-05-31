@@ -1,10 +1,8 @@
 import express from "express";
+import { getAddVideoToPlaylist, getPlaylistVideos, removeVideoFromPlaylist, postAddVideoToPlaylist } from "../controllers/playlistController";
 import { 
   addPoint, 
-  addVideoToPlaylist, 
-  getPlaylistVideos, 
   getVideo, 
-  removeVideoFromPlaylist, 
   toggleVideoLike, 
   updateVideoView 
 } from "../controllers/videoController";
@@ -17,8 +15,7 @@ apiRouter.post("/video/:youtubeId/view", updateVideoView);
 apiRouter.get("/video/:youtubeId/point", addPoint);
 
 apiRouter.route("/video/:videoId").get(getVideo);
-
-apiRouter.get("/playlist/add-video", addVideoToPlaylist);
+apiRouter.route("/playlist/add-video").get(getAddVideoToPlaylist).post(postAddVideoToPlaylist);
 
 apiRouter
   .route("/playlist/remove-video")

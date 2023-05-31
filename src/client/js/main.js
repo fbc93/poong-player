@@ -6,6 +6,7 @@ import "../images/image4.png";
 import "../images/sort-down-solid.svg";
 import "./player";
 import "./toggleLike";
+import "./playlist";
 
 const STORAGE_KEY = "PoongTheme";
 const DARK = "darkMode";

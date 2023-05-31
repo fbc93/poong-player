@@ -4,7 +4,6 @@ mixin popular(video, isLiked)
       .thumbnail(style=`background-image: url(${video.thumbUrl})`)
       .rank
         .icon 🥇
-        .view 130
       .info
         .title=video.title
         .desc
@@ -16,4 +15,4 @@ mixin popular(video, isLiked)
         i.fa-solid.fa-thumbs-up.like
       else
         i.fa-regular.fa-thumbs-up.like
-      i.fa-solid.fa-plus
+      i.fa-solid.fa-plus.add

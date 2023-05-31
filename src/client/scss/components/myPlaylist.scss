@@ -1,0 +1,122 @@
+.my-play-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: start;
+  gap: 20px;
+  margin-bottom: 50px;
+
+  .add-playlist {
+    .thumbnail-wrap {
+      background-color: #333333;
+      display: flex;
+      justify-content: center;
+      border-radius: 10px;
+
+      .fa-plus {
+        font-size: 5rem;
+        color: #ffffff;
+        align-self: center;
+      }
+    }
+  }
+
+  li {
+    aspect-ratio: 1/1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .thumbnail-wrap {
+      aspect-ratio: 1/1;
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+      margin-bottom:10px;
+      &:hover {
+        .overlay {
+          opacity: 1;
+        }
+      }
+
+      .overlay {
+        opacity:0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), transparent);
+        transition: opacity 0.2s ease-in;
+        border-radius: 10px;
+
+        i.fa-ellipsis-vertical{
+          position: absolute;
+          right: 15px;
+          top: 15px;
+          font-size: 2rem;
+          width: 40px;
+          height: 40px;
+          background-color: rgba(255,255,255,0.2);
+          border-radius: 50%;
+          text-align: center;
+          color:white;
+          line-height: 4rem;
+        }
+      }
+
+      i.fa-play {
+        position: absolute;
+        right: 25px;
+        bottom: 25px;
+        font-size: 3.5rem;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: rgba(0,0,0,0.7);
+        text-align: center;
+        line-height: 8rem;
+        color: var(--primary);
+        scale:0.8;
+        transition: scale 0.2s ease-in-out;
+        &:hover {
+          scale: 1;
+        }
+      }
+
+      .thumbnail {
+        display: flex;
+        flex-flow: wrap;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+        .thumb {
+          aspect-ratio: 1/1;
+          width: 50%;
+          height: 100%;
+          background-position: center center;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    .title {
+      font-size:1.8rem;
+      font-weight:500;
+      margin-bottom:10px;
+    }
+
+    .info-wrap {
+      display: flex;
+      flex-direction: row;
+      font-size:1.4rem;
+      justify-content: space-between;
+
+      .count {
+        margin-right:5px;
+      }
+      .runningTime {}
+    }
+  }
+}

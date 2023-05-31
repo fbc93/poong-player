@@ -242,18 +242,6 @@ export const addPoint = () => {
   return res.send("update point");
 }
 
-export const addVideoToPlaylist = () => {
-  return res.send("add clicked video to playlist");
-}
-
-export const removeVideoFromPlaylist = () => {
-  return res.send("remove clicked video from playlist");
-}
-
-export const getPlaylistVideos = () => {
-  return res.send("get playlist videos");
-}
-
 //api
 export const getVideo = async (req, res) => {
   const { videoId } = req.params;
