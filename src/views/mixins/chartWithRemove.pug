@@ -1,0 +1,15 @@
+mixin chartWithRemove(video, isLiked, index)
+  li
+    .rank-value=index+1
+    .thumbnail(style=`background-image: url(${video.thumbUrl})`)
+    .info
+      .title=video.title
+      .category=video.category
+    i.view-icon 👀
+    .view-value=video.views
+    i(data-id=video._id).fa-solid.fa-play.play
+    if isLiked 
+      i.fa-solid.fa-thumbs-up.like
+    else 
+      i.fa-regular.fa-thumbs-up.like
+    i.fa-solid.fa-trash-can

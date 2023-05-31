@@ -1,10 +1,13 @@
 extends ../base
+include ../mixins/chartWithRemove
 
 block content
   .pageTitle=pageTitle
-  ul.video-list
-    if playlist.videos.length === 0
-      li.list-empty 플레이리스트에 담긴 영상이 없습니다.
+  .header header
+  .count 총 #{playlist.videos.length}개의 영상 (조회수 순)
+  ul.chart
+    if playlist.videos.length > 0
+      each item, index in playlist.videos 
+        +chartWithRemove(item.video, item.isLiked, index)
     else 
-      each video in playlist.videos 
-        li.video-item(data-id=video._id)=video.title
+      li 플레이리스트 내에 영상이 존재하지 않습니다.

@@ -23,12 +23,52 @@ export const myPlaylist = async (req, res) => {
 
 export const playlistPage = async (req, res) => {
   const { playlistId } = req.params;
-  const playlist = await Playlist.findById(playlistId);
+  const playlist = await Playlist.findById(playlistId)
+    .populate({
+      path: "videos",
+      options: { sort: { 'views': -1 } },
+      populate: {
+        path: "likes",
+        module: "Like",
+        populate: {
+          path: "user",
+          model: "User",
+        }
+      }
+    }).populate("user");
+
+  if(!playlist){
+    //존재하지 않는 플레이리스트입니다.
+    return res.redirect("/");
+  }
+
+  //로그인 사용자면, 좋아요 여부를 표시하여 플리 영상 목록으로 반환
+  const userId = req.session?.user?._id;
+  
+  let videosWithLike;
+  let playlistWithVideosLiked = JSON.parse(JSON.stringify(playlist));
+
+  if(userId){
+    videosWithLike = playlistWithVideosLiked.videos.map((video) => ({
+      video,
+      isLiked:
+        video.likes?.filter((like) => String(like.user._id) === userId).length === 1 ? true : false,
+    }));
+  } else {
+    videosWithLike = playlistWithVideosLiked.videos.map((video) => ({
+      video,
+      isLiked: false,
+    }))
+  }
+
+  playlistWithVideosLiked.videos = videosWithLike;
   const pageTitle = `${playlist.name}`;
 
-  console.log(playlist);
-  res.render("playlist/playlistPage", { pageTitle, playlist })
-}
+  res.render("playlist/playlistPage", {
+    pageTitle, 
+    playlist : playlistWithVideosLiked,
+  });
+};
 
 export const likedPlaylist = async (req, res) => {
   const pageTitle = "나의 좋아요 영상";
@@ -107,8 +147,28 @@ export const getAddVideoToPlaylist = async (req, res) => {
 
 export const postAddVideoToPlaylist = async (req, res) => {
   const { playlistId, videoId } = req.body;
-  console.log(playlistId, videoId);
   
+  //플레이리스트 확인
+  const playlist = await Playlist.findById(playlistId).populate("videos");
+  if(!playlist){
+    return res.json({
+      ok: false,
+      errorMsg: "존재하지 않는 플레이리스트입니다.",
+    });
+  }
+
+  //플리 안에서 추가하는 영상이 중복인지 확인
+  const videoExists = playlist.videos.some(
+    (video) => video._id.toString() === videoId
+  );
+
+  if(videoExists){
+    return res.json({ ok:false, errorMsg: "이미 해당 플레이리스트에 존재하는 영상입니다." });
+  }
+
+  //영상을 플리에 추가
+  playlist.videos.push(videoId);
+  await playlist.save();
   return res.json({ ok: true });
 }
 

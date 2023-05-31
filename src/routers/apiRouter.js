@@ -15,7 +15,11 @@ apiRouter.post("/video/:youtubeId/view", updateVideoView);
 apiRouter.get("/video/:youtubeId/point", addPoint);
 
 apiRouter.route("/video/:videoId").get(getVideo);
-apiRouter.route("/playlist/add-video").get(getAddVideoToPlaylist).post(postAddVideoToPlaylist);
+
+apiRouter
+  .route("/playlist/add-video")
+  .get(getAddVideoToPlaylist)
+  .post(postAddVideoToPlaylist);
 
 apiRouter
   .route("/playlist/remove-video")
