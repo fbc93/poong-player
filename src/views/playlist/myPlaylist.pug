@@ -10,17 +10,16 @@ block content
         .title 새 플레이리스트 추가
     each playlist in playlists
       li.playlist(data-id=playlist._id)
-        a(href=`/playlist/${playlist._id}`)
-          .thumbnail-wrap 
-            .overlay 
-              .fa-solid.fa-ellipsis-vertical
-            i.fa-solid.fa-play 
-            .thumbnail 
-              .thumb 
-              .thumb 
-              .thumb 
-              .thumb 
-          .title=playlist.name
-          .info-wrap 
-            .count 10개의 영상
-            .runningTime 14:00:23
+        .thumbnail-wrap 
+          .overlay 
+            i.fa-solid.fa-ellipsis-vertical.menu
+          i.fa-solid.fa-play
+          .thumbnail 
+            .thumb 
+            .thumb 
+            .thumb 
+            .thumb 
+        a(href=`/playlist/${playlist._id}`).title=playlist.name
+        .info-wrap 
+          .count 10개
+          .runningTime 14:00:23

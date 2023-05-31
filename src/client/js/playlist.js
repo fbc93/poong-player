@@ -90,3 +90,31 @@ popularAddPlaylistBtns.forEach((addBtn) => {
 removeBtns.forEach((removeBtn) => {
   removeBtn.addEventListener("click", removeVideoFromPlaylist);
 });
+
+//플레이리스트 삭제, 제목수정
+const modalCloseBtn = document.querySelector(".fa-xmark");
+const menuBtns = document.querySelectorAll(".menu");
+const playlistMenuModal = document.querySelector("#playlistMenuModal");
+
+const showPlaylistMenu = async (event) => {
+  event.stopPropagation();
+
+  playlistMenuModal.style.display = "block";
+  const playlistId = event.target.parentNode.parentNode.parentNode.dataset.id;
+  const response = await (await fetch(`/api/playlist/${playlistId}`)).json();
+  const nameInput = playlistMenuModal.querySelector("#name"); 
+  const playlistIdInput = playlistMenuModal.querySelector("#playlistId"); 
+  
+  if(response.ok){
+    nameInput.value = response.result.name;
+    playlistIdInput.value = response.result._id;
+  }
+}
+
+menuBtns.forEach((menuBtn) => {
+  menuBtn.addEventListener("click", showPlaylistMenu);
+});
+
+modalCloseBtn.addEventListener("click", () => {
+  playlistMenuModal.style.display = "none";
+});

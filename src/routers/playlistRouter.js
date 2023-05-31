@@ -1,20 +1,20 @@
 import express from "express";
 import { 
-  createPlaylist, 
-  deletePlaylist, 
   editPlaylist, 
   getCreatePlaylist, 
   likedPlaylist, 
   myPlaylist, 
   playlistPage, 
-  postCreatePlaylist
+  postCreatePlaylist,
+  postDeletePlaylist,
+  postEditMyPlaylist
 } from "../controllers/playlistController";
 import { privateOnlyMiddleware } from "../middlewares";
 
 const playlistRouter = express.Router();
 
 playlistRouter.route("/liked").all(privateOnlyMiddleware).get(likedPlaylist);
-playlistRouter.route("/mine").all(privateOnlyMiddleware).get(myPlaylist);
+playlistRouter.route("/mine").all(privateOnlyMiddleware).get(myPlaylist).post(postEditMyPlaylist);
 
 playlistRouter
   .route("/create")
@@ -30,7 +30,7 @@ playlistRouter
 playlistRouter
   .route("/:playlistId/delete")
   .all(privateOnlyMiddleware)
-  .get(deletePlaylist);
+  .post(postDeletePlaylist);
 
 playlistRouter.route("/:playlistId").get(playlistPage);
 

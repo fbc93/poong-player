@@ -101,7 +101,6 @@ export const likedPlaylist = async (req, res) => {
 
 //새 플레이리스트 생성
 export const getCreatePlaylist = (req, res) => {
-  console.log(req.body);
   res.render("playlist/createPlaylist", { pageTitle: "새 플레이리스트 생성하기"});
 }
 
@@ -201,14 +200,51 @@ export const postRemoveVideoFromPlaylist = async (req, res) => {
   });
 }
 
+//플레이리스트 get
+export const getPlaylistVideos = async (req, res) => {
+  const { playlistId } = req.params;
+  const playlist = await Playlist.findById(playlistId);
+
+  if(!playlist){
+    return res.json({
+      ok:false,
+      errorMsg: "존재하지 않는 플레이리스트입니다."
+    });
+  }
+
+  return res.json({
+    ok:true,
+    result: playlist
+  });
+}
+
+//플레이리스트 edit
+export const postEditMyPlaylist = async (req, res) => {
+  const { 
+    body: { name, playlistId }
+   } = req;
+
+  const updatePlaylist = await Playlist.findByIdAndUpdate(playlistId, {
+    name,
+  });
+
+  if(!updatePlaylist){
+    return res.redirect("/playlist/mine");
+  }
+
+  return res.redirect(`/playlist/${playlistId}`);
+}
+
+
+//플레이리스트 삭제
+export const postDeletePlaylist = (req, res) => {
+  console.log(req.body);
+  
+  return res.json({
+    ok: true,
+  });
+}
+
 export const editPlaylist = (req, res) => {
   res.render("playlist/editPlaylist", { pageTitle: "플리 수정"});
-}
-
-export const deletePlaylist = (req, res) => {
-  res.send("delete playlist");
-}
-
-export const getPlaylistVideos = () => {
-  return res.send("get playlist videos");
 }

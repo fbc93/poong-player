@@ -1,0 +1,78 @@
+#playlistMenuModal {
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 9999;
+
+  .container {
+    width:400px;
+    height:350px;
+    position: fixed;
+    top:40%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background-color: var(--primary);
+    border-radius: 10px;
+    z-index: 10000;
+    display: grid;
+    grid-template-rows: 80px 1fr;
+
+    .fa-xmark {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 1.7rem;
+      text-align: center;
+      letter-spacing: -1px;
+      font-weight: 500;
+      line-height: 6;
+    }
+
+    .content {
+      padding: 0 25px 30px;
+
+      form {
+        margin-top:25px;
+
+        .menu {
+          font-size:1.5rem;
+          font-weight:500;
+          margin-bottom:10px;
+        }
+
+        input {
+          padding: 15px 10px;
+          border-radius: 8px;
+          font-size:1.5rem;
+        }
+
+        .submit {
+          background-color: #333333;
+          color:#ffffff;
+          margin: 20px 0 10px;
+        }
+      }
+
+      .delete {
+        cursor:pointer;
+        background-color: tomato;
+        width:100%;
+        display: inline-block;
+        color:#ffffff;
+        padding:15px;
+        border-radius: 8px;
+        font-size:1.5rem;
+        font-weight:bold;
+      }
+    }
+  }
+}

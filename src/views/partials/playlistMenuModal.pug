@@ -1,0 +1,11 @@
+#playlistMenuModal 
+  .container
+    i.fa-solid.fa-xmark
+    .title 플레이리스트 설정
+    .content 
+      form(method="POST") 
+        .menu ✏️ 이름 변경하기
+        input(id="name" name="name" type="text" placeholder="플레이리스트 이름을 정해주세요" minLength=1 maxLength=20)
+        input(id="playlistId" name="playlistId" type="text" style="display:none")
+        input.submit(type="submit" value="이름 변경하기")
+      button.delete 이 플레이리스트 삭제하기
