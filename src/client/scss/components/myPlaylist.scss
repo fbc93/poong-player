@@ -1,8 +1,8 @@
 .my-play-lists {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  align-items: start;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  align-items: start;
   margin-bottom: 50px;
 
   .add-playlist {

@@ -18,17 +18,15 @@ export const myPlaylist = async (req, res) => {
 
   //생성일순으로 사용자 플리 정렬
   const playlists = await Playlist.find({ user: userId }).populate("user").sort({ createdAt: "desc" });
-  console.log(playlists);
-
   res.render("playlist/myPlaylist", { pageTitle, playlists });
 }
-
 
 export const playlistPage = async (req, res) => {
   const { playlistId } = req.params;
   const playlist = await Playlist.findById(playlistId);
   const pageTitle = `${playlist.name}`;
 
+  console.log(playlist);
   res.render("playlist/playlistPage", { pageTitle, playlist })
 }
 
@@ -61,10 +59,37 @@ export const likedPlaylist = async (req, res) => {
   });
 }
 
+//새 플레이리스트 생성
+export const getCreatePlaylist = (req, res) => {
+  console.log(req.body);
+  res.render("playlist/createPlaylist", { pageTitle: "새 플레이리스트 생성하기"});
+}
 
+export const postCreatePlaylist = async (req, res) => {
+  const {
+    session: {
+      user: { _id: userId }
+    },
+    body: { name }
+  } = req;
 
+  //유저확인
+  const user = await User.findById(userId);
+  if(!user){
+    //존재하지 않는 회원입니다.
+    return res.redirect("/");
+  }
 
+  //플리 생성
+  const playlist = await Playlist.create({
+    name,
+    user,
+  });
 
+  user.playlists.push(playlist);
+  await user.save();
+  return res.redirect("/playlist/mine");
+}
 
 //플리에 비디오 추가하기 모달 데이터
 export const getAddVideoToPlaylist = async (req, res) => {
@@ -85,14 +110,6 @@ export const postAddVideoToPlaylist = async (req, res) => {
   console.log(playlistId, videoId);
   
   return res.json({ ok: true });
-}
-
-
-
-
-
-export const createPlaylist = (req, res) => {
-  res.render("playlist/createPlaylist", { pageTitle: "플리 생성"});
 }
 
 export const editPlaylist = (req, res) => {

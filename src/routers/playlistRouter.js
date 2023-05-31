@@ -3,9 +3,11 @@ import {
   createPlaylist, 
   deletePlaylist, 
   editPlaylist, 
+  getCreatePlaylist, 
   likedPlaylist, 
   myPlaylist, 
-  playlistPage 
+  playlistPage, 
+  postCreatePlaylist
 } from "../controllers/playlistController";
 import { privateOnlyMiddleware } from "../middlewares";
 
@@ -17,7 +19,8 @@ playlistRouter.route("/mine").all(privateOnlyMiddleware).get(myPlaylist);
 playlistRouter
   .route("/create")
   .all(privateOnlyMiddleware)
-  .get(createPlaylist);
+  .get(getCreatePlaylist)
+  .post(postCreatePlaylist);
 
 playlistRouter
   .route("/:playlistId/edit")

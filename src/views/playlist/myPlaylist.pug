@@ -4,9 +4,10 @@ block content
   .pageTitle=pageTitle
   ul.my-play-lists
     li.add-playlist
-      .thumbnail-wrap
-        i.fa-solid.fa-plus
-      .title 새 플레이리스트 추가
+      a(href="/playlist/create")
+        .thumbnail-wrap
+          i.fa-solid.fa-plus
+        .title 새 플레이리스트 추가
     each playlist in playlists
       li.playlist(data-id=playlist._id)
         a(href=`/playlist/${playlist._id}`)
@@ -23,5 +24,3 @@ block content
           .info-wrap 
             .count 10개의 영상
             .runningTime 14:00:23
-
-  

@@ -1,4 +1,9 @@
 extends ../base
 
 block content
-  h1 플리 생성
+  .pageTitle=pageTitle
+  form.create-playlist-form(method="POST" id="createPlaylistForm")
+    .input-item 
+      label(for="name") 플레이리스트 이름
+      input(name="name" id="name" type="text" placeholder="플레이리스트 이름" minLength=1 maxLength=20 required)
+    input(type="submit" value="플레이리스트 추가하기")
