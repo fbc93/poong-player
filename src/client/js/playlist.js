@@ -195,6 +195,7 @@ menuBtns.forEach((menuBtn) => {
 
 modalCloseBtn.addEventListener("click", () => {
   playlistMenuModal.style.display = "none";
+  modal.style.display = "none";
 });
 
 //플레이리스트 삭제
