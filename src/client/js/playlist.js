@@ -1,4 +1,5 @@
 const modal = document.getElementById("modal");
+const chartAddPlaylistBtns = document.querySelectorAll(".chart .add");
 const popularAddPlaylistBtns = document.querySelectorAll(".popular .add");
 const removeBtns = document.querySelectorAll(".remove");
 
@@ -52,9 +53,86 @@ const showPlaylistInModal = async (event) => {
 
   if(response.ok){
     showModal("내 플레이리스트에 추가!");
+
+    //기존 모달 내용 제거
+    const contentList = modal.querySelector(".content-list");
+    
+    while (contentList.childNodes.length > 0){
+      contentList.removeChild(contentList.firstChild)
+    }
+
     response.playlists.forEach((playlist) => makePlaylistUI(playlist, videoId));
   }
 }
+
+popularAddPlaylistBtns.forEach((addBtn) => {
+  addBtn.addEventListener("click", showPlaylistInModal);
+});
+
+
+
+
+
+//chart
+const chartAddVideoToPlaylist = async (playlist, videoId) => {
+  const response = await (
+    await fetch("/api/playlist/add-video", {
+      method: "POST",
+      body: JSON.stringify({
+        playlistId: playlist._id,
+        videoId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+  ).json();
+
+  if(response.ok){
+    alert(`1개의 영상을 ${playlist.name}에 추가하였습니다.`);
+    hideModal();
+
+  } else {
+    alert(response.errorMsg);
+    hideModal();
+  }
+}
+
+const chartMakePlaylistUI = (playlist, videoId) => {
+  const li = document.createElement("li");
+  li.dataset.playlist = playlist._id;
+  li.innerText = playlist.name;
+
+  li.addEventListener("click", () => chartAddVideoToPlaylist(playlist, videoId));
+  modal.querySelector(".content-list").append(li);
+}
+
+
+const showChartPlaylistInModal = async (event) => {
+  const videoId = event.target.parentNode.children[5].dataset.id;
+  const response = await ( await fetch("/api/playlist/add-video")).json();
+
+  if(response.ok){
+    showModal("내 플레이리스트에 추가!");
+
+    //기존 모달 내용 제거
+    const contentList = modal.querySelector(".content-list");
+
+    while (contentList.childNodes.length > 0){
+      contentList.removeChild(contentList.firstChild)
+    }
+
+    response.playlists.forEach((playlist) => chartMakePlaylistUI(playlist, videoId));
+  }
+}
+
+chartAddPlaylistBtns.forEach((addBtn) => {
+  addBtn.addEventListener("click", showChartPlaylistInModal)
+});
+
+
+
+
 
 //플레이리스트에서 영상 삭제
 const removeVideoFromPlaylist = async (event) => {
@@ -83,13 +161,10 @@ const removeVideoFromPlaylist = async (event) => {
   }
 }
 
-popularAddPlaylistBtns.forEach((addBtn) => {
-  addBtn.addEventListener("click", showPlaylistInModal);
-});
-
 removeBtns.forEach((removeBtn) => {
   removeBtn.addEventListener("click", removeVideoFromPlaylist);
 });
+
 
 //플레이리스트 삭제, 제목수정
 const modalCloseBtn = document.querySelector(".fa-xmark");
