@@ -4,6 +4,7 @@ import {
   getAddVideoToPlaylist, 
   getPlaylistVideos, 
   postAddVideoToPlaylist, 
+  postDeletePlaylist, 
   postRemoveVideoFromPlaylist 
 } from "../controllers/playlistController";
 
@@ -34,6 +35,11 @@ apiRouter
   .route("/playlist/remove-video")
   .all(privateOnlyMiddleware)
   .post(postRemoveVideoFromPlaylist);
+
+apiRouter
+  .route("/playlist/remove-playlist")
+  .all(privateOnlyMiddleware)
+  .post(postDeletePlaylist);
 
 apiRouter.get("/playlist/:playlistId", getPlaylistVideos);
 

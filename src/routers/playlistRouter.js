@@ -27,11 +27,6 @@ playlistRouter
   .all(privateOnlyMiddleware)
   .get(editPlaylist);
 
-playlistRouter
-  .route("/:playlistId/delete")
-  .all(privateOnlyMiddleware)
-  .post(postDeletePlaylist);
-
 playlistRouter.route("/:playlistId").get(playlistPage);
 
 export default playlistRouter;

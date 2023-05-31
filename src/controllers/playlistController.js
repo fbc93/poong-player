@@ -237,11 +237,36 @@ export const postEditMyPlaylist = async (req, res) => {
 
 
 //플레이리스트 삭제
-export const postDeletePlaylist = (req, res) => {
-  console.log(req.body);
+export const postDeletePlaylist = async (req, res) => {
+  const { 
+    body: { playlistId },
+    session: {
+      user: { _id:userId },
+    }
+   } = req;
+  const playlist = await Playlist.findById(playlistId);
+  const user = await User.findById(userId);
+
+  if(!user){
+    console.log("존재하지 않는 사용자입니다.");
+    return res.redirect("/");
+  }
+
+  if(!playlist){
+    return res.json({
+      ok:false,
+      errorMsg:"존재하지 않는 플레이리스트입니다."
+    });
+  }
+
+
+  //플레이리스트 삭제
+  await Playlist.findByIdAndDelete(playlistId);
+  user.playlists.splice(user.playlists.indexOf(playlistId), 1);
+  await user.save();
   
   return res.json({
-    ok: true,
+    ok:true,
   });
 }
 

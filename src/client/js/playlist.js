@@ -95,6 +95,7 @@ removeBtns.forEach((removeBtn) => {
 const modalCloseBtn = document.querySelector(".fa-xmark");
 const menuBtns = document.querySelectorAll(".menu");
 const playlistMenuModal = document.querySelector("#playlistMenuModal");
+const modalPlaylistDeleteBtn = document.querySelector(".delete");
 
 const showPlaylistMenu = async (event) => {
   event.stopPropagation();
@@ -103,11 +104,13 @@ const showPlaylistMenu = async (event) => {
   const playlistId = event.target.parentNode.parentNode.parentNode.dataset.id;
   const response = await (await fetch(`/api/playlist/${playlistId}`)).json();
   const nameInput = playlistMenuModal.querySelector("#name"); 
-  const playlistIdInput = playlistMenuModal.querySelector("#playlistId"); 
+  const playlistIdInput = playlistMenuModal.querySelector("#playlistId");
+  const content = playlistMenuModal.querySelector(".content");
   
   if(response.ok){
     nameInput.value = response.result.name;
     playlistIdInput.value = response.result._id;
+    content.dataset.id = response.result._id;
   }
 }
 
@@ -117,4 +120,25 @@ menuBtns.forEach((menuBtn) => {
 
 modalCloseBtn.addEventListener("click", () => {
   playlistMenuModal.style.display = "none";
+});
+
+//플레이리스트 삭제
+modalPlaylistDeleteBtn.addEventListener("click", async (event) => {
+  const playlistId = event.target.parentNode.dataset.id;
+
+  const response = await (
+    await fetch("/api/playlist/remove-playlist", {
+      method: "POST",
+      body: JSON.stringify({
+        playlistId
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  ).json();
+
+  if(response.ok){
+    window.location.reload();
+  }
 });
