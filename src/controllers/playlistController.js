@@ -172,16 +172,41 @@ export const postAddVideoToPlaylist = async (req, res) => {
   return res.json({ ok: true });
 }
 
+//선택한 영상 플리에서 삭제하기
+export const postRemoveVideoFromPlaylist = async (req, res) => {
+  const { playlistId, videoId } = req.body;
+  const playlist = await Playlist.findById(playlistId);
+  const video = await Video.findById(videoId);
+  
+  if(!playlist){
+    return res.json({
+      ok: false,
+      errorMsg: "존재하지 않는 플레이리스트입니다."
+    });
+  }
+
+  if(!video){
+    return res.json({
+      ok: false,
+      errorMsg: "존재하지 않는 영상입니다."
+    });
+  }
+
+  //영상 삭제
+  playlist.videos.splice(playlist.videos.indexOf(videoId), 1);
+  await playlist.save();
+
+  return res.json({
+    ok: true,
+  });
+}
+
 export const editPlaylist = (req, res) => {
   res.render("playlist/editPlaylist", { pageTitle: "플리 수정"});
 }
 
 export const deletePlaylist = (req, res) => {
   res.send("delete playlist");
-}
-
-export const removeVideoFromPlaylist = () => {
-  return res.send("remove clicked video from playlist");
 }
 
 export const getPlaylistVideos = () => {

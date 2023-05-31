@@ -5,7 +5,7 @@ block content
   .pageTitle=pageTitle
   .header header
   .count 총 #{playlist.videos.length}개의 영상 (조회수 순)
-  ul.chart
+  ul.chart(data-id=playlist._id)
     if playlist.videos.length > 0
       each item, index in playlist.videos 
         +chartWithRemove(item.video, item.isLiked, index)

@@ -1,5 +1,6 @@
 const modal = document.getElementById("modal");
 const popularAddPlaylistBtns = document.querySelectorAll(".popular .add");
+const removeBtns = document.querySelectorAll(".remove");
 
 const showModal = (title) => {
   const modalTitle = modal.querySelector(".title");
@@ -46,7 +47,6 @@ const addVideoToPlaylist = async (playlist, videoId) => {
 }
 
 const showPlaylistInModal = async (event) => {
-  
   const videoId = event.target.parentNode.children[0].dataset.id;
   const response = await ( await fetch("/api/playlist/add-video")).json();
 
@@ -56,10 +56,37 @@ const showPlaylistInModal = async (event) => {
   }
 }
 
+//플레이리스트에서 영상 삭제
+const removeVideoFromPlaylist = async (event) => {
+  const playlistId = event.target.parentNode.parentNode.dataset.id;
+  const videoId = event.target.parentNode.children[5].dataset.id;
 
+  const response = await (
+    await fetch("/api/playlist/remove-video", {
+      method: "POST",
+      body: JSON.stringify({
+        playlistId,
+        videoId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  ).json();
 
+  if(response.ok){
+    window.location.reload();
+  }
 
+  if(!response.ok && response.errorMsg){
+    alert(errorMsg);
+  }
+}
 
 popularAddPlaylistBtns.forEach((addBtn) => {
   addBtn.addEventListener("click", showPlaylistInModal);
+});
+
+removeBtns.forEach((removeBtn) => {
+  removeBtn.addEventListener("click", removeVideoFromPlaylist);
 });

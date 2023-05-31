@@ -1,11 +1,19 @@
 import express from "express";
-import { getAddVideoToPlaylist, getPlaylistVideos, removeVideoFromPlaylist, postAddVideoToPlaylist } from "../controllers/playlistController";
+
+import { 
+  getAddVideoToPlaylist, 
+  getPlaylistVideos, 
+  postAddVideoToPlaylist, 
+  postRemoveVideoFromPlaylist 
+} from "../controllers/playlistController";
+
 import { 
   addPoint, 
   getVideo, 
   toggleVideoLike, 
   updateVideoView 
 } from "../controllers/videoController";
+
 import { privateOnlyMiddleware } from "../middlewares";
 
 const apiRouter = express.Router();
@@ -18,13 +26,14 @@ apiRouter.route("/video/:videoId").get(getVideo);
 
 apiRouter
   .route("/playlist/add-video")
+  .all(privateOnlyMiddleware)
   .get(getAddVideoToPlaylist)
   .post(postAddVideoToPlaylist);
 
 apiRouter
   .route("/playlist/remove-video")
   .all(privateOnlyMiddleware)
-  .get(removeVideoFromPlaylist);
+  .post(postRemoveVideoFromPlaylist);
 
 apiRouter.get("/playlist/:playlistId", getPlaylistVideos);
 
