@@ -17,8 +17,16 @@ export const myPlaylist = async (req, res) => {
   }
 
   //생성일순으로 사용자 플리 정렬
-  const playlists = await Playlist.find({ user: userId }).populate("user").sort({ createdAt: "desc" });
-  res.render("playlist/myPlaylist", { pageTitle, playlists });
+  const playlists = await Playlist
+    .find({ user: userId })
+    .populate("user")
+    .populate("videos")
+    .sort({ createdAt: "desc" });
+
+  res.render("playlist/myPlaylist", { 
+    pageTitle, 
+    playlists 
+  });
 }
 
 export const playlistPage = async (req, res) => {
@@ -267,6 +275,28 @@ export const postDeletePlaylist = async (req, res) => {
   
   return res.json({
     ok:true,
+  });
+}
+
+
+//플레이리스트 플레이어로 재생
+export const getPlaylistPlay = async (req, res) => {
+  const { 
+    params: { playlistId },
+   } = req;
+
+  const playlist = await Playlist.findById(playlistId).populate("videos");
+
+  if(!playlist){
+    return res.json({
+      ok:false,
+      errorMsg: "존재하지 않는 플레이리스트입니다.",
+    });
+  }
+  
+  return res.json({
+    ok: true,
+    videos: playlist.videos
   });
 }
 

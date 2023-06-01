@@ -2,11 +2,11 @@ import express from "express";
 import { 
   editPlaylist, 
   getCreatePlaylist, 
+  getPlaylistPlay, 
   likedPlaylist, 
   myPlaylist, 
   playlistPage, 
   postCreatePlaylist,
-  postDeletePlaylist,
   postEditMyPlaylist
 } from "../controllers/playlistController";
 import { privateOnlyMiddleware } from "../middlewares";
@@ -21,6 +21,10 @@ playlistRouter
   .all(privateOnlyMiddleware)
   .get(getCreatePlaylist)
   .post(postCreatePlaylist);
+
+playlistRouter
+  .route("/:playlistId/play")
+  .get(getPlaylistPlay);
 
 playlistRouter
   .route("/:playlistId/edit")

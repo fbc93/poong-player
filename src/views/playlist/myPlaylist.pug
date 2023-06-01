@@ -13,13 +13,11 @@ block content
         .thumbnail-wrap 
           .overlay 
             i.fa-solid.fa-ellipsis-vertical.menu
-          i.fa-solid.fa-play
+          i.fa-solid.fa-play.playlist-play-btn
           .thumbnail 
-            .thumb 
-            .thumb 
-            .thumb 
-            .thumb 
+            each video, index in playlist.videos 
+              if index <= 3
+                .thumb(style=`background-image: url(${video.thumbUrl})`)
         a(href=`/playlist/${playlist._id}`).title=playlist.name
         .info-wrap 
-          .count 10개
-          .runningTime 14:00:23
+          .count #{playlist.videos.length}개 영상

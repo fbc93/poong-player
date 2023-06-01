@@ -31,6 +31,10 @@
       width: 100%;
       position: relative;
       margin-bottom:10px;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: #333333;
+      
       &:hover {
         .overlay {
           opacity: 1;
@@ -88,7 +92,6 @@
         display: flex;
         flex-flow: wrap;
         overflow: hidden;
-        border-radius: 10px;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
         .thumb {
