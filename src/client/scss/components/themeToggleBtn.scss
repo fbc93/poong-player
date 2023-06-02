@@ -1,12 +1,12 @@
 #themeToggleBtn {
   position: fixed;
-  z-index: 9999;
+  z-index: 9998;
   top: 23px;
   left: 20px;
   cursor: pointer;
   
   .fa-sun {
-    font-size:2.5rem;
+    font-size:2rem;
     color:#333333;
   }
 }

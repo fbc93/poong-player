@@ -103,6 +103,10 @@
   }
 }
 
+.main-nav::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (max-width: 1024px) {
   .main-nav {
     display: none;

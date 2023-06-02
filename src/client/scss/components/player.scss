@@ -157,6 +157,7 @@
     flex-direction: column;
     transform: translateY(9999px);
     transition: all 0.5s ease-in-out;
+    z-index:9998;
     
     #viewScreen {
       width:100%;
