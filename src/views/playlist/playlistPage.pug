@@ -1,10 +1,20 @@
 extends ../base
 include ../mixins/chartWithRemove
 include ../mixins/chart
+include ../mixins/thumbCover
 
 block content
-  .pageTitle=pageTitle
-  .header header
+  .playlist-header
+    .thumbnail-wrap
+      if playlist.videos.length > 0
+        each item in playlist.videos 
+          +thumbCover(item.video)
+    .info(data-id=playlist._id)
+      .playlist-name=pageTitle 
+      .playlist-user=playlist.user.username
+      button.playlistPage-play-btn
+        i.fa-solid.fa-play
+        span 전체재생
   .count 총 #{playlist.videos.length}개의 영상 (조회수 순)
   ul.chart(data-id=playlist._id)
     if playlist.videos.length > 0 && loggedInUser._id === playlist.user._id

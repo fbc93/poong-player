@@ -794,3 +794,47 @@ const addPlaylistToPlayer = async (event) => {
 playlistPlayBtns.forEach((playBtn) => {
   playBtn.addEventListener("click", addPlaylistToPlayer)
 });
+
+//플레이리스트 개별 페이지
+const playlistPagePlayBtns = document.querySelectorAll(".playlistPage-play-btn");
+
+const addPlaylistPageToPlayer = async (event) => {
+  event.stopPropagation();
+  const playlistId = event.target.parentNode.parentNode.dataset.id;
+  const response = await (await fetch(`/playlist/${playlistId}/play`)).json();
+
+  //기존 플레이리스트 목록 삭제
+  while (playlist.childNodes.length > 0){
+    playlist.removeChild(playlist.firstChild)
+  }
+
+  //플레이할 플리 영상을 로드
+  if(response.ok){
+    let localData = getLocalData();
+
+    //기존의 플리 영상 삭제 새로운 영상으로 업데이트
+    const newVideos = [...response.videos];
+    const newPlayNowVideo = {
+      targetIndex: 0,
+      targetVideo: response.videos[0]
+    };
+
+    localData.playNowVideo = newPlayNowVideo;
+    localData.videos = newVideos;
+    setLocalData(localData);
+
+    //플레이어 리스트 기존 UI제거
+    playListUIRemove();
+
+    //업데이트 후 새로운 데이터로 UI 다시 그리기
+    loadVideos();
+
+    //추가한 비디오 바로 플레이 (첫번째영상)
+    const firstVideo = playlist.querySelectorAll("li")[0].firstChild;
+    firstVideo.click();
+  }
+}
+
+playlistPagePlayBtns.forEach((playBtn) => {
+  playBtn.addEventListener("click", addPlaylistPageToPlayer)
+});
