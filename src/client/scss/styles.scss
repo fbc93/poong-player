@@ -146,5 +146,9 @@ html {
   main {
     margin-left:0!important;
     padding: 110px 20px 120px!important;
+
+    .closeBtn {
+      display: block;
+    }
   }
 }

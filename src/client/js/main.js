@@ -108,3 +108,21 @@ const makeCreatedTimeFormat = () => {
 }
 
 makeCreatedTimeFormat();
+
+//navbar menu toggle
+const menuToggleBtn = document.getElementById("menuToggleBtn");
+const mainNav = document.querySelector(".main-nav");
+const closeBtn = document.querySelector(".closeBtn");
+
+const showMenu = () => {
+  mainNav.style.display = "block";
+  mainNav.style.width = "100%";
+  mainNav.style.zIndex = "10000";
+}
+
+const hideMenu = () => {
+  mainNav.style.display = "none";
+}
+
+menuToggleBtn.addEventListener("click", showMenu);
+closeBtn.addEventListener("click", hideMenu);

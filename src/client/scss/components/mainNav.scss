@@ -90,6 +90,15 @@
           }
         }
       }
+
+      .closeBtn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        font-size: 3rem;
+        cursor: pointer;
+        display: none;
+      }
     }
   }
 }
@@ -97,5 +106,17 @@
 @media screen and (max-width: 1024px) {
   .main-nav {
     display: none;
+  }
+
+  .closeBtn {
+    display: block!important;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .main-nav {
+    width: 240px!important;
+    z-index:1!important;
+    display: block!important;
   }
 }
