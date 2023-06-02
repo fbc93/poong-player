@@ -1,9 +1,14 @@
-mixin popular(video, isLiked)
+mixin popular(video, isLiked, index)
   li
     .left-box
       .thumbnail(style=`background-image: url(${video.thumbUrl})`)
       .rank
-        .icon 🥇
+        if index === 0
+          .icon 🥇
+        if index === 1
+          .icon 🥈
+        if index === 2
+          .icon 🥉
       .info
         .title=video.title
         .desc

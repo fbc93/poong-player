@@ -15,8 +15,8 @@ block content
   section
     h1 🪲 다른 풍뎅이들이 많이 본 풍 영상
     ul.popular
-      each mostViewedVideo in mostViewedVideos
-        +popular(mostViewedVideo.video, mostViewedVideo.isLiked)
+      each mostViewedVideo, index in mostViewedVideos
+        +popular(mostViewedVideo.video, mostViewedVideo.isLiked, index)
   section
     h1 📌 추천 풍레이리스트
     if recommendPlaylists.length > 0
@@ -29,7 +29,7 @@ block content
     h1 🎧 쉬는 시간
     if restTimeVideos.length > 0
       ul.popular
-        each restTimeVideo in restTimeVideos
-          +popular(restTimeVideo.video, restTimeVideo.isLiked)
+        each restTimeVideo, index in restTimeVideos
+          +popular(restTimeVideo.video, restTimeVideo.isLiked, index)
     else
       include partials/empty
