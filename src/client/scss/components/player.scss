@@ -153,16 +153,195 @@
     width:100%;
     height: calc(100% - 80px);
     background-color: #333333;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto 360px;
     transform: translateY(9999px);
     transition: all 0.5s ease-in-out;
-    z-index:9998;
-    
-    #viewScreen {
-      width:100%;
-      height:50vh;
+    z-index:9999;
+
+    .view-container {
       background-color: #000000;
+      display: grid;
+      grid-template-rows: min-content;
+
+      .view-box {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        aspect-ratio: 16/9;
+
+        iframe {
+          width: 100%;
+          height: 100%;
+        }
+
+        #viewScreen {}
+      }
+
+      .view-info {
+        width: 100%;
+        background-color: #222222;
+        overflow: hidden;
+        overflow-y: auto;
+        border-top: 1px solid #555555;
+      }
+
+      .view-info::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .playlist-container {
+      border-left: 1px solid #555555;
+      display: grid;
+      grid-template-rows: 70px 70px 1fr;
+
+      .header {
+        background: #222222;
+        font-size: 1.6rem;
+        color: #ffffff;
+        padding: 27px;
+        text-align: center;
+        border-bottom: 1px solid #555555;
+      }
+
+      .rank-box {
+        display: grid;
+        padding: 10px;
+        grid-template-columns: 40% 60%;
+        border-bottom: 1px solid #555555;
+
+        .left-area {
+          display: grid;
+          grid-template-columns: 40% 1fr;
+          align-items: center;
+
+          .rank-user {
+            font-size:1.3rem;
+            color:white;
+
+            .user-name {
+              margin-bottom:10px;
+            }
+          }
+
+          .rank-icon {
+            font-size: 4rem;
+            text-align: left;
+          }
+        }
+
+        .right-area {
+          display: flex;
+          flex-direction: column;
+          row-gap: 8px;
+          color: white;
+
+          & > div {
+            display: flex;
+            flex: 1;
+            font-size: 1.4rem;
+            align-items: center;
+
+            .rank-icon {
+              font-size:2rem;
+            }
+            .rank-user {
+              display: flex;
+              
+              .user-name {
+                margin:0 10px;
+              }
+            }
+          }
+        }
+      }
+
+      #playlist {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
+
+        li {
+          width: 100%;
+          color: #ffffff;
+          display: flex;
+          justify-content: space-between;
+          align-items: start;
+          padding: 15px 10px;
+          border-bottom: 1px solid #555555;
+          &:hover {
+            background-color: #222222;
+          }
+
+          .cover-box {
+            width: 85px;
+            background: #000000;
+            aspect-ratio: 16/9;
+            position: relative;
+
+            .cover-image {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              background-position: center center;
+              background-size: cover;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              cursor: pointer;
+
+              i.fa-play {
+                font-size: 2rem;
+                align-self: center;
+              }
+            }
+          }
+
+          .title-box {
+            font-size:1.4rem;
+
+            .title {
+              max-width: 175px;
+              margin-bottom: 10px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+          }
+
+          .desc-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-direction: column;
+            height: 100%;
+
+            .duration {
+              font-size:1.4rem;
+            }
+
+            i.fa-circle-xmark {
+              font-size:2rem;
+              cursor:pointer;
+            }
+          }
+        }
+      }
     }
   }
+}
+
+
+@media screen and (max-width: 1024px) {
+  #player #playlistView {
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+ 
 }
