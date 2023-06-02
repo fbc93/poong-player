@@ -800,7 +800,7 @@ const playlistPagePlayBtns = document.querySelectorAll(".playlistPage-play-btn")
 
 const addPlaylistPageToPlayer = async (event) => {
   event.stopPropagation();
-  const playlistId = event.target.parentNode.parentNode.dataset.id;
+  const playlistId = event.currentTarget.parentNode.dataset.id;
   const response = await (await fetch(`/playlist/${playlistId}/play`)).json();
 
   //기존 플레이리스트 목록 삭제

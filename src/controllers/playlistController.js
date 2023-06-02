@@ -285,6 +285,8 @@ export const getPlaylistPlay = async (req, res) => {
     params: { playlistId },
    } = req;
 
+  console.log(playlistId);
+
   const playlist = await Playlist.findById(playlistId).populate("videos");
 
   if(!playlist){
