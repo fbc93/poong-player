@@ -15,7 +15,7 @@ block content
         span 검색 결과 총 #{result.videos.length}건
       ul.result-list.chart
         if result.videos.length > 0
-          each video, index in result.videos
-            +chart(video.video, video.isLiked, index)
+          each item, index in result.videos
+            +chart(item.video, item.isLiked, index)
         else
           div 검색결과가 없습니다.

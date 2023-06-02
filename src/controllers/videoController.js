@@ -89,7 +89,7 @@ export const postSearch = async (req, res) => {
     title: {
       $regex: new RegExp(keyword, "i"),
     }
-  }).sort({views: "desc"});
+  }).populate("likes").sort({views: "desc"});
 
   if(userId){
     searchVideosWithLike = videos.map((video) => ({
@@ -100,13 +100,16 @@ export const postSearch = async (req, res) => {
       : false,
     }));
 
+    console.log(userId)
+    console.log(videos);
+
   } else {
     searchVideosWithLike = videos.map((video) => ({
       video,
       isLiked: false,
     }));
   }
-   
+
   return res.render("search", { 
     pageTitle : "검색",
     result:{
