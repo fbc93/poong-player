@@ -1,6 +1,7 @@
 import Video from "../models/Video";
 import User from "../models/User";
 import Like from "../models/Like";
+import Playlist from "../models/Playlist";
 
 export const home = async (req, res) => {
   const pageTitle = "홈";
@@ -34,8 +35,10 @@ export const home = async (req, res) => {
     }));
   }
 
-  //추천 플레이리스트
-  const recommendPlaylists = await Video.find({}).limit(5).sort({ createdAt: "desc" });
+  //추천 플레이리스트 (유저네임이 admin인 사용자의 플레이리스트)
+  const recommendPlaylists = await Playlist.find({
+    user: "647933061f18c9bf19b686a9",
+  }).populate("user").populate("videos").limit(4);
 
   //쉬는시간
   const restTimeVideos = await Video.find({

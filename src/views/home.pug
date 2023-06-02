@@ -21,8 +21,8 @@ block content
     h1 📌 추천 풍레이리스트
     if recommendPlaylists.length > 0
       ul.recommend
-        each video in recommendPlaylists
-          +recommend(video)
+        each playlist in recommendPlaylists
+          +recommend(playlist)
     else
       include partials/empty
   section

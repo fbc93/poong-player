@@ -1,15 +1,12 @@
-mixin recommend(video)
-  li
+mixin recommend(playlist)
+  li(data-id=playlist._id)
     .thumbnail-wrap 
       .overlay
-        i.fa-solid.fa-ellipsis-vertical
-      i.fa-solid.fa-play
+      i.fa-solid.fa-play.playlist-play-btn
       .thumbnail 
-        .thumb.first-thumb(style=`background-image: url(${video.thumbUrl})`)
-        .thumb.second-thumb(style=`background-image: url(${video.thumbUrl})`)
-        .thumb.third-thumb(style=`background-image: url(${video.thumbUrl})`)
-        .thumb.quad-thumb(style=`background-image: url(${video.thumbUrl})`)
-    .title 더운여름 곰보게임 모음
+        each video, index in playlist.videos 
+              if index <= 3
+                .thumb(style=`background-image: url(${video.thumbUrl})`)
+    a(href=`/playlist/${playlist._id}`).title=playlist.name
     .info-wrap
-      .count 10개 영상
-      .runningTime 14:40:10
+      .count #{playlist.videos.length}개 영상
