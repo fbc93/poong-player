@@ -148,16 +148,16 @@
 
   #playlistView {
     position: fixed;
-    bottom:80px;
+    bottom:85px;
     left:0;
     width:100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 85px);
     background-color: #333333;
     display: grid;
     grid-template-columns: auto 360px;
     transform: translateY(9999px);
     transition: all 0.5s ease-in-out;
-    z-index:9999;
+    z-index:9998;
 
     .view-container {
       background-color: #000000;
@@ -207,51 +207,56 @@
       }
 
       .rank-box {
-        display: grid;
         padding: 10px;
-        grid-template-columns: 40% 60%;
         border-bottom: 1px solid #555555;
 
-        .left-area {
+        .rank-box-container {
           display: grid;
-          grid-template-columns: 40% 1fr;
-          align-items: center;
+          grid-template-columns: 40% 60%;
+          max-width: 300px;
+          margin:auto;
 
-          .rank-user {
-            font-size:1.3rem;
-            color:white;
-
-            .user-name {
-              margin-bottom:10px;
-            }
-          }
-
-          .rank-icon {
-            font-size: 4rem;
-            text-align: left;
-          }
-        }
-
-        .right-area {
-          display: flex;
-          flex-direction: column;
-          row-gap: 8px;
-          color: white;
-
-          & > div {
-            display: flex;
-            flex: 1;
-            font-size: 1.4rem;
-            align-items: center;
-
-            .rank-icon {
-              font-size:2rem;
-            }
+          .left-area {
+            display: grid;
+            grid-template-columns: 40% 1fr;
+            align-items: start;
+  
             .rank-user {
-              display: flex;
-              
+              font-size:1.4rem;
+              color:white;
+  
               .user-name {
-                margin:0 10px;
+                margin-bottom:5px;
+              }
+            }
+  
+            .rank-icon {
+              font-size: 4rem;
+              text-align: left;
+            }
+          }
+  
+          .right-area {
+            display: flex;
+            flex-direction: column;
+            row-gap: 8px;
+            color: white;
+  
+            & > div {
+              display: flex;
+              flex: 1;
+              font-size: 1.4rem;
+              align-items: center;
+  
+              .rank-icon {
+                font-size:2rem;
+              }
+              .rank-user {
+                display: flex;
+                
+                .user-name {
+                  margin:0 10px;
+                }
               }
             }
           }
@@ -263,6 +268,11 @@
         flex-direction: column;
         align-items: start;
         width: 100%;
+        min-height: 100%;
+        overflow: hidden;
+        height: 300px;
+        overflow-y: auto;
+        user-select: none;
 
         li {
           width: 100%;
@@ -281,6 +291,7 @@
             background: #000000;
             aspect-ratio: 16/9;
             position: relative;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
             .cover-image {
               position: absolute;
@@ -329,6 +340,10 @@
             }
           }
         }
+      }
+
+      #playlist::-webkit-scrollbar {
+        display: none;
       }
     }
   }
