@@ -11,6 +11,14 @@ html[data-theme="darkMode"] {
   --modalBg: #222222;
   --modalBgHover: #2a2a2a;
   --btnText: #121212;
+
+
+  --themeMode: #ff4757;
+  --progressBar: #ff4757;
+  --progressBg:#555555;
+  --controlBg:#000000;
+  --controlText: #ffffff;
+  --controlIcon: #999999;
 }
 
 html[data-theme="lightMode"] {
@@ -26,4 +34,16 @@ html[data-theme="lightMode"] {
   --modalBg: #ffffff;
   --modalBgHover: #f5f5f5;
   --btnText: #ffffff;
+
+
+  --themeMode: #f39c12;
+  --progressBar: #f39c12;
+  --progressBg:#fdcb6e;
+  --controlBg:#f6e58d;
+  --controlText: #333333;
+  --controlIcon: #f39c12;
+}
+
+body {
+  --dockBarHeight:70px;
 }

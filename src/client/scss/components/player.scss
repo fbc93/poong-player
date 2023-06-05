@@ -1,19 +1,20 @@
 #player {
   background-color: var(--playerBg);
+  color: var(--controlText);
 
   #controlBar {
-    position: fixed;
-    bottom: 0;
+    width:100%;
+    height: var(--dockBarHeight);
     left: 0;
-    right: 0;
+    bottom: 0;
     z-index: 9999;
-    height: 80px;
-    background-color: var(--playerBg);
+    position: fixed;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 200px 1fr 210px;
     align-items: center;
-    column-gap: 10px;
-    padding: 0 15px;
+    column-gap: 20px;
+    padding: 0 5%;
+    background-color: var(--controlBg);
 
     .progress-container {
       position: absolute;
@@ -21,7 +22,7 @@
       left:0;
       width:100%;
       height:5px;
-      background-color: #333333;
+      background-color: var(--progressBg);
       cursor: pointer;
 
       #toolTip {
@@ -38,43 +39,57 @@
       }
 
       #progressTime {
-        background: red;
+        background: var(--progressBar);
         height: 100%;
       }
     }
 
     .control-container {
-      display: flex;
-      justify-content: left;
-      flex-direction: row;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 15px 37px 15px auto;
+
       i {
         font-size:2rem;
         cursor: pointer;
+        color: var(--controlIcon);
       }
+
       .fa-play, .fa-pause {
-        font-size:3rem;
+        font-size:2rem;
         margin:0 10px;
       }
       .time-container {
         margin-left:15px;
         font-size:1.4rem;
         letter-spacing: -0.5px;
+
+        & > span {
+          display: inline-block;
+          height: 100%;
+          line-height: 20px;
+        }
+
         span:nth-child(2) {
           display: inline-block;
           margin:0 5px;
+          opacity: 0.8;
+        }
+
+        #duration {
+          opacity: 0.8;
         }
       }
     }
 
     .playInfo-container {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      column-gap: 10px;
 
       #cover {
-        width: 90px;
-        height: 50px;
+        width: 70px;
+        aspect-ratio: 16/9;
+        border-radius: 3px;
         margin-right:10px;
         display: block;
         background-color: #333333;
@@ -84,10 +99,11 @@
       }
 
       .info-container {
-        display: flex;
-        flex-direction: column;
-        width: 300px;
         font-size: 1.4rem;
+        display: grid;
+        grid-template-columns: auto;
+        row-gap: 3px;
+        overflow: hidden;
 
         #title {
           white-space: nowrap;
@@ -95,7 +111,10 @@
           display: inline-block;
           overflow: hidden;
           font-weight: bold;
-          margin-bottom: 5px;
+        }
+
+        #category {
+          opacity:0.8;
         }
       }
     }
@@ -105,10 +124,13 @@
       flex-direction: row;
       justify-content: right;
       align-items: center;
+     
       i {
         font-size:2rem;
+        color: var(--controlIcon);
         cursor: pointer;
       }
+
       .volume-container {
         display: flex;
         align-items: center;
@@ -121,22 +143,25 @@
           #soundRange {
             width: 0px; //70px
             height: 3px;
-            background: #333333;
+            background-color: var(--progressBg);
             transition: width 0.3s ease-in-out;
 
             .value {
               height:100%;
-              background-color: red;
+              background-color: var(--progressBar);
             }
           }
         }
+
         .fa-volume-high, .fa-volume-xmark {
           margin:0 15px 0 10px;
         }
+
         .fa-repeat, .fa-rotate-right {
           margin-right:15px;
         }
       }
+
       .fa-caret-up {
         font-size:3rem;
       }
@@ -148,10 +173,10 @@
 
   #playlistView {
     position: fixed;
-    bottom:85px;
+    bottom: 75px;
     left:0;
     width:100%;
-    height: calc(100% - 85px);
+    height: calc(100% - 75px);
     background-color: #333333;
     display: grid;
     grid-template-columns: auto 360px;
@@ -292,6 +317,16 @@
             aspect-ratio: 16/9;
             position: relative;
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            &::after{
+              content:'';
+              display: inline-block;
+              width:100%;
+              height:100%;
+              position: absolute;
+              top:0;
+              left:0;
+              background-color: rgba(0,0,0,0.3);
+            }
 
             .cover-image {
               position: absolute;
@@ -307,6 +342,8 @@
               i.fa-play {
                 font-size: 2rem;
                 align-self: center;
+                position: relative;
+                z-index: 1;
               }
             }
           }
@@ -332,11 +369,17 @@
 
             .duration {
               font-size:1.4rem;
+              opacity: 0.5;
             }
 
             i.fa-circle-xmark {
               font-size:2rem;
               cursor:pointer;
+              color:tomato;
+              opacity: 0.5;
+              &:hover{
+                opacity: 1;
+              }
             }
           }
         }
@@ -349,14 +392,74 @@
   }
 }
 
-
 @media screen and (max-width: 1024px) {
-  #player #playlistView {
+  #controlBar {
+    grid-template-columns: 65px 1fr 95px!important;
+
+    .time-container {
+      display: none!important;
+    }
+
+    #volumeBtn {
+      display: none!important;
+    }
+  }
+
+  #playlistView {
     grid-template-rows: auto;
-    grid-template-columns: auto;
+    grid-template-columns: auto!important;
+
+    .playlist-container {
+      border-left:0;
+
+      #playlist {
+        li {
+          .title-box {
+            width: calc(100% - 100px);
+            margin: 0 15px;
+
+            .title {
+              max-width: 100%;
+              margin-bottom: 10px;
+              text-overflow: inherit;
+              white-space: inherit;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-@media screen and (min-width: 1025px) {
- 
+@media screen and (max-width: 768px) {
+  #player {
+    #controlBar {
+      display: grid;
+      grid-template-columns: 65px 1fr 90px;
+
+      #cover {
+        display: none!important;
+      }
+
+      .playInfo-container {
+        grid-template-columns: 1fr;
+        .info-container {
+         
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 469px) {
+  #player {
+    #controlBar {
+
+      .playInfo-container {
+        .info-container {
+          
+        }
+      }
+    }
+  }
 }

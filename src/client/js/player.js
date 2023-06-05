@@ -181,7 +181,7 @@ const randomPlayUpdate = () => {
 
   if(isRandom === "off"){
     randomBtn.setAttribute("data-random", "off");
-    randomBtn.style.color = "black";
+    randomBtn.style.color = "inherit";
 
   } else if(isRandom === "on") {
     randomBtn.setAttribute("data-random", "on");
@@ -199,7 +199,7 @@ const repeatPlayTypeUpdate = () => {
     case "off":
       repeatBtn.setAttribute("data-repeat", "off");
       repeatBtn.className = "fa-solid fa-repeat";
-      repeatBtn.style.color = "black";
+      repeatBtn.style.color = "inherit";
       break;
     case "on":
       repeatBtn.setAttribute("data-repeat", "on");
@@ -704,7 +704,7 @@ randomBtn.addEventListener("click", (event) => {
   switch (randomBtn.dataset.random){
     case "on":
       randomBtn.setAttribute("data-random", "off");
-      randomBtn.style.color = "black";
+      randomBtn.style.color = "inherit";
       localData.setting.isRandom = "off";
       break;
     case "off":
@@ -742,7 +742,7 @@ repeatBtn.addEventListener("click", (event) => {
     case "one":
       repeatBtn.setAttribute("data-repeat", "off");
       localData.setting.isRepeat = "off";
-      repeatBtn.style.color = "black";
+      repeatBtn.style.color = "inherit";
       repeatBtn.className = "fa-solid fa-repeat";
       break;
   }

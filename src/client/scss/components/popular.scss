@@ -101,6 +101,27 @@
       }
     }
   }
+}
 
+@media screen and (max-width: 1024px) {
+  .popular {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
 
+    .right-box {
+      display: block!important;
+      padding-top:0!important;
+      flex:none!important;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .popular {
+
+    .left-box {
+      .thumbnail {
+        display: none;
+      }
+    }
+  }
 }
