@@ -176,15 +176,6 @@ export const mostViewed = async (req, res) => {
   return res.render("mostViewed", { pageTitle: "인기 영상", videos: mostViewedVideoWithLike});
 }
 
-
-
-
-
-export const streamingRank = (req, res) => {
-
-  return res.render("streamingRank", { pageTitle: "스트리밍 랭킹" });
-}
-
 export const toggleVideoLike = async (req, res) => {
   //유저 확인
   if(!req.session.user){

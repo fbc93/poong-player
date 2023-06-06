@@ -220,7 +220,7 @@
     .playlist-container {
       border-left: 1px solid #555555;
       display: grid;
-      grid-template-rows: 70px 70px 1fr;
+      grid-template-rows: 70px 1fr;
 
       .header {
         background: #222222;
@@ -406,7 +406,7 @@
   }
 
   #playlistView {
-    grid-template-rows: auto;
+    grid-template-rows: auto 1fr;
     grid-template-columns: auto!important;
 
     .playlist-container {
