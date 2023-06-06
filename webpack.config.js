@@ -10,8 +10,6 @@ module.exports = {
     toggleLike: BASE_JS + "toggleLike.js",
     playlist: BASE_JS + "playlist.js",
   },
-  mode: "development",
-  watch: true,
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
