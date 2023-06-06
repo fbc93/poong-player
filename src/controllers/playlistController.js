@@ -256,7 +256,6 @@ export const postDeletePlaylist = async (req, res) => {
   const user = await User.findById(userId);
 
   if(!user){
-    console.log("존재하지 않는 사용자입니다.");
     return res.redirect("/");
   }
 
@@ -284,8 +283,6 @@ export const getPlaylistPlay = async (req, res) => {
   const { 
     params: { playlistId },
    } = req;
-
-  console.log(playlistId);
 
   const playlist = await Playlist.findById(playlistId).populate("videos");
 

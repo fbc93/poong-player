@@ -142,11 +142,9 @@ const changeSoundbarValue = (event) => {
 
 //볼륨버튼 > 업데이트
 const volumeUpdate = () => {
-  console.log("가지고있는 로컬데이터로 볼륨값 업데이트");
   currentVolume = localStorage.getItem(STORAGE_VOLUME);
 
   if(youtube){
-    console.log("유튜브 로드후 볼륨 세팅, 현재: ", typeof Number(currentVolume));
     youtube.setVolume(Number(currentVolume));
   }
   
@@ -176,7 +174,6 @@ const toggleVolumeMute = (event) => {
 
 //랜덤재생 > 업데이트
 const randomPlayUpdate = () => {
-  console.log("random update");
   const isRandom = getLocalData().setting.isRandom;
 
   if(isRandom === "off"){
@@ -192,7 +189,6 @@ const randomPlayUpdate = () => {
 
 //반복재생 타입 > 업데이트
 const repeatPlayTypeUpdate = () => {
-  console.log("repeat type update");
   const isRepeat = getLocalData().setting.isRepeat;
 
   switch (isRepeat) {
@@ -215,7 +211,6 @@ const repeatPlayTypeUpdate = () => {
 
 //유튜브 아이프레임 이벤트
 const onPlayerReady = (event) => {
-  console.log("플레이어 레디");
   playBtn.className = "fa-solid fa-pause";
 
   let interval_update_time;
@@ -256,11 +251,9 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
     await fetch(`/api/video/${youtubeId}/view`, {
       method: "POST",
     });
-    console.log("조회수 증가");
 
     //재생타입: 1개 반복
     if(isRepeat === "one"){
-      console.log("한개 영상 반복 재생", clickedVideoIdx);
       const playOneVideo = playlist.querySelectorAll("li")[clickedVideoIdx].firstChild;
       playOneVideo.click();
 
@@ -268,12 +261,10 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
 
     //재생타입 : 랜덤
     if(isRandom === "on"){
-      console.log("랜덤 반복재생 시작");
       const totalLocalVideos = getLocalData().videos.length;
       let randomIndex = Math.floor(Math.random() * totalLocalVideos);
 
       while(totalLocalVideos !== 1){
-        console.log("랜덤재생 시작2");
         randomIndex = Math.floor(Math.random() * totalLocalVideos);
         const randomPlayVideo = getLocalData().videos[randomIndex];
         
@@ -284,12 +275,10 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
 
     //재생타입 :일반 반복
     if(isRepeat === "on"){
-      console.log("일반 반복재생 시작");
       const totalLocalVideos = getLocalData().videos.length;
       const playNowVideoIndex = getLocalData().playNowVideo.targetIndex;
 
       if(totalLocalVideos - 1 === playNowVideoIndex){
-        console.log("마지막 영상, 1번 영상으로")
         playlist.querySelectorAll("li")[0].firstChild.click();
         return;
       }
@@ -308,7 +297,6 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
 
 //클릭된 영상 플레이어로 재생
 const playClickedVideo = (clickedVideoIdx, video) => {
-  console.log("해당 비디오 재생하기", clickedVideoIdx, video);
 
   //받은 데이터로 Update
   const localData = getLocalData();
@@ -319,7 +307,6 @@ const playClickedVideo = (clickedVideoIdx, video) => {
 
   localData.playNowVideo = playNowVideo;
   setLocalData(localData);
-  console.log("현재 재생 시작한 비디오", playNowVideo);
 
   //유튜브 아이프레임 RESET
   if(youtube){
@@ -354,7 +341,6 @@ const playClickedVideo = (clickedVideoIdx, video) => {
 
 //비디오 클릭시, 플레이어로 재생 + 현재 플레이리스트 맨앞 추가
 const addVideoAndStartPlay = (event, video) => {
-  console.log("플레이리스트 > 클릭된 영상 인덱스 구하기");
   event.stopPropagation();
 
   const localVideos = getLocalData().videos;
@@ -366,7 +352,6 @@ const addVideoAndStartPlay = (event, video) => {
   ) : null);
 
   //클릭된 영상 플레이어로 재생
-  console.log(clickedVideoIdx);
   playClickedVideo(clickedVideoIdx, video);
 }
 
@@ -470,7 +455,6 @@ const loadVideos = () => {
   const localData = getLocalData();
 
   if(localData){
-    console.log("로컬데이터 있음");
     //기존에 저장된 로컬데이터 로드
     videos = localData.videos;
     const playNowVideo = localData.playNowVideo;
@@ -481,7 +465,6 @@ const loadVideos = () => {
     duration.innerText = formatTime(playNowVideo.targetVideo.runningTime);
 
   } else {
-    console.log("로컬데이터 없음");
     //로컬데이터_기본셋업 (재생중비디오, 로컬 저장된 비디오 리스트, 플레이어설정값)
     videos = defaultVideos;
 
@@ -591,7 +574,6 @@ playBtn.addEventListener("click", (event) => {
 
   //유튜브 아이프레임이 아직 로드되지 않았을경우
   if(!youtube){
-    console.log("유튜브 로드전..");
     const playNowVideoIdx = getLocalData().playNowVideo.targetIndex;
     const playNowVideo = playlist.querySelectorAll("li")[playNowVideoIdx].firstChild;
     playNowVideo.click();
@@ -647,7 +629,6 @@ prevBtn.addEventListener("click", (event) => {
 
   //랜덤재생 체크
   while(totalLocalVideos !== 1 && isRandom === "on"){
-    console.log("랜덤 순서 다음 영상");
     randomIndex = Math.floor(Math.random() * totalLocalVideos);
     const randomPlayVideo = getLocalData().videos[randomIndex];
     
@@ -657,7 +638,6 @@ prevBtn.addEventListener("click", (event) => {
 
   if(prevVideoIdx >= 0){
     prevVideo = li[prevVideoIdx].firstChild;
-    console.log("이전 영상", prevVideo);
     prevVideo.click();
     return;
   }
@@ -676,7 +656,6 @@ nextBtn.addEventListener("click", (event) => {
 
   //랜덤재생 체크
   while(totalLocalVideos !== 1 && isRandom === "on"){
-    console.log("랜덤 순서 다음 영상");
     randomIndex = Math.floor(Math.random() * totalLocalVideos);
     const randomPlayVideo = getLocalData().videos[randomIndex];
     
@@ -686,7 +665,6 @@ nextBtn.addEventListener("click", (event) => {
 
   if (nextVideoIdx < totalLocalVideos){
     nextVideo = li[nextVideoIdx].firstChild;
-    console.log("다음 영상", nextVideo);
     nextVideo.click();
     return;
   }
@@ -715,7 +693,6 @@ randomBtn.addEventListener("click", (event) => {
   }
 
   setLocalData(localData);
-  console.log("재생 순서 랜덤");
 });
 
 //플레이어 컨트롤 : 반복 재생, 1개 반복
@@ -748,7 +725,6 @@ repeatBtn.addEventListener("click", (event) => {
   }
 
   setLocalData(localData);
-  console.log("반복재생 / 1영상 반복 재생");
 });
 
 //플레이리스트 재생하기

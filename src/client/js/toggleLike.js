@@ -1,5 +1,3 @@
-console.log("toggleLike");
-
 const popularToggleVideoLike = async (event) => {
   const DATA_ID_1 = event.target.parentNode.children[0].dataset.id;
 

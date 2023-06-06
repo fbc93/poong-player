@@ -100,9 +100,6 @@ export const postSearch = async (req, res) => {
       : false,
     }));
 
-    console.log(userId)
-    console.log(videos);
-
   } else {
     searchVideosWithLike = videos.map((video) => ({
       video,
@@ -269,7 +266,6 @@ export const getVideo = async (req, res) => {
 
 export const updateVideoView = async (req, res) => {
   const { youtubeId } = req.params;
-  console.log(youtubeId);
 
   //받은 youtube ID와 일치하는 영상 찾기
   const video = await Video.findOne({ youtubeId });
