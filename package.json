@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "🚀 즐겜러 스트리머 풍월량님을 응원하는 게임 영상 시청 플랫폼",
   "scripts": {
-    "start" : "node build/init.js",
-    "build" : "npm run build:server && npm run build:assets",
-    "build:server" : "babel src -d build",
-    "build:assets" : "webpack --mode=production",
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build",
+    "build:assets": "webpack --mode=production",
     "dev:server": "nodemon",
     "dev:assets": "webpack --mode=development -w"
   },
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/fbc93/poong-player#readme",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "connect-mongo": "^5.0.0",
     "css-loader": "^6.7.4",
     "dotenv": "^8.2.0",
