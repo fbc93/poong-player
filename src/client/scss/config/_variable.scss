@@ -1,7 +1,4 @@
 html[data-theme="darkMode"] {
-  --bg: #121212;
-  --primary: #f6c2ce;
-  --text: #ffffff;
   --subText: #888888;
   --player: #4b4b4b;
   --playerBg: #191919;
@@ -13,6 +10,14 @@ html[data-theme="darkMode"] {
   --btnText: #121212;
 
 
+
+  --primary: #f6c2ce;
+  --hoverColor: #222222;
+  --iconColor: #ff4757;
+  --bg: #000000;
+  --text: #ffffff;
+  --navText: #222222;
+  --logoText: #ff4757;
   --themeMode: #ff4757;
   --progressBar: #ff4757;
   --progressBg:#555555;
@@ -22,9 +27,6 @@ html[data-theme="darkMode"] {
 }
 
 html[data-theme="lightMode"] {
-  --bg: rgb(247, 240, 208);
-  --primary: #f6e58d;
-  --text: #000000;
   --subText: #4b5563;
   --player: #b8b8b8;
   --playerBg: rgb(196, 190, 164);
@@ -36,6 +38,14 @@ html[data-theme="lightMode"] {
   --btnText: #ffffff;
 
 
+
+  --primary: #f6e58d;
+  --hoverColor: #f6e58d;
+  --iconColor: #333333;
+  --bg: rgb(247, 240, 208);
+  --text: #333333;
+  --navText: #333333;
+  --logoText: #f39c12;
   --themeMode: #f39c12;
   --progressBar: #f39c12;
   --progressBg:#fdcb6e;

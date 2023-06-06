@@ -76,3 +76,11 @@
     }
   }
 }
+
+@media screen and (max-width: 460px) {
+  #playlistMenuModal {
+    .container {
+      width: calc(100% - 40px)!important;
+    }
+  }
+}

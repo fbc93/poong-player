@@ -3,10 +3,10 @@ include ../mixins/chart
 
 block content
   .pageTitle=pageTitle
-    .search-result
-      ul.result-list.chart
-        if videos.length > 0
-          each video, index in videos
-            +chart(video.video, video.isLiked, index)
-        else 
-          include ../partials/empty
+  .search-result
+    ul.result-list.chart
+      if videos.length > 0
+        each video, index in videos
+          +chart(video.video, video.isLiked, index)
+      else 
+        include ../partials/empty

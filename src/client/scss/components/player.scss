@@ -31,7 +31,7 @@
         position: absolute;
         top: -35px;
         left:0;
-        background-color: #ffffff;
+        background-color: var(--themeMode);
         padding:5px 10px; 
         border-radius: 3px;
         line-height: 13px;
@@ -383,6 +383,10 @@
             }
           }
         }
+
+        li.playing {
+          background-color:var(--themeMode);
+        }
       }
 
       #playlist::-webkit-scrollbar {
@@ -410,7 +414,7 @@
     grid-template-columns: auto!important;
 
     .playlist-container {
-      border-left:0;
+      border-left:0!important;
 
       #playlist {
         li {

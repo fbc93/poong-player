@@ -4,7 +4,6 @@
   align-items: center;
   column-gap: 30px;
   margin-bottom: 50px;
-  row-gap: 15px;
 
   li {
     display: flex;
@@ -12,8 +11,6 @@
     align-items: flex-start;
     padding:10px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    border-radius: 10px;
 
     .left-box{
       display: flex;
@@ -67,12 +64,14 @@
           text-align: left;
           margin-bottom: 7px;
           line-height: 1.2;
+          letter-spacing: -1px;
         }
 
         .desc {
           display: flex;
           flex-direction: row;
           align-items: center;
+          opacity: 0.6;
 
           .views {
             margin-right:10px;
@@ -91,13 +90,13 @@
     .right-box{
       display: none; //flex
       flex:1;
-      padding-top:10px;
 
       i {
         font-size: 1.8rem;
         display: inline-block;
         margin: 0 10px;
         cursor:pointer;
+        color: var(--iconColor);
       }
     }
   }

@@ -69,3 +69,13 @@
   margin-bottom: 10px;
   letter-spacing: -1px;
 }
+
+@media screen and (max-width: 460px) {
+  .playlist-name {
+    font-size: 2rem!important;
+  }
+
+  .playlist-user {
+    font-size:1.6rem!important;
+  }
+}

@@ -19,17 +19,22 @@ document.documentElement.setAttribute("data-theme", themeState);
 
 localStorage.setItem(STORAGE_KEY, themeState);
 themeToggleBtn.className = (themeState === DARK ? DARK : LIGHT);
+themeToggleBtn.firstChild.className = (themeState === DARK ? "fa-solid fa-moon" : "fa-solid fa-sun");
 
 const toggleTheme = (event) => {
-  console.log(event.currentTarget.className);
+  
   if (event.currentTarget.className === DARK){
     document.documentElement.setAttribute("data-theme", LIGHT);
     event.currentTarget.className = LIGHT;
+
+    event.target.className = "fa-solid fa-sun";
     localStorage.setItem(STORAGE_KEY, LIGHT);
 
   } else if (event.currentTarget.className === LIGHT){
     document.documentElement.setAttribute("data-theme", DARK);
     event.currentTarget.className = DARK;
+
+    event.target.className = "fa-solid fa-moon";
     localStorage.setItem(STORAGE_KEY, DARK);
   }
 }
@@ -61,12 +66,10 @@ const popularAllItems = document.querySelectorAll(".popular > li");
 
 const showPopularItem = (event) => {
   event.currentTarget.lastChild.style.display = "flex";
-  event.currentTarget.style.backgroundColor = "white";
 };
 
 const hidePopularItem = (event) => {
   event.currentTarget.lastChild.style.display = "none";
-  event.currentTarget.style.backgroundColor = "";
 };
 
 popularAllItems.forEach((item) =>
