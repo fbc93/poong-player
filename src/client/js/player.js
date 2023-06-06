@@ -2,42 +2,45 @@ import defaultVideos from "../data/dummyList.json";
 
 const STORAGE_KEY = "poong_videos";
 const STORAGE_VOLUME = "poong_volume";
+
 let currentVolume;
 let youtube;
 
 //플레이어 영역
-const player = document.getElementById("player");
-const controlBar = document.getElementById("controlBar");
-const viewScreen = document.getElementById("viewScreen");
 const playlist = document.getElementById("playlist");
 
-//플레이어 컨트롤
-const prevBtn = document.getElementById("prevBtn");
+//플레이어 컨트롤 버튼
 const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
-const volumeBtn = document.getElementById("volumeBtn");
-const repeatBtn = document.getElementById("repeatBtn");
-const randomBtn = document.getElementById("randomBtn");
-const soundRange = document.getElementById("soundRange");
-const soundValue = document.querySelector("#soundRange > .value");
+
 const descContainer = document.querySelector(".desc-container");
 
-//플레이 타임
+const volumeBtn = document.getElementById("volumeBtn");
+const soundRange = document.getElementById("soundRange");
+const soundValue = document.querySelector("#soundRange .value");
+
+const repeatBtn = document.getElementById("repeatBtn");
+const randomBtn = document.getElementById("randomBtn");
+
+//플레이 타임 progressBar
 const progressTime = document.getElementById("progressTime");
-const currentTime = document.getElementById("currentTime");
-const duration = document.getElementById("duration");
 const progressContainer = document.querySelector(".progress-container");
 const toolTip = document.getElementById("toolTip");
+
+//플레이 타임 value
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
 
 //현재 재생 비디오 정보
 const cover = document.getElementById("cover");
 const title = document.getElementById("title");
 const category = document.getElementById("category");
 
-//홈 > 비디오
+//영상 썸네일 > 재생버튼, 영상 목록 > 재생버튼
 const videoItemAllPlayBtn = document.querySelectorAll(".play");
 
-//시간 변환
+//업로드 시간 포멧
 function formatTime(seconds) {
   if (seconds < 3600) {
     return new Date(seconds * 1000).toISOString().slice(14, 19);
@@ -55,36 +58,35 @@ const setLocalData = (data) => {
   return localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-//재생 중 시간 update
+//재생 중 시간 & 재생 전체시간 update
 const updateVideoProgressTime = () => {
   if(!youtube) return;
-  if(typeof youtube.getPlayerState !== "function") return;
- 
-  const state = youtube.getPlayerState();
-  if(state === 3) return; //종료(3)
+  if(typeof youtube.getPlayerState !== "function") return; //function type check
+  const state = youtube.getPlayerState(); //state = 시작되지 않음(-1), 버퍼링(3), 동영상신호(5)
 
-  //재생시간 
+  if(state === -1 || state === 3 || state === 5) return;
+
+  //재생시간 UI에 반영
   currentTime.innerText = formatTime(youtube.getCurrentTime());
   duration.innerText = formatTime(youtube.getDuration());
-  
 }
 
-//재생 프로그레스 바 update
+//재생 프로그레스 바 style width update
 const updateVideoProgressBar = () => {
   if(!youtube) return;
-  if(typeof youtube.getPlayerState !== "function") return;
+  if(typeof youtube.getCurrentTime !== "function" || typeof youtube.getDuration !== "function") return; //function type check
 
   const currentTime = youtube.getCurrentTime();
   const duration = youtube.getDuration();
 
-  progressTime.style.width = (currentTime/duration) * 100 + "%";
-  return;
+  return progressTime.style.width = (currentTime/duration) * 100 + "%";
 }
 
-//재생 프로그레스 바 이동
+//클릭하여 프로그레스 바 시간 위치 변경
 const changeVideoProgressTime = (event) => {
   event.stopPropagation();
   if(!youtube) return;
+  if(typeof youtube.getDuration !== "function" || typeof youtube.seekTo !== "function") return; //function type check
 
   const barFullWidth = progressContainer.clientWidth;
   const clickedPoint = event.offsetX;
@@ -96,6 +98,7 @@ const changeVideoProgressTime = (event) => {
 //프로그레스바 hover, 재생시간 툴팁 show
 const showTimeTooltip = (event) => {
   if (!youtube) return;
+  if(typeof youtube.getDuration !== "function") return;
 
   const barFullWidth = progressContainer.clientWidth;
   const hoverPoint = event.offsetX;
@@ -115,6 +118,7 @@ const hideTimeTooltip = () => {
 const changeSoundbarValue = (event) => {
   event.stopPropagation();
   if(!youtube) return;
+  if(typeof youtube.mute !== "function" || typeof youtube.unMute !== "function" || typeof youtube.setVolume !== "function") return; //function type check
 
   const barFullWidth = soundRange.clientWidth;
   const clickedPoint = event.offsetX;
@@ -155,6 +159,7 @@ const volumeUpdate = () => {
 const toggleVolumeMute = (event) => {
   event.stopPropagation();
   if(!youtube) return;
+  if(typeof youtube.mute !== "function" || typeof youtube.unMute !== "function" || typeof youtube.setVolume !== "function" || typeof youtube.getVolume !== "function") return; //function type check
 
   if(event.target.classList.contains("fa-volume-high")){
     volumeBtn.className = "fa-solid fa-volume-xmark";
@@ -178,13 +183,12 @@ const randomPlayUpdate = () => {
 
   if(isRandom === "off"){
     randomBtn.setAttribute("data-random", "off");
-    randomBtn.style.color = "inherit";
+    randomBtn.classList.remove("active");
 
   } else if(isRandom === "on") {
     randomBtn.setAttribute("data-random", "on");
-    randomBtn.style.color = "red";
+    randomBtn.classList.add("active");
   }
-  return;
 }
 
 //반복재생 타입 > 업데이트
@@ -195,33 +199,30 @@ const repeatPlayTypeUpdate = () => {
     case "off":
       repeatBtn.setAttribute("data-repeat", "off");
       repeatBtn.className = "fa-solid fa-repeat";
-      repeatBtn.style.color = "inherit";
       break;
     case "on":
       repeatBtn.setAttribute("data-repeat", "on");
-      repeatBtn.style.color = "red";
+      repeatBtn.classList.add("active");
       break;
     case "one":
       repeatBtn.setAttribute("data-repeat", "one");
-      repeatBtn.style.color = "red";
-      repeatBtn.className = "fa-solid fa-rotate-right";
+      repeatBtn.className = "fa-solid fa-rotate-right active";
       break;
   }
 }
 
-//유튜브 아이프레임 이벤트
+//YT Event_onPlayerReady
 const onPlayerReady = (event) => {
   playBtn.className = "fa-solid fa-pause";
 
   let interval_update_time;
   clearInterval(interval_update_time);
 
-  //initial
+  //init update
   updateVideoProgressTime();
   updateVideoProgressBar();
   
-
-  //재생중 시간 & 프로그레스바 업데이트
+  //재생중 시간 & 프로그레스바 1초마다 업데이트
   interval_update_time = setInterval(() => {
     updateVideoProgressTime();
     updateVideoProgressBar();
@@ -234,6 +235,7 @@ const onPlayerReady = (event) => {
   event.target.playVideo();
 }
 
+//YT Event_onStateChange
 const onPlayerStateChange = async (event, clickedVideoIdx) => {
   const state = event.data;
   const isRandom = getLocalData().setting.isRandom;
@@ -247,19 +249,27 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
 
     //조회수 증가
     const youtubeId = event.target.getVideoData().video_id;
+    await fetch(`/api/video/${youtubeId}/view`, { method: "POST" });
 
-    await fetch(`/api/video/${youtubeId}/view`, {
-      method: "POST",
-    });
-
-    //재생타입: 1개 반복
+    //재생타입: 1개 영상 반복
     if(isRepeat === "one"){
       const playOneVideo = playlist.querySelectorAll("li")[clickedVideoIdx].firstChild;
       playOneVideo.click();
-
     }
 
-    //재생타입 : 랜덤
+     //재생타입 :일반 반복
+     if(isRepeat === "on"){
+      const totalLocalVideos = getLocalData().videos.length;
+      const playNowVideoIndex = getLocalData().playNowVideo.targetIndex;
+
+      if(totalLocalVideos - 1 === playNowVideoIndex){
+        return playlist.querySelectorAll("li")[0].firstChild.click();
+      }
+
+      playlist.querySelectorAll("li")[playNowVideoIndex + 1].firstChild.click();
+    }
+
+    //재생타입 : 랜덤 반복
     if(isRandom === "on"){
       const totalLocalVideos = getLocalData().videos.length;
       let randomIndex = Math.floor(Math.random() * totalLocalVideos);
@@ -268,19 +278,7 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
         randomIndex = Math.floor(Math.random() * totalLocalVideos);
         const randomPlayVideo = getLocalData().videos[randomIndex];
         
-        playClickedVideo(randomIndex, randomPlayVideo);
-        return;
-      }
-    }
-
-    //재생타입 :일반 반복
-    if(isRepeat === "on"){
-      const totalLocalVideos = getLocalData().videos.length;
-      const playNowVideoIndex = getLocalData().playNowVideo.targetIndex;
-
-      if(totalLocalVideos - 1 === playNowVideoIndex){
-        playlist.querySelectorAll("li")[0].firstChild.click();
-        return;
+        return playClickedVideo(randomIndex, randomPlayVideo);
       }
     }
   }
@@ -288,10 +286,6 @@ const onPlayerStateChange = async (event, clickedVideoIdx) => {
   if(state === 0 || state === 2){
     //일시정지 or 종료
     playBtn.className = "fa-solid fa-play";
-
-    //조회수 1증가 전송(POST)
-    //시청시간 전송(POST)
-    //재생타입 : 1개만 반복
   }
 }
 
@@ -313,7 +307,7 @@ const playClickedVideo = (clickedVideoIdx, video) => {
     youtube.destroy();
   }
 
-  //비디오 리스트 정보 Update
+  //비디오 리스트 정보 UI Update
   cover.style.backgroundImage = "url('" + video.thumbUrl + "')";
   title.innerText = video.title;
   category.innerText = video.category;
@@ -594,7 +588,7 @@ playBtn.addEventListener("click", (event) => {
   }
 });
 
-//플레이어 컨트롤 : 프로그레스 시간 위치 변경
+//플레이어 컨트롤 : 프로그레스 바 시간 위치 변경
 progressContainer.addEventListener("click", changeVideoProgressTime);
 
 //플레이어 컨트롤 : 프로그레스바 hover, 타임 툴팁 show
@@ -682,12 +676,12 @@ randomBtn.addEventListener("click", (event) => {
   switch (randomBtn.dataset.random){
     case "on":
       randomBtn.setAttribute("data-random", "off");
-      randomBtn.style.color = "inherit";
+      randomBtn.classList.remove("active");
       localData.setting.isRandom = "off";
       break;
     case "off":
       randomBtn.setAttribute("data-random", "on");
-      randomBtn.style.color = "red";
+      randomBtn.classList.add("active");
       localData.setting.isRandom = "on";
       break;
   }
@@ -708,18 +702,16 @@ repeatBtn.addEventListener("click", (event) => {
     case "off":
       repeatBtn.setAttribute("data-repeat", "on");
       localData.setting.isRepeat = "on";
-      repeatBtn.style.color = "red";
+      repeatBtn.classList.add("active");
       break;
     case "on":
       repeatBtn.setAttribute("data-repeat", "one");
       localData.setting.isRepeat = "one";
-      repeatBtn.style.color = "red";
-      repeatBtn.className = "fa-solid fa-rotate-right";
+      repeatBtn.className = "fa-solid fa-rotate-right active";
       break;
     case "one":
       repeatBtn.setAttribute("data-repeat", "off");
       localData.setting.isRepeat = "off";
-      repeatBtn.style.color = "inherit";
       repeatBtn.className = "fa-solid fa-repeat";
       break;
   }

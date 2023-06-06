@@ -14,6 +14,7 @@ html[data-theme="darkMode"] {
   --primary: #f6c2ce;
   --hoverColor: #222222;
   --iconColor: #ff4757;
+  --activeIcon: #ff4757;
   --bg: #000000;
   --text: #ffffff;
   --navText: #222222;
@@ -42,6 +43,7 @@ html[data-theme="lightMode"] {
   --primary: #f6e58d;
   --hoverColor: #f6e58d;
   --iconColor: #333333;
+  --activeIcon: #333333;
   --bg: rgb(247, 240, 208);
   --text: #333333;
   --navText: #333333;

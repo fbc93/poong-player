@@ -35,9 +35,9 @@ export const home = async (req, res) => {
     }));
   }
 
-  //추천 플레이리스트 (유저네임이 admin인 사용자의 플레이리스트)
+  //추천 플레이리스트 (유저네임이 Tester인 사용자의 플레이리스트)
   const recommendPlaylists = await Playlist.find({
-    user: "647933061f18c9bf19b686a9",
+    user: "647ef7d1fa94c1270607d163",
   }).populate("user").populate("videos").limit(4);
 
   //쉬는시간
