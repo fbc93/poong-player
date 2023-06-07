@@ -69,6 +69,10 @@
         }
       }
     }
+
+    .content-list::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 

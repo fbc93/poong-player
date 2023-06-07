@@ -122,23 +122,45 @@
       .count {
         margin-right:5px;
       }
-      .runningTime {}
     }
   }
 }
 
 @media screen and (max-width: 1024px) {
   .my-play-lists {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (max-width: 460px) {
   .my-play-lists {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
 
-    .overlay {
-      opacity: 1!important;
+    li {
+      .title {
+        font-size:1.5rem;
+      }
+
+      .info-wrap {
+        .count {
+          font-size:1.2rem;
+        }
+      }
+
+      .thumbnail-wrap {
+        .overlay {
+          opacity: 1!important;
+        }
+
+        i.fa-play {
+          right: 10px;
+          bottom: 10px;
+          width: 60px;
+          height: 60px;
+          font-size: 3rem;
+          line-height: 6rem;
+        }
+      }
     }
   }
 }

@@ -114,12 +114,17 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 640px) {
   .popular {
 
-    .left-box {
-      .thumbnail {
-        display: none;
+    li {
+      padding: 10px 0;
+
+      .left-box {
+        .thumbnail {
+          aspect-ratio: 1/1;
+          width: 50px;
+        }
       }
     }
   }

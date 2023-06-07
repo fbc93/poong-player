@@ -2,7 +2,8 @@ mixin recommend(playlist)
   li(data-id=playlist._id)
     .thumbnail-wrap 
       .overlay
-      i.fa-solid.fa-play.playlist-play-btn
+      if playlist.videos.length > 0
+        i.fa-solid.fa-play.playlist-play-btn
       .thumbnail 
         each video, index in playlist.videos 
               if index <= 3
