@@ -1,3 +1,5 @@
+include mixins/notificationMsg
+
 doctype html 
 html(lang="ko")
   head
@@ -7,10 +9,13 @@ html(lang="ko")
     include partials/mainNav
     include partials/themeBtn
     main
+      if messages.error
+        +notificationMsg("error", messages.error)
+      if messages.info
+        +notificationMsg("info", messages.info)
       block content
     include partials/player
     include partials/modal
     include partials/playlistMenuModal
-script(type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async)
 script(src="https://www.youtube.com/iframe_api")
 script(src="/static/js/main.js")

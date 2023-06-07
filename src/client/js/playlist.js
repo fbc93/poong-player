@@ -51,6 +51,10 @@ const showPlaylistInModal = async (event) => {
   const videoId = event.target.parentNode.children[0].dataset.id;
   const response = await ( await fetch("/api/playlist/add-video")).json();
 
+  if(!response.ok){
+    alert("로그인 후 사용해주세요.");
+  }
+
   if(response.ok){
     showModal("내 플레이리스트에 추가!");
 
@@ -111,6 +115,10 @@ const chartMakePlaylistUI = (playlist, videoId) => {
 const showChartPlaylistInModal = async (event) => {
   const videoId = event.target.parentNode.children[5].dataset.id;
   const response = await ( await fetch("/api/playlist/add-video")).json();
+
+  if(!response.ok){
+    alert("로그인 후 사용해주세요.");
+  }
 
   if(response.ok){
     showModal("내 플레이리스트에 추가!");

@@ -78,10 +78,6 @@ html {
         margin-bottom: 20px;
       }
 
-      .banner {
-        margin: 20px 0;
-      }
-
       //검색
       .sub-title {
         font-size:1.6rem;
@@ -142,6 +138,57 @@ html {
         margin-top:50px;
       }
     }
+  }
+}
+
+@keyframes notification {
+  from {
+    transform: none;
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+}
+
+.notification-msg {
+  width:300px;
+  position: fixed;
+  left: 20px;
+  bottom: 100px;
+  z-index: 9999;
+  animation: notification 0.5s ease-in-out forwards;
+  animation-delay: 2s;
+  padding: 15px 20px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+  column-gap: 10px;
+
+  & > span {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: -1px;
+    display: inline-block;
+    text-align: left;
+    color:#333333;
+  }
+
+  & > i {
+    font-size: 1.8rem;
+  }
+
+  .fa-circle-check {
+    color: lightskyblue;
+  }
+
+  .fa-circle-xmark {
+    color: tomato;
   }
 }
 

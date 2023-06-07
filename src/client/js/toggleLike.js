@@ -12,6 +12,10 @@ const popularToggleVideoLike = async (event) => {
     })
   ).json();
 
+  if(!response.ok){
+    alert("로그인 후 이용해주세요.");
+  }
+
   if(response.ok){
     const target = event.target;
     
@@ -36,6 +40,10 @@ const chartToggleVideoLike = async (event) => {
       },
     })
   ).json();
+
+  if(!response.ok){
+    alert("로그인 후 이용해주세요.");
+  }
 
   if(response.ok){
     const target = event.target;

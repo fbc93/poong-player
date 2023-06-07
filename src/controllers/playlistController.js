@@ -3,7 +3,7 @@ import User from "../models/User";
 import Video from "../models/Video";
 
 export const myPlaylist = async (req, res) => {
-  const pageTitle = "내 플리";
+  const pageTitle = "💖 내 플레이리스트";
   const {
     session: {
       user: { _id:userId }
@@ -11,21 +11,21 @@ export const myPlaylist = async (req, res) => {
   } = req;
 
   const user = await User.findById(userId);
-  if(!user){
-    //존재하지 않는 회원.
-    return res.redirect("/");
-  }
 
-  //생성일순으로 사용자 플리 정렬
   const playlists = await Playlist
     .find({ user: userId })
     .populate("user")
     .populate("videos")
     .sort({ createdAt: "desc" });
 
+  if(!user){
+    req.flash("error", "존재하지 않는 사용자입니다.");
+    return res.redirect("/");
+  }
+
   res.render("playlist/myPlaylist", { 
     pageTitle, 
-    playlists 
+    playlists,
   });
 }
 
@@ -45,32 +45,34 @@ export const playlistPage = async (req, res) => {
       }
     }).populate("user");
 
+  const userId = req.session?.user?._id;
+
   if(!playlist){
-    //존재하지 않는 플레이리스트입니다.
+    req.flash("error", "존재하지 않는 플레이리스트입니다.");
     return res.redirect("/");
   }
-
-  //로그인 사용자면, 좋아요 여부를 표시하여 플리 영상 목록으로 반환
-  const userId = req.session?.user?._id;
   
   let videosWithLike;
   let playlistWithVideosLiked = JSON.parse(JSON.stringify(playlist));
 
+  const pageTitle = `${playlist.name}`;
+
+  //로그인 사용자면, 좋아요 여부를 표시하여 플레이리스트 목록으로 반환
   if(userId){
     videosWithLike = playlistWithVideosLiked.videos.map((video) => ({
       video,
       isLiked:
         video.likes?.filter((like) => String(like.user._id) === userId).length === 1 ? true : false,
     }));
+
   } else {
     videosWithLike = playlistWithVideosLiked.videos.map((video) => ({
       video,
       isLiked: false,
-    }))
+    }));
   }
 
   playlistWithVideosLiked.videos = videosWithLike;
-  const pageTitle = `${playlist.name}`;
 
   res.render("playlist/playlistPage", {
     pageTitle, 
@@ -79,16 +81,17 @@ export const playlistPage = async (req, res) => {
 };
 
 export const likedPlaylist = async (req, res) => {
-  const pageTitle = "나의 좋아요 영상";
+  const pageTitle = "👍 나의 좋아요 영상 리스트";
   const {
     session: {
       user: { _id: userId },
     },
   } = req;
 
-  //유저 확인
   const user = await User.findById(userId);
+
   if(!user){
+    req.flash("error", "존재하지 않는 사용자입니다.");
     return res.status(400).redirect("/");
   }
 
@@ -120,14 +123,14 @@ export const postCreatePlaylist = async (req, res) => {
     body: { name }
   } = req;
 
-  //유저확인
   const user = await User.findById(userId);
+
   if(!user){
-    //존재하지 않는 회원입니다.
+    req.flash("error", "존재하지 않는 사용자입니다.");
     return res.redirect("/");
   }
 
-  //플리 생성
+  //새 플레이리스트 생성
   const playlist = await Playlist.create({
     name,
     user,
@@ -135,6 +138,8 @@ export const postCreatePlaylist = async (req, res) => {
 
   user.playlists.push(playlist);
   await user.save();
+
+  req.flash("info", "플레이리스트가 생성되었습니다.");
   return res.redirect("/playlist/mine");
 }
 
@@ -203,6 +208,7 @@ export const postRemoveVideoFromPlaylist = async (req, res) => {
   playlist.videos.splice(playlist.videos.indexOf(videoId), 1);
   await playlist.save();
 
+  req.flash("info", "플레이리스트에서 영상이 삭제되었습니다.");
   return res.json({
     ok: true,
   });
@@ -222,7 +228,7 @@ export const getPlaylistVideos = async (req, res) => {
 
   return res.json({
     ok:true,
-    result: playlist
+    result: playlist,
   });
 }
 
@@ -240,6 +246,7 @@ export const postEditMyPlaylist = async (req, res) => {
     return res.redirect("/playlist/mine");
   }
 
+  req.flash("info", "플레이리스트 정보가 업데이트되었습니다.");
   return res.redirect(`/playlist/${playlistId}`);
 }
 
@@ -272,6 +279,7 @@ export const postDeletePlaylist = async (req, res) => {
   user.playlists.splice(user.playlists.indexOf(playlistId), 1);
   await user.save();
   
+  req.flash("info", "해당 플레이리스트가 삭제되었습니다.");
   return res.json({
     ok:true,
   });

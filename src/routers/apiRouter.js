@@ -27,7 +27,6 @@ apiRouter.route("/video/:videoId").get(getVideo);
 
 apiRouter
   .route("/playlist/add-video")
-  .all(privateOnlyMiddleware)
   .get(getAddVideoToPlaylist)
   .post(postAddVideoToPlaylist);
 

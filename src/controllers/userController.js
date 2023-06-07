@@ -50,8 +50,10 @@ export const postJoin = async (req, res) => {
       isDefault: true,
     });
     
-    await user.playlists.push(defaultPlaylist);
+    user.playlists.push(defaultPlaylist);
     await user.save();
+
+    req.flash("info", "회원가입이 완료되었습니다, 로그인하세요.");
     return res.redirect("/login");
 
    } catch (error) {
@@ -95,6 +97,7 @@ export const postLogin = async (req, res) => {
   req.session.loggedIn = true;
   req.session.user = user;
 
+  req.flash("info", "로그인했습니다.");
   return res.redirect("/");
 }
 
@@ -143,11 +146,11 @@ export const postEdit = async (req, res) => {
 
      //세션 저장
      req.session.user = updatedUser;
+
+     req.flash("info", "회원정보가 업데이트되었습니다.");
      return res.redirect("/");
     
   } catch(error){
-    console.log(error);
-
     return res.status(400).render("user/edit", {
       pageTitle,
       errorMsg: error._message,

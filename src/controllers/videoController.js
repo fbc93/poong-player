@@ -146,6 +146,7 @@ export const postUploadVideo = async (req, res) => {
     runningTime,
   });
 
+  req.flash("info", "영상 업로드가 완료되었습니다.");
   return res.redirect("/");
 }
 

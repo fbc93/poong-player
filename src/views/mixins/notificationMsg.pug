@@ -1,0 +1,7 @@
+mixin notificationMsg(kind, text)
+  div.notification-msg(class=kind)
+    if kind === "info"
+      i.fa-solid.fa-circle-check
+    if kind === "error"
+      i.fa-solid.fa-circle-xmark
+    span=text
