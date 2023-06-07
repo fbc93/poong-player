@@ -25,12 +25,13 @@
   .info {
     display: flex;
     flex-direction: column;
+    margin: 10px 0 0 0;
 
     .playlist-name {
       font-size:3rem;
       letter-spacing: -1px;
       font-weight:500;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .playlist-user {
@@ -77,5 +78,13 @@
 
   .playlist-user {
     font-size:1.6rem!important;
+  }
+
+  .chart {
+    li {
+      .thumbnail {
+        aspect-ratio: 1/1;
+      }
+    }
   }
 }

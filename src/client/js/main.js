@@ -129,3 +129,16 @@ const hideMenu = () => {
 
 menuToggleBtn.addEventListener("click", showMenu);
 closeBtn.addEventListener("click", hideMenu);
+
+//최신 업로드 영상 > 더보기 버튼
+const showMoreBtn = document.querySelector(".show-more-btn");
+const uploadItems = document.querySelectorAll(".new li");
+
+if(showMoreBtn && uploadItems){
+  showMoreBtn.addEventListener("click", () => {
+    uploadItems.forEach((uploadItem) => {
+      uploadItem.style.display = "block";
+      showMoreBtn.style.display = "none";
+    })
+  });
+}

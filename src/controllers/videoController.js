@@ -7,7 +7,7 @@ export const home = async (req, res) => {
   const pageTitle = "홈";
 
   //최신 업로드 영상
-  const recentUploadVideos = await Video.find({}).limit(4).sort({ createdAt: "desc" });
+  const recentUploadVideos = await Video.find({}).limit(8).sort({ createdAt: "desc" });
 
   //많이 본 풍월량 영상
   const mostViewedVideos = await Video.find({
@@ -37,8 +37,9 @@ export const home = async (req, res) => {
 
   //추천 플레이리스트 (유저네임이 Tester인 사용자의 플레이리스트)
   const recommendPlaylists = await Playlist.find({
-    user: "647ef7d1fa94c1270607d163",
-  }).populate("user").populate("videos").limit(4);
+    user: "6476047c6e9d5db9d2cd285d"
+    //user: "647ef7d1fa94c1270607d163",
+  }).populate("user").populate("videos").limit(5);
 
   //쉬는시간
   const restTimeVideos = await Video.find({

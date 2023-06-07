@@ -9,17 +9,19 @@
   z-index: 9999;
 
   .container {
-    width:400px;
-    height:500px;
+    width: 400px;
+    max-height: 350px;
     position: fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: var(--primary);
     border-radius: 10px;
     z-index: 10000;
     display: grid;
     grid-template-rows: 75px 1fr;
+    color: #333333;
+    padding: 0 0 40px;
 
     i.fa-xmark {
       position: absolute;
@@ -33,27 +35,26 @@
       font-size: 1.6rem;
       text-align: center;
       letter-spacing: -1px;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 6;
     }
 
     .content-list {
-      padding: 0 20px 20px;
-      height: 90%;
+      padding: 0 20px 0px;
+      height: auto;
       overflow-y: auto;
 
       li {
         display: grid;
-        font-size:1.4rem;
-        font-weight:500;
+        font-size: 1.4rem;
+        font-weight: 500;
         padding: 20px;
         align-items: center;
         column-gap: 15px;
         border-radius: 8px;
         cursor: pointer;
-        &:hover {
-          background-color: rgb(223, 223, 100);
-        }
+        background: white;
+        margin-bottom: 10px;
 
         .playlist-cover {
           width:60px;
@@ -67,6 +68,14 @@
           letter-spacing: -1px;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 460px) {
+  #modal {
+    .container {
+      width: calc(100% - 60px);
     }
   }
 }

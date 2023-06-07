@@ -88,6 +88,11 @@
       text-align: center;
     }
   }
+
+  .empty {
+    font-size:1.6rem;
+    margin: 20px 0;
+  }
 }
 
 @media screen and (max-width: 1024px){
@@ -113,7 +118,7 @@
       padding:8px 0px;
 
       i, .view-icon, .view-value {
-        font-size:1.4rem;
+        font-size:1.5rem!important;
       }
 
       .info {

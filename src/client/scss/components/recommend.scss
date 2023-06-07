@@ -1,8 +1,8 @@
 .recommend {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16%, 1fr));
   align-items: start;
-  gap: 20px;
+  column-gap: 15px;
   margin-bottom: 50px;
 
   li {
@@ -104,7 +104,32 @@
       .count {
         margin-right:5px;
       }
-      .runningTime {}
+    }
+  }
+}
+
+@media screen and (max-width: 1024px){
+  .recommend {
+    grid-template-columns: repeat(auto-fit, minmax(25%, 1fr));
+    row-gap: 15px;
+  }
+}
+
+@media screen and (max-width: 640px){
+  .recommend {
+    grid-template-columns: repeat(auto-fit, minmax(33%, 1fr));
+
+    li {
+      .thumbnail-wrap {
+        i.fa-play {
+          right:5px;
+          bottom:5px;
+          width:70px;
+          height: 70px;
+          line-height: 7rem;
+          font-size:3rem;
+        }
+      }
     }
   }
 }

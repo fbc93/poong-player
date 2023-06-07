@@ -12,9 +12,10 @@ block content
     .info(data-id=playlist._id)
       .playlist-name=pageTitle 
       .playlist-user=playlist.user.username
-      button.playlistPage-play-btn
-        i.fa-solid.fa-play
-        span 전체재생
+      if playlist.videos.length > 0
+        button.playlistPage-play-btn
+          i.fa-solid.fa-play
+          span 전체재생
   .count 총 #{playlist.videos.length}개의 영상 (조회수 순)
   ul.chart(data-id=playlist._id)
     if playlist.videos.length > 0 && loggedInUser._id === playlist.user._id
@@ -24,4 +25,4 @@ block content
       each item, index in playlist.videos 
         +chart(item.video, item.isLiked, index)
     else 
-      li 플레이리스트 내에 영상이 존재하지 않습니다.
+      .empty 플레이리스트 내에 영상이 존재하지 않습니다.

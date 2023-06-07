@@ -10,6 +10,9 @@ block content
       ul.new
         each video in recentUploadVideos
           +new(video)
+      .show-more-btn
+        span 더보기
+        i.fa-solid.fa-angle-down
     else
       include partials/empty
   section
