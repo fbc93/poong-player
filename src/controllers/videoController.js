@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Video from "../models/Video";
 import User from "../models/User";
 import Like from "../models/Like";
@@ -35,9 +36,14 @@ export const home = async (req, res) => {
     }));
   }
 
-  //추천 플레이리스트 (유저네임이 Tester인 사용자의 플레이리스트)
+  //추천 플레이리스트 (유저네임이 admin인 사용자의 플레이리스트)
   const recommendPlaylists = await Playlist.find({
-    user: { $in: ["6476047c6e9d5db9d2cd285d", "647ef7d1fa94c1270607d163"] }
+    user: { 
+      $in: [
+        process.env.LOCAL_ADMIN_USER, 
+        process.env.PRODUCT_ADMIN_USER
+      ] 
+    }
   }).populate("user").populate("videos").limit(5);
 
   //쉬는시간
