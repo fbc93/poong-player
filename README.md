@@ -83,6 +83,9 @@
 - YouTube 영상이 가지고 있는 고유의 id값을 이용하여 각 영상을 구별하여 저장합니다.
 - 업로드 전 프리뷰 화면을 확인할 수 있고 썸네일을 자동으로 생성합니다.
 
+<img width="800" alt="스크린샷 2023-06-09 오전 1 47 15" src="https://github.com/fbc93/poong-player/assets/81315091/6d6cbbac-473c-4983-85aa-d0abea0d2a0d">
+<img width="800" alt="스크린샷 2023-06-09 오전 1 47 32" src="https://github.com/fbc93/poong-player/assets/81315091/25524206-1b55-4a6d-99a0-44a9b8d61e1d">
+
 <br>
 
 ### 📌 조회수 순으로 리스트업된 인기영상 & 영상 검색
@@ -92,6 +95,14 @@
 - 검색한 영상을 `사용자의 플레이리스트에 추가`하거나 `좋아요(👍)`를 클릭하여 반영할 수 있습니다.
 - `좋아요`한 영상들의 리스트는 `나의 좋아요 영상`에서 다시 볼 수 있습니다.
 - 인기영상은 조회수 순으로 20개의 영상을 노출합니다.
+
+<img width="800" alt="스크린샷 2023-06-09 오전 1 52 32" src="https://github.com/fbc93/poong-player/assets/81315091/94673a16-df9a-42f7-ad03-6ec1d9fb6619">
+
+![ezgif com-crop](https://github.com/fbc93/poong-player/assets/81315091/4ed541e1-76c3-4f96-96ba-35a6ca01d957)
+
+![ezgif com-video-to-gif](https://github.com/fbc93/poong-player/assets/81315091/ca17aaa6-c08f-409c-8f10-01f11a832c1f)
+
+<img width="800" alt="스크린샷 2023-06-09 오전 1 54 37" src="https://github.com/fbc93/poong-player/assets/81315091/75591d19-a736-4c6d-a4c5-c5fb64c12e98">
 
 <br>
 
@@ -105,6 +116,8 @@
 ### 📌 회원정보를 수정합니다.
 - 사용자의 프로필 사진(3중 1택)과 유저네임을 업데이트할 수 있습니다.
 - 비밀번호 변경시, 기존 비밀번호를 체크한 후, 신규 비밀번호를 받습니다.
+
+<img width="800" alt="스크린샷 2023-06-09 오전 1 59 47" src="https://github.com/fbc93/poong-player/assets/81315091/497d290e-e87a-4ff5-aa04-e8af5baa9073">
 
 <br>
 
