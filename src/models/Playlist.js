@@ -12,19 +12,10 @@ const PlaylistSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  coverUrl: {
-    type: String,
-    required: true,
-    default: "coverImage.png",
-  },
   videos: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Video",
   }],
-  isDefault: {
-    type: Boolean,
-    default: false,
-  },
   createdAt: {
     type: Date,
     required: true,

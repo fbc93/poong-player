@@ -9,5 +9,38 @@
     "thumbUrl": "https://img.youtube.com/vi/RIGVUcEBZqQ/sddefault.jpg",
     "createdAt": "ISODate('2023-05-24T15:43:25.468Z')",
     "__v": 0
+  },
+  {
+    "_id": "648133d5761b86448ceff875",
+    "title": "[마이 썸머카] 1화 차 고치랬더니 사람치는 스트리머가 있다?! (공포주의)",
+    "category": "풍월량",
+    "youtubeId": "EnW314-EQc4",
+    "runningTime": 2029,
+    "views": 0,
+    "thumbUrl": "https://img.youtube.com/vi/EnW314-EQc4/sddefault.jpg",
+    "createdAt": "ISODate('2023-06-08T01:50:13.311Z')",
+    "__v": 0
+  },
+  {
+    "_id": "648134be761b86448ceff880",
+    "title": "모여봐요 동물의 숲! 1화 저도 힐링갓겜동숲 드디어 시작했습니다! [풍월량]",
+    "category": "풍월량",
+    "youtubeId": "WbSvMAPasZI",
+    "runningTime": 13579,
+    "views": 0,
+    "thumbUrl": "https://img.youtube.com/vi/WbSvMAPasZI/sddefault.jpg",
+    "createdAt": "ISODate('2023-06-08T01:54:06.029Z')",
+    "__v": 0
+  },
+  {
+    "_id": "6481363c761b86448ceff896",
+    "title": "편의점 야간 알바가 이렇게 위험합니다! [편의점: 야근사건] 공포게임",
+    "category": "풍월량",
+    "youtubeId": "ugliBtyf6e8",
+    "runningTime": 6126,
+    "views": 0,
+    "thumbUrl": "https://img.youtube.com/vi/ugliBtyf6e8/sddefault.jpg",
+    "createdAt": "ISODate('2023-06-08T02:00:28.649Z')",
+    "__v": 0
   }
 ]
