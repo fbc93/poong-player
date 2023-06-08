@@ -6,7 +6,7 @@ form {
   margin: auto;
 
   .submit {
-    background-color: var(--primary);
+    background-color: var(--buttonColor);
     padding:15px;
     font-size:1.5rem;
     font-weight:bold;
@@ -14,6 +14,7 @@ form {
     border-radius: 8px;
     margin: 20px 0;
     cursor: pointer;
+    color: var(--text);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 
