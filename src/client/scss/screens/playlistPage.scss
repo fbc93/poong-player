@@ -37,12 +37,13 @@
     .playlist-user {
       font-size:2rem;
       margin-bottom:20px;
+      opacity: 0.6;
     }
 
     .playlistPage-play-btn {
       width:170px;
       cursor: pointer;
-      background-color: var(--primary);
+      background-color: var(--buttonColor);
       padding: 10px;
       border-radius: 5px;
       display: flex;
@@ -51,6 +52,7 @@
 
       .fa-play, span {
         font-size:1.5rem;
+        color: var(--text);
       }
 
       .fa-play {
@@ -60,6 +62,7 @@
       span {
         display: inline-block;
         line-height: 1.5rem;
+        font-weight:500;
       }
     }
   }

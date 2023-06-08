@@ -311,6 +311,22 @@ const playClickedVideo = (clickedVideoIdx, video) => {
   cover.style.backgroundImage = "url('" + video.thumbUrl + "')";
   title.innerText = video.title;
   category.innerText = video.category;
+
+  switch (video.category) {
+    case "풍월량":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category poong");
+      break;
+    case "쉬는시간":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category rest-time");
+      break;
+    case "기타영상":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category etc");
+      break;
+  }
+
   duration.innerText =  formatTime(video.runningTime);
   
   //플레이 리스트 클래스값 RESET
@@ -385,6 +401,22 @@ const playListUIupdate = (video) => {
   const category = document.createElement("div");
   category.className = "category";
   category.innerText = video.category;
+
+  switch (video.category) {
+    case "풍월량":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category poong");
+      break;
+    case "쉬는시간":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category rest-time");
+      break;
+    case "기타영상":
+      category.setAttribute("class", "");
+      category.setAttribute("class", "category etc");
+      break;
+  }
+
   titleBox.append(title, category);
 
   
@@ -456,6 +488,22 @@ const loadVideos = () => {
     cover.style.backgroundImage = "url('" + playNowVideo.targetVideo.thumbUrl + "')";
     title.innerText = playNowVideo.targetVideo.title;
     category.innerText = playNowVideo.targetVideo.category;
+
+    switch (playNowVideo.targetVideo.category) {
+      case "풍월량":
+        category.setAttribute("class", "");
+        category.setAttribute("class", "category poong");
+        break;
+      case "쉬는시간":
+        category.setAttribute("class", "");
+        category.setAttribute("class", "category rest-time");
+        break;
+      case "기타영상":
+        category.setAttribute("class", "");
+        category.setAttribute("class", "category etc");
+        break;
+    }
+
     duration.innerText = formatTime(playNowVideo.targetVideo.runningTime);
 
   } else {

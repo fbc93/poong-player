@@ -23,7 +23,7 @@ document.documentElement.setAttribute("data-theme", themeState);
 
 localStorage.setItem(STORAGE_KEY, themeState);
 themeToggleBtn.className = (themeState === DARK ? DARK : LIGHT);
-themeToggleBtn.firstChild.className = (themeState === DARK ? "fa-solid fa-moon" : "fa-solid fa-sun");
+themeToggleBtn.firstChild.className = (themeState === DARK ? "fa-solid fa-lightbulb" : "fa-regular fa-lightbulb");
 
 const toggleTheme = (event) => {
   
@@ -31,14 +31,14 @@ const toggleTheme = (event) => {
     document.documentElement.setAttribute("data-theme", LIGHT);
     event.currentTarget.className = LIGHT;
 
-    event.target.className = "fa-solid fa-sun";
+    event.target.className = "fa-regular fa-lightbulb";
     localStorage.setItem(STORAGE_KEY, LIGHT);
 
   } else if (event.currentTarget.className === LIGHT){
     document.documentElement.setAttribute("data-theme", DARK);
     event.currentTarget.className = DARK;
 
-    event.target.className = "fa-solid fa-moon";
+    event.target.className = "fa-solid fa-lightbulb";
     localStorage.setItem(STORAGE_KEY, DARK);
   }
 }

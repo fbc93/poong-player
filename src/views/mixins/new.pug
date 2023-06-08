@@ -6,6 +6,11 @@ mixin new(video)
       .thumbnail(style=`background-image: url(${video.thumbUrl})`)
     .info-wrap
       .title=video.title
-      .desc 
-        .category=video.category
+      .desc
+        if video.category === "풍월량"
+          .category.poong=video.category
+        if video.category === "쉬는시간"
+          .category.rest-time=video.category
+        if video.category === "기타영상"
+          .category.etc=video.category
         .createdAt=video.createdAt

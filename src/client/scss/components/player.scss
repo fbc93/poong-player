@@ -88,7 +88,7 @@
 
       #cover {
         width: 70px;
-        aspect-ratio: 16/9;
+        aspect-ratio: 15/9;
         border-radius: 3px;
         margin-right:10px;
         display: block;
@@ -102,7 +102,7 @@
         font-size: 1.4rem;
         display: grid;
         grid-template-columns: auto;
-        row-gap: 3px;
+        row-gap: 5px;
         overflow: hidden;
 
         #title {
@@ -306,11 +306,12 @@
         li {
           width: 100%;
           color: #ffffff;
-          display: flex;
-          justify-content: space-between;
+          display: grid;
           align-items: start;
           padding: 15px 10px;
+          grid-template-columns: 85px 1fr 50px;
           border-bottom: 1px solid #555555;
+          column-gap: 10px;
           &:hover {
             background-color: #222222;
           }
@@ -401,36 +402,35 @@
 }
 
 @media screen and (max-width: 1024px) {
-  #controlBar {
-    grid-template-columns: 65px 1fr 95px!important;
-
-    .time-container {
-      display: none!important;
+  #player {
+    #controlBar {
+      grid-template-columns: 65px 1fr 95px!important;
+  
+      .time-container {
+        display: none!important;
+      }
+  
+      #volumeBtn {
+        display: none!important;
+      }
     }
-
-    #volumeBtn {
-      display: none!important;
-    }
-  }
-
-  #playlistView {
-    grid-template-rows: auto 1fr;
-    grid-template-columns: auto!important;
-
-    .playlist-container {
-      border-left:0!important;
-
-      #playlist {
-        li {
-          .title-box {
-            width: calc(100% - 100px);
-            margin: 0 15px;
-
-            .title {
-              max-width: 100%;
-              margin-bottom: 10px;
-              text-overflow: inherit;
-              white-space: inherit;
+  
+    #playlistView {
+      grid-template-rows: auto 1fr;
+      grid-template-columns: auto!important;
+  
+      .playlist-container {
+        border-left:0!important;
+  
+        #playlist {
+          li {
+            .title-box {
+              .title {
+                max-width: 100%;
+                margin-bottom: 10px;
+                text-overflow: inherit;
+                white-space: inherit;
+              }
             }
           }
         }
@@ -451,9 +451,6 @@
 
       .playInfo-container {
         grid-template-columns: 1fr;
-        .info-container {
-         
-        }
       }
     }
   }
@@ -461,11 +458,18 @@
 
 @media screen and (max-width: 469px) {
   #player {
-    #controlBar {
-
-      .playInfo-container {
-        .info-container {
-          
+    #playlistView {
+      .playlist-container {
+        #playlist {
+          li {
+            .title-box {
+              .title {
+                max-width: 200px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+            }
+          }
         }
       }
     }

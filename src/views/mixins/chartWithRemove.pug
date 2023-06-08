@@ -1,10 +1,15 @@
 mixin chartWithRemove(video, isLiked, index)
   li
-    .rank-value=index+1
+    .rank-value=String(index+1).padStart(2,"0")
     .thumbnail(style=`background-image: url(${video.thumbUrl})`)
     .info
       .title=video.title
-      .category=video.category
+      if video.category === "풍월량"
+        .category.poong=video.category
+      if video.category === "쉬는시간"
+        .category.rest-time=video.category
+      if video.category === "기타영상"
+        .category.etc=video.category
     i.view-icon 👀
     .view-value=video.views
     i(data-id=video._id).fa-solid.fa-play.play

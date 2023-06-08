@@ -5,8 +5,9 @@
   }
 
   input[type=submit] {
-    background-color: var(--primary);
+    background-color: var(--buttonColor);
     font-size:1.5rem;
+    color:var(--text);
     font-weight:500;
     cursor: pointer;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -20,13 +21,14 @@
   }
 
   .previewBtn {
-    background-color: var(--primary);
+    background-color: var(--buttonColor);
     padding:15px;
     border-radius: 5px;
     font-size:1.5rem;
     font-weight:500;
     cursor: pointer;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color:var(--text);
   }
 
   #uploadVideoPreviewContainer {
@@ -59,9 +61,11 @@
     background-size: 15px;
     background-position: 95% 5px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color:#333333;
 
     option {
       font-size:1.4rem;
+      color:#333333;
     }
   }
 }

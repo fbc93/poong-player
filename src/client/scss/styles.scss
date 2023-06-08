@@ -36,13 +36,26 @@
 }
 
 .category {
-  font-size: 1.3rem!important;
+  font-size: 1.2rem !important;
   width: fit-content;
-  padding: 5px 8px;
-  background-color: steelblue;
+  height: 25px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 5px 10px;
   color: white;
   border-radius: 3px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.category.poong {
+  background-color: #be2edd;
+}
+
+.category.rest-time {
+  background-color: #6ab04c;
+}
+
+.category.etc {
+  background-color: #3867d6;
 }
 
 html {
